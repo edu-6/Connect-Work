@@ -52,7 +52,8 @@ create table perfil_freelancer(
 	biografia VARCHAR(300) NOT NULL,
 	tarifa_hora DECIMAL(10,2) NOT NULL,
 	id_nivel_experiencia INTEGER NOT NULL,
-	CONSTRAINT fk_cui_freelancer FOREIGN KEY (cui_freelancer) REFERENCES usuario_plataforma(cui) ON DELETE CASCADE
+	CONSTRAINT fk_cui_freelancer FOREIGN KEY (cui_freelancer) REFERENCES usuario_plataforma(cui) ON DELETE CASCADE,
+	CONSTRAINT fk_nivel_freelancer FOREIGN KEY (id_nivel_experiencia) REFERENCES nivel_experiencia(id) ON DELETE CASCADE
 );
 
 CREATE TABLE calificacion_freelancer(
