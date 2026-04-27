@@ -37,11 +37,11 @@ public class UsuariosPlataformaService extends CrudService {
         }
         
         
-        if (df.existeAtributoRepetido(entidad.getNickname(), usuariosDB.getEXISTE_CUI())) {
-            throw new EntidadDuplicadaException("ya existe el correo " + entidad.getCui());
+        if (df.existeAtributoRepetido(entidad.getCui(), usuariosDB.getEXISTE_CUI())) {
+            throw new EntidadDuplicadaException("ya existe el cui " + entidad.getCui());
         }
         
-        if (df.existeAtributoRepetido(entidad.getNickname(), usuariosDB.getEXISTE_CORREO())) {
+        if (df.existeAtributoRepetido(entidad.getCorreo(), usuariosDB.getEXISTE_CORREO())) {
             throw new EntidadDuplicadaException("ya existe el correo " + entidad.getCorreo());
         }
         

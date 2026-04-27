@@ -1,1 +1,126 @@
-<p>usuario-form works!</p>
+<form [formGroup]="formulario" (submit)="enviar()">
+    <section class="vh-20">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-10 col-lg-8">
+
+                    @if (hayError()) {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error!</strong> {{mensajeError}}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    }
+
+                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                        <div class="card-body p-5">
+
+                            <h3 class="mb-5 text-center">Registro de Usuario</h3>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-4 mb-md-0">
+                                    <label class="form-label">Nickname: </label>
+                                    <input type="text" class="form-control" formControlName="nickname"
+                                        [class.is-invalid]="formulario.controls['nickname'].invalid && intentoEnviarlo()">
+                                    <div class="invalid-feedback">
+                                        Nickname es requerido (max 30)
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Nombre Completo: </label>
+                                    <input type="text" class="form-control" formControlName="nombre"
+                                        [class.is-invalid]="formulario.controls['nombre'].invalid && intentoEnviarlo()">
+                                    <div class="invalid-feedback">
+                                        Nombre es requerido (max 80)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-4 mb-md-0">
+                                    <label class="form-label">Contraseña: </label>
+                                    <input type="password" class="form-control" formControlName="contraseña"
+                                        [class.is-invalid]="formulario.controls['contraseña'].invalid && intentoEnviarlo()">
+                                    <div class="invalid-feedback">
+                                        Contraseña es requerida
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">CUI: </label>
+                                    <input type="number" class="form-control" formControlName="cui"
+                                        [class.is-invalid]="formulario.controls['cui'].invalid && intentoEnviarlo()">
+                                    <div class="invalid-feedback">
+                                        CUI es requerido (max 50)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-4 mb-md-0">
+                                    <label class="form-label">Correo @: </label>
+                                    <input type="email" class="form-control" formControlName="correo"
+                                        [class.is-invalid]="formulario.controls['correo'].invalid && intentoEnviarlo()">
+                                    <div class="invalid-feedback">
+                                        Correo válido es requerido
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Teléfono: </label>
+                                    <input type="number" class="form-control" formControlName="telefono"
+                                        [class.is-invalid]="formulario.controls['telefono'].invalid && intentoEnviarlo()">
+                                    <div class="invalid-feedback">
+                                        Teléfono es requerido
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-4 mb-md-0">
+                                    <label class="form-label">Dirección: </label>
+                                    <input type="text" class="form-control" formControlName="direccion"
+                                        [class.is-invalid]="formulario.controls['direccion'].invalid && intentoEnviarlo()">
+                                    <div class="invalid-feedback">
+                                        Dirección es requerida
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Rol: </label>
+                                    <select class="form-control" formControlName="idRol"
+                                        [class.is-invalid]="formulario.controls['idRol'].invalid && intentoEnviarlo()">
+                                        <option [ngValue]="null" disabled selected>Seleccione un rol</option>
+                                        @for (r of roles(); track r.id) {
+                                        <option [value]="r.id">
+                                            {{ r.nombre }}
+                                        </option>
+                                        }
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Seleccione un rol
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label">Fecha de Nacimiento: </label>
+                                    <input type="date" class="form-control" formControlName="fechaNacimiento"
+                                        [class.is-invalid]="formulario.controls['fechaNacimiento'].invalid && intentoEnviarlo()">
+                                    <div class="invalid-feedback">
+                                        Fecha de nacimiento es requerida
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-3">
+                                <button class="btn btn-primary w-100 py-2" type="submit">Guardar</button>
+                            </div>
+
+                            <div class="mt-4">
+                                <button type="button" class="btn btn-secondary py-2 w-100" (click)="redirigirAHome()">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
