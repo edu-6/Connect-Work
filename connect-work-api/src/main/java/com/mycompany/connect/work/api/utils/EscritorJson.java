@@ -1,0 +1,47 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.connect.work.api.utils;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.time.LocalDate;
+
+/**
+ *
+ * @author edu
+ */
+public class EscritorJson {
+    private final Gson gson = new Gson();
+    private Gson gsonParaFecha = new GsonBuilder().registerTypeAdapter(LocalDate.class, new ConvertidorFechas()).create();
+    
+    public void escribirJson(HttpServletResponse res, Object data) throws IOException {
+        res.setContentType("application/json");
+        res.setCharacterEncoding("UTF-8");
+        res.getWriter().write(gson.toJson(data));
+    }
+
+    public void escribirError(String mesaje, HttpServletResponse reponse) throws IOException {
+        ErrorRequest error = new ErrorRequest(mesaje, mesaje);
+        this.escribirJson(reponse, error);
+    }
+    
+    
+    public void escribirJsonConFecha(HttpServletResponse res, Object data) throws IOException {
+        res.setContentType("application/json");
+        res.setCharacterEncoding("UTF-8");
+        res.getWriter().write(gsonParaFecha.toJson(data));
+    }
+    
+    public void escribirErrorArgumentacion( HttpServletResponse reponse) throws IOException {
+        String mesaje = "Error en los parametros, ingrese enteros y decimales correctamente";
+        ErrorRequest error = new ErrorRequest(mesaje, mesaje);
+        this.escribirJson(reponse, error);
+    }
+    
+    
+    
+}

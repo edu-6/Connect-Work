@@ -239,3 +239,6 @@ CREATE TABLE archivo_entrega(
 	archivo BLOB NOT NULL,
 	CONSTRAINT fk_id_entrega_archivo FOREIGN KEY (id_entrega) REFERENCES entrega(id) ON DELETE CASCADE
 );
+
+
+insert into rol (nombre) values ('Admin'),('Freelancer'),('Cliente');
