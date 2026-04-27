@@ -20,7 +20,7 @@ import java.util.ArrayList;
  *
  * @author edu
  */
-@WebServlet(name = "EnumsResource", urlPatterns = {"/enums/*"})
+@WebServlet(name = "EnumsResource", urlPatterns = {"/api/enums/*"})
 public class EnumsResource extends HttpServlet {
 
     private EnumsDB db = new EnumsDB();

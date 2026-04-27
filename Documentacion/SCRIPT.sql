@@ -13,6 +13,7 @@ create table rol(
 );
 
 CREATE TABLE usuario_sistema(
+	nombre VARCHAR(80) NOT NULL,
 	nickname VARCHAR(30) PRIMARY KEY NOT NULL,
 	activo BOOLEAN NOT NULL DEFAULT TRUE,
 	contraseña VARCHAR(700) NOT NULL,
@@ -22,7 +23,6 @@ CREATE TABLE usuario_sistema(
 
 CREATE TABLE usuario_plataforma(
 	nickname VARCHAR(30) NOT NULL,
-	nombre VARCHAR(80) NOT NULL,
 	cui    VARCHAR(50) PRIMARY KEY NOT NULL,
 	correo VARCHAR(100) UNIQUE NOT NULL,
 	telefono VARCHAR(20) UNIQUE NOT NULL,

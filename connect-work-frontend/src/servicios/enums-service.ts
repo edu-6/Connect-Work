@@ -16,7 +16,7 @@ export class EnumsService {
   }
 
   public getRoles(): Observable<Rol[]> {
-    return this.httpCliente.get<Rol[]>(this.constantesRest.getApiURL() + 'enums/roles');
+    return this.httpCliente.get<Rol[]>(this.constantesRest.getApiURL() + 'api/enums/roles');
   }
 
     /*

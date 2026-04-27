@@ -13,7 +13,6 @@ import java.time.LocalDate;
 public class UsuarioPlataforma extends UsuarioBase {
     private String cui;
     private String correo;
-    private String nombre;
     private String telefono;
     private String direccion;
     private LocalDate fechaNacimiento;
@@ -24,7 +23,7 @@ public class UsuarioPlataforma extends UsuarioBase {
             boolean perfilCompletado, String nickname, String contraseña,
             boolean activo, int idRol) {
         
-        super(nickname, contraseña, activo, idRol);
+        super(nombre,nickname, contraseña, activo, idRol);
         this.cui = cui;
         this.correo = correo;
         this.nombre = nombre;

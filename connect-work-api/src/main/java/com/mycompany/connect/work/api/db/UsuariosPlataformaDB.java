@@ -20,8 +20,8 @@ public class UsuariosPlataformaDB implements CreacionEntidad<UsuarioPlataforma>{
     
     
     private static final String CREAR = "insert into usuario_plataforma"
-            + " (nickname,nombre,cui,correo,telefono,perfil_completado,"
-            + "fecha_nacimiento,direccion) values (?,?,?,?,?,?,?,?)";
+            + " (nickname,cui,correo,telefono,perfil_completado,"
+            + "fecha_nacimiento,direccion) values (?,?,?,?,?,?,?)";
     
     private static final String EXISTE_TELEFONO = "select telefono from usuario_plataforma where telefono = ?";
     private static final String EXISTE_CORREO = "select correo from usuario_plataforma where correo = ?";
@@ -34,13 +34,12 @@ public class UsuariosPlataformaDB implements CreacionEntidad<UsuarioPlataforma>{
         try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(CREAR)){
             
             ps.setString(1, entidad.getNickname());
-            ps.setString(2, entidad.getNombre());
-            ps.setString(3, entidad.getCui());
-            ps.setString(4, entidad.getCorreo());
-            ps.setString(5, entidad.getTelefono());
-            ps.setBoolean(6, false);
-            ps.setDate(7, Date.valueOf(entidad.getFechaNacimiento()));
-            ps.setString(8, entidad.getDireccion());
+            ps.setString(2, entidad.getCui());
+            ps.setString(3, entidad.getCorreo());
+            ps.setString(4, entidad.getTelefono());
+            ps.setBoolean(5, false);
+            ps.setDate(6, Date.valueOf(entidad.getFechaNacimiento()));
+            ps.setString(7, entidad.getDireccion());
             
             ps.executeUpdate();
             

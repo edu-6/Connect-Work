@@ -11,16 +11,18 @@ import com.mycompany.connect.work.api.modelos.Entidad;
  * @author edu
  */
 public class UsuarioBase extends Entidad {
+    protected String nombre;
     protected String nickname;
     protected String contraseña;
     protected boolean activo;
     protected int idRol;
 
-    public UsuarioBase(String nickname, String contraseña, boolean activo, int idRol) {
+    public UsuarioBase(String nombre,String nickname, String contraseña, boolean activo, int idRol) {
         this.nickname = nickname;
         this.contraseña = contraseña;
         this.activo = activo;
         this.idRol = idRol;
+        this.nombre = nombre;
     }
 
     public UsuarioBase() {
@@ -60,6 +62,16 @@ public class UsuarioBase extends Entidad {
     public void setIdRol(int idRol) {
         this.idRol = idRol;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    
 
     @Override
     public boolean datosCompletos() {

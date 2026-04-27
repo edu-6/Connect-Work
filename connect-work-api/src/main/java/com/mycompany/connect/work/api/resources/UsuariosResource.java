@@ -26,7 +26,7 @@ import java.time.LocalDate;
  *
  * @author edu
  */
-@WebServlet(name = "UsuariosResource", urlPatterns = {"/usuarios/*"})
+@WebServlet(name = "UsuariosResource", urlPatterns = {"/api/usuarios/*"})
 public class UsuariosResource extends HttpServlet {
 
     private UsuariosPlataformaService usuariosService = new UsuariosPlataformaService();

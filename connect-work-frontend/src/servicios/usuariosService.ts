@@ -17,7 +17,7 @@ export class usuariosService {
 
 
   public crear(nuevo: UsuarioPlataformaRequest): Observable<void> {
-    return this.httpCliente.post<void>(this.constantesRest.getApiURL() + 'usuarios', nuevo);
+    return this.httpCliente.post<void>(this.constantesRest.getApiURL() + 'api/usuarios', nuevo);
   }
 
   /*

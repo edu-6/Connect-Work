@@ -17,8 +17,8 @@ import java.sql.SQLException;
  */
 public class UsuariosBaseDB implements CreacionEntidad<UsuarioBase> {
     
-    private static final String CREAR = "insert into usuario_sistema (nickname,activo,contraseña,id_rol)"
-            + " values (?,?,?,?)";
+    private static final String CREAR = "insert into usuario_sistema (nombre,nickname,activo,contraseña,id_rol)"
+            + " values (?,?,?,?,?)";
     
     
     private static final String EXISTE_NICKNAME = "select nickname from usuario_sistema where nickname = ?";
@@ -26,10 +26,11 @@ public class UsuariosBaseDB implements CreacionEntidad<UsuarioBase> {
     @Override
     public void crear(UsuarioBase entidad) throws DBException {
         try(Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(CREAR)) {
-           ps.setString(1, entidad.getNickname());
-           ps.setBoolean(2, true);
-           ps.setString(3, entidad.getContraseña());
-           ps.setInt(4, entidad.getIdRol());
+           ps.setString(1, entidad.getNombre());
+           ps.setString(2, entidad.getNickname());
+           ps.setBoolean(3, true);
+           ps.setString(4, entidad.getContraseña());
+           ps.setInt(5, entidad.getIdRol());
            
            ps.executeUpdate();
            
