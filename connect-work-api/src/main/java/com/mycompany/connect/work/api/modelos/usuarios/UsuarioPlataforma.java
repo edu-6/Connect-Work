@@ -89,5 +89,33 @@ public class UsuarioPlataforma extends UsuarioBase {
     public void setPerfilCompletado(boolean perfilCompletado) {
         this.perfilCompletado = perfilCompletado;
     }
+
+
+    
+    @Override
+    public boolean datosCompletos() {
+        return cui != null && !cui.isBlank() &&
+               correo != null && !correo.isBlank() &&
+               nombre != null && !nombre.isBlank() &&
+               telefono != null && !telefono.isBlank() &&
+               direccion != null && !direccion.isBlank() &&
+               nickname != null && !nickname.isBlank() &&
+               contraseña != null && !contraseña.isBlank() &&
+               fechaNacimiento != null;
+    }
+
+    @Override
+    public boolean datosTamañoCorrecto() {
+        return nickname.length() <= 30 &&
+               nombre.length() <= 80 &&
+               cui.length() <= 50 &&
+               correo.length() <= 100 &&
+               telefono.length() <= 20 &&
+               direccion.length() <= 300 &&
+               contraseña.length() <= 700;
+    }
+    
+    
+    
     
 }

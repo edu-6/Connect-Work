@@ -4,11 +4,13 @@
  */
 package com.mycompany.connect.work.api.modelos.usuarios;
 
+import com.mycompany.connect.work.api.modelos.Entidad;
+
 /**
  *
  * @author edu
  */
-public class UsuarioBase {
+public class UsuarioBase extends Entidad {
     protected String nickname;
     protected String contraseña;
     protected boolean activo;
@@ -57,5 +59,15 @@ public class UsuarioBase {
 
     public void setIdRol(int idRol) {
         this.idRol = idRol;
+    }
+
+    @Override
+    public boolean datosCompletos() {
+        return true;
+   }
+
+    @Override
+    public boolean datosTamañoCorrecto() {
+        return true;
     }
 }

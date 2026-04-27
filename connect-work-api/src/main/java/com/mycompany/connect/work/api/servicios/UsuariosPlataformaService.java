@@ -7,7 +7,9 @@ package com.mycompany.connect.work.api.servicios;
 import com.mycompany.connect.work.api.db.BuscadorAtributoRepetido;
 import com.mycompany.connect.work.api.db.UsuariosBaseDB;
 import com.mycompany.connect.work.api.db.UsuariosPlataformaDB;
+import com.mycompany.connect.work.api.exceptions.CamposVaciosException;
 import com.mycompany.connect.work.api.exceptions.DBException;
+import com.mycompany.connect.work.api.exceptions.DatosMuyLargosException;
 import com.mycompany.connect.work.api.exceptions.EntidadDuplicadaException;
 import com.mycompany.connect.work.api.modelos.usuarios.UsuarioPlataforma;
 
@@ -21,17 +23,17 @@ public class UsuariosPlataformaService extends CrudService {
     private UsuariosBaseDB baseDB = new UsuariosBaseDB();
     private UsuariosPlataformaDB usuariosDB = new UsuariosPlataformaDB();
 
-    public void crear(UsuarioPlataforma entidad) throws DBException, EntidadDuplicadaException {
+    public void crear(UsuarioPlataforma entidad) throws DBException, EntidadDuplicadaException, CamposVaciosException, DatosMuyLargosException {
         
         
-        
+        this.revisarDatosCorrectos(entidad);
 
         if (df.existeAtributoRepetido(entidad.getNickname(), baseDB.getEXISTE_NICKNAME())) {
             throw new EntidadDuplicadaException("ya existe el nickname " + entidad.getNickname());
         }
         
-        if (df.existeAtributoRepetido(entidad.getNickname(), usuariosDB.getEXISTE_TELEFONO())) {
-            throw new EntidadDuplicadaException("ya existe el telefono " + entidad.getNickname());
+        if (df.existeAtributoRepetido(entidad.getTelefono(), usuariosDB.getEXISTE_TELEFONO())) {
+            throw new EntidadDuplicadaException("ya existe el telefono " + entidad.getTelefono());
         }
         
         
@@ -42,6 +44,10 @@ public class UsuariosPlataformaService extends CrudService {
         if (df.existeAtributoRepetido(entidad.getNickname(), usuariosDB.getEXISTE_CORREO())) {
             throw new EntidadDuplicadaException("ya existe el correo " + entidad.getCorreo());
         }
+        
+        
+        baseDB.crear(entidad);
+        usuariosDB.crear(entidad);
         
         
 

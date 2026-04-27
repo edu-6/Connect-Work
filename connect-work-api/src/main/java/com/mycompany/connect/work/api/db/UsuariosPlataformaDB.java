@@ -20,12 +20,12 @@ public class UsuariosPlataformaDB implements CreacionEntidad<UsuarioPlataforma>{
     
     
     private static final String CREAR = "insert into usuario_plataforma"
-            + " (nickname,nombre,cui,correo,telefono,perfil_completado"
-            + "fecha_nacimiento,direccion)";
+            + " (nickname,nombre,cui,correo,telefono,perfil_completado,"
+            + "fecha_nacimiento,direccion) values (?,?,?,?,?,?,?,?)";
     
-    private static final String EXISTE_TELEFONO = "select telefono form usuario_plataforma where telefono = ?";
-    private static final String EXISTE_CORREO = "select correo form usuario_plataforma where correo = ?";
-    private static final String EXISTE_CUI = "select cui form usuario_plataforma where cui = ?";
+    private static final String EXISTE_TELEFONO = "select telefono from usuario_plataforma where telefono = ?";
+    private static final String EXISTE_CORREO = "select correo from usuario_plataforma where correo = ?";
+    private static final String EXISTE_CUI = "select cui from usuario_plataforma where cui = ?";
     
 
     @Override
@@ -38,8 +38,9 @@ public class UsuariosPlataformaDB implements CreacionEntidad<UsuarioPlataforma>{
             ps.setString(3, entidad.getCui());
             ps.setString(4, entidad.getCorreo());
             ps.setString(5, entidad.getTelefono());
-            ps.setDate(6, Date.valueOf(entidad.getFechaNacimiento()));
-            ps.setDate(7, Date.valueOf(entidad.getDireccion()));
+            ps.setBoolean(6, false);
+            ps.setDate(7, Date.valueOf(entidad.getFechaNacimiento()));
+            ps.setString(8, entidad.getDireccion());
             
             ps.executeUpdate();
             
