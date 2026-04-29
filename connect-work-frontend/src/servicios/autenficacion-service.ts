@@ -49,6 +49,15 @@ export class AutenticacionServicio {
     );
   }
 
+  perfilEstaCompletado(){
+    return localStorage.getItem('estadoPerfil') === "completado";
+  }
+
+
+  marcarPerfilCompletado(){
+    localStorage.setItem('estadoPerfil', "completado");
+  }
+
   logout() {
     localStorage.clear();
     this.isAuthenticated.set(false);
@@ -64,15 +73,15 @@ export class AutenticacionServicio {
   }
 
   esAdmin() {
-    return localStorage.getItem('rol') === "Administrador";
+    return localStorage.getItem('rol') === "Admin";
   }
 
-  esOperador() {
-    return localStorage.getItem('rol') === "Operaciones";
+  esCliente() {
+    return localStorage.getItem('rol') === "Cliente";
   }
 
-  esAtencionCliente() {
-    return localStorage.getItem('rol') === "Atencion al Cliente";
+  esFreelancer() {
+    return localStorage.getItem('rol') === "Freelancer";
   }
 
 

@@ -27,6 +27,8 @@ public class UsuariosPlataformaDB implements CreacionEntidad<UsuarioPlataforma>{
     private static final String EXISTE_CORREO = "select correo from usuario_plataforma where correo = ?";
     private static final String EXISTE_CUI = "select cui from usuario_plataforma where cui = ?";
     
+    private static final String MARCAR_PERFIL_COMPLETADO = "UPDATE usuario_plataforma SET perfil_completado = TRUE WHERE cui = ?";
+    
 
     @Override
     public void crear(UsuarioPlataforma entidad) throws DBException {
@@ -47,6 +49,21 @@ public class UsuariosPlataformaDB implements CreacionEntidad<UsuarioPlataforma>{
             throw new DBException("error al registrar usuario-plataforma" +e.getMessage());
         }
         
+    }
+    
+    
+
+    public void marcarPerfilCompletado(String cui) throws DBException {
+        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(MARCAR_PERFIL_COMPLETADO)) {
+            ps.setString(1, cui);
+            
+            int filasAfectadas = ps.executeUpdate();
+            if (filasAfectadas == 0) {
+                throw new DBException("No se encontró ningún usuario con el CUI: " + cui);
+            }
+        } catch (SQLException e) {
+            throw new DBException("Error al actualizar el estado del perfil: " + e.getMessage());
+        }
     }
 
     public static String getCREAR() {

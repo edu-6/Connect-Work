@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Rol } from "../modelos/rol";
 import { Observable } from "rxjs";
 import { ConstantesRest } from "./restConstantes";
+import { NivelExperiencia } from "../modelos/nivelExperiencia";
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,10 @@ export class EnumsService {
 
   public getRoles(): Observable<Rol[]> {
     return this.httpCliente.get<Rol[]>(this.constantesRest.getApiURL() + 'api/enums/roles');
+  }
+
+  public getNivelesExperiencia(): Observable<NivelExperiencia[]> {
+    return this.httpCliente.get<NivelExperiencia[]>(this.constantesRest.getApiURL() + 'api/enums/nivelesExperiencia');
   }
 
     /*

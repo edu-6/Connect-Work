@@ -6,6 +6,7 @@ package com.mycompany.connect.work.api.resources;
 
 import com.mycompany.connect.work.api.db.EnumsDB;
 import com.mycompany.connect.work.api.exceptions.DBException;
+import com.mycompany.connect.work.api.modelos.enums.NivelExperiencia;
 import com.mycompany.connect.work.api.modelos.enums.Rol;
 import com.mycompany.connect.work.api.utils.EscritorJson;
 import java.io.IOException;
@@ -41,6 +42,17 @@ public class EnumsResource extends HttpServlet {
                     roles = db.obtenerRoles();
                     resp.setStatus(HttpServletResponse.SC_OK);
                     escritor.escribirJson(resp, roles);
+                } catch (DBException ex) {
+                    resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    escritor.escribirError(ex.getMessage(), resp);
+                }
+                break;
+            case "nivelesExperiencia":
+                ArrayList<NivelExperiencia> niveles = new ArrayList();
+                try {
+                    niveles = db.obtenerNivelesExperiencia();
+                    resp.setStatus(HttpServletResponse.SC_OK);
+                    escritor.escribirJson(resp, niveles);
                 } catch (DBException ex) {
                     resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                     escritor.escribirError(ex.getMessage(), resp);

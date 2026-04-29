@@ -242,3 +242,5 @@ CREATE TABLE archivo_entrega(
 
 
 insert into rol (nombre) values ('Admin'),('Freelancer'),('Cliente');
+
+insert into nivel_experiencia(nombre) values ('Junior'), ('Semi-junior'), ('Senior');

@@ -49,8 +49,7 @@ export class LoginForm implements OnInit {
 
       this.autenticacionService.login(this.usuarioRequest).subscribe({
         next: (empleado: UsuarioLoginResponse) => {
-          this.router.navigate(["/"]);
-          this.indicarEstadoPerfil();
+          this.redirigirSegunEstadoPerfil();
         },
         error: (errorHttp: any) => {
           const errorData: ErrorBackend = errorHttp.error;
@@ -62,14 +61,19 @@ export class LoginForm implements OnInit {
   }
 
 
-  private indicarEstadoPerfil(){
-    const estadoPerfil = localStorage.getItem('estadoPerfil');
-    if(!estadoPerfil) return;
+  private redirigirSegunEstadoPerfil(){
+    const perfilCompletado = this.autenticacionService.perfilEstaCompletado();
 
-    if(estadoPerfil === "completado"){
-      alert("el perfil está completado")
-    }else{
-      alert("falta completar el perfil");
+    if(this.autenticacionService.perfilEstaCompletado()){
+      this.router.navigate(["/"]);
+    }
+
+
+    if(!perfilCompletado && this.autenticacionService.esFreelancer()){
+      this.router.navigate(['/completarPerfilFreelancer']);
+
+    }else if(!perfilCompletado  && this.autenticacionService.esCliente()){
+      this.router.navigate(['/completarPerfilCliente']);
     }
   }
 

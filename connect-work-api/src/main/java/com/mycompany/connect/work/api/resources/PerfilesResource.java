@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  *
  * @author edu
  */
-@WebServlet(name = "PerfilesResource", urlPatterns = {"/perfiles/*"})
+@WebServlet(name = "PerfilesResource", urlPatterns = {"/api/perfiles/*"})
 public class PerfilesResource extends HttpServlet {
     
     private PerfilesCrudService perfilesService = new PerfilesCrudService();

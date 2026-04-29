@@ -4,6 +4,7 @@
  */
 package com.mycompany.connect.work.api.servicios;
 
+import com.mycompany.connect.work.api.db.UsuariosPlataformaDB;
 import com.mycompany.connect.work.api.db.perfiles.PerfilClienteDB;
 import com.mycompany.connect.work.api.db.perfiles.PerfilFreelancerDB;
 import com.mycompany.connect.work.api.exceptions.CamposVaciosException;
@@ -20,17 +21,20 @@ public class PerfilesCrudService extends CrudService {
     
     private PerfilClienteDB perfilClienteDB = new PerfilClienteDB();
     private PerfilFreelancerDB perfilFreelancerDB = new PerfilFreelancerDB();
+    private UsuariosPlataformaDB usuariosPlataformaDB = new UsuariosPlataformaDB();
     
     
     
     public void crearPerfilCliente(PerfilCliente perfil) throws CamposVaciosException, DBException, DatosMuyLargosException{
         this.revisarDatosCorrectos(perfil);
         perfilClienteDB.crear(perfil);
+        usuariosPlataformaDB.marcarPerfilCompletado(perfil.getCuiUsuario());
     }
     
     public void crearPerfilFreelancer(PerfilFreelancer perfil) throws CamposVaciosException, DBException, DatosMuyLargosException{
         this.revisarDatosCorrectos(perfil);
         perfilFreelancerDB.crear(perfil);
+        usuariosPlataformaDB.marcarPerfilCompletado(perfil.getCuiFreelancer());
     }
     
     
