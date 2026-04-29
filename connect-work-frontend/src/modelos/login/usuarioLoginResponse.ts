@@ -4,5 +4,6 @@ export interface UsuarioLoginResponse{
     rol : string;
     token: string;
     nickname: string;
+    perfilCompletado ?: boolean;
 
 }

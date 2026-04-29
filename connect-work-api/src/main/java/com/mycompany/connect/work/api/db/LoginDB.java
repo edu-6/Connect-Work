@@ -24,6 +24,9 @@ public class LoginDB implements ExtraerEntidad<UsuarioLoginResponse> {
             + " JOIN rol as r ON r.id = us.id_rol where us.nickname = ? AND us.contraseña = ?";
 
     private static final String BUSCAR_CUI = "select cui from usuario_plataforma where nickname = ?";
+    
+    
+    private static final String BUSCAR_ESTADO_PERFIL = "select perfil_completado from usuario_plataforma where nickname = ?";
 
     public UsuarioLoginResponse loguearUsuario(UsuarioLoginRequest request) throws DBException {
         try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(BUSCAR_USUARIO)) {
@@ -36,6 +39,9 @@ public class LoginDB implements ExtraerEntidad<UsuarioLoginResponse> {
                     if(!response.getRol().equals("Admin")){
                         // añadir cui
                         response.setCui(buscarCui(response.getNickname()));
+                        
+                        // añadir estado del perfil( completado/ pendiente )
+                        response.setPerfilCompletado(buscarEstadoPerfil(response.getNickname()));
                     }
                     
                     return response;
@@ -71,6 +77,22 @@ public class LoginDB implements ExtraerEntidad<UsuarioLoginResponse> {
 
         return null;
 
+    }
+    
+    
+    private boolean buscarEstadoPerfil(String nickname) throws DBException{
+        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(BUSCAR_ESTADO_PERFIL)) {
+            ps.setString(1, nickname);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBoolean("perfil_completado");
+                }
+            }
+        } catch (SQLException e) {
+            throw new DBException("error al buscar usuario " + e.getMessage());
+        }
+        return false;
+        
     }
 
 }

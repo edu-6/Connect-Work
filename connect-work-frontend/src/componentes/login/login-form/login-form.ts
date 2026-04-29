@@ -50,6 +50,7 @@ export class LoginForm implements OnInit {
       this.autenticacionService.login(this.usuarioRequest).subscribe({
         next: (empleado: UsuarioLoginResponse) => {
           this.router.navigate(["/"]);
+          this.indicarEstadoPerfil();
         },
         error: (errorHttp: any) => {
           const errorData: ErrorBackend = errorHttp.error;
@@ -57,6 +58,18 @@ export class LoginForm implements OnInit {
           this.resetearFormulario();
         }
       });
+    }
+  }
+
+
+  private indicarEstadoPerfil(){
+    const estadoPerfil = localStorage.getItem('estadoPerfil');
+    if(!estadoPerfil) return;
+
+    if(estadoPerfil === "completado"){
+      alert("el perfil está completado")
+    }else{
+      alert("falta completar el perfil");
     }
   }
 

@@ -15,6 +15,7 @@ public class UsuarioLoginResponse {
     private String rol;
     private String token;
     private String nickname;
+    private boolean perfilCompletado;
 
     public UsuarioLoginResponse(String nombre,String nickname, String rol) {
         this.rol = rol;
@@ -37,6 +38,13 @@ public class UsuarioLoginResponse {
     public String getRol() {
         return rol;
     }
+
+    public void setPerfilCompletado(boolean perfilCompletado) {
+        this.perfilCompletado = perfilCompletado;
+    }
+    
+    
+    
     
     
     

@@ -15,6 +15,7 @@ export class AutenticacionServicio {
   private constantesRest = new ConstantesRest();
 
   constructor(private httpCliente: HttpClient, private router: Router) {
+    
   }
 
   isAuthenticated = signal<boolean>(!!localStorage.getItem('auth_token'));
@@ -29,7 +30,18 @@ export class AutenticacionServicio {
         localStorage.setItem('nombre', res.nombre);
         localStorage.setItem('rol', res.rol);
         localStorage.setItem('nickname', res.nickname);
-        if(res.cui){
+
+        if (res.perfilCompletado != null) {
+          let estadoPerfil = "";
+          if (res.perfilCompletado) {
+            estadoPerfil = "completado";
+          } else {
+            estadoPerfil = "incompleto";
+          }
+          localStorage.setItem('estadoPerfil', estadoPerfil);
+        }
+
+        if (res.cui) {
           localStorage.setItem('cui', res.cui);
         }
         this.isAuthenticated.set(true);
@@ -51,15 +63,15 @@ export class AutenticacionServicio {
     return localStorage.getItem('rol');
   }
 
-  esAdmin(){
+  esAdmin() {
     return localStorage.getItem('rol') === "Administrador";
   }
 
-  esOperador(){
+  esOperador() {
     return localStorage.getItem('rol') === "Operaciones";
   }
 
-  esAtencionCliente(){
+  esAtencionCliente() {
     return localStorage.getItem('rol') === "Atencion al Cliente";
   }
 
