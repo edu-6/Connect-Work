@@ -28,8 +28,8 @@ export class LoginForm implements OnInit {
 
   ngOnInit(): void {
     this.formulario = this.formBuilder.group({
-      nickname: ['', [Validators.required, Validators.maxLength(100)]],
-      contraseña: ['', [Validators.required, Validators.maxLength(100)]]
+      nickname: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
+      contraseña: ['', [Validators.required,Validators.minLength(1), Validators.maxLength(100)]]
     });
   }
 
@@ -66,6 +66,11 @@ export class LoginForm implements OnInit {
 
     if(this.autenticacionService.perfilEstaCompletado()){
       this.router.navigate(["/"]);
+    }
+
+
+    if(this.autenticacionService.esAdmin()){
+      this.router.navigate(['/']);
     }
 
 

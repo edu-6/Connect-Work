@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { AutenticacionServicio } from '../../servicios/autenficacion-service';
 
 @Component({
   selector: 'app-header',
@@ -9,13 +10,14 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class Header {
 
+
+
   titulo = signal<string>("titulo de la pagina");
 
 
-   public logout(): void {
+  constructor(public autenticacionService: AutenticacionServicio){
 
-}
-
+  }
 
 
 }

@@ -53,6 +53,10 @@ export class AutenticacionServicio {
     return localStorage.getItem('estadoPerfil') === "completado";
   }
 
+  estaLogueado(){
+    return localStorage.getItem('rol') != null;
+  }
+
 
   marcarPerfilCompletado(){
     localStorage.setItem('estadoPerfil', "completado");
