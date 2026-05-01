@@ -14,4 +14,10 @@ public class CamposVaciosException extends Exception {
     public CamposVaciosException() {
         super("Rellene todos los  campos obligatorios");
     } 
+
+    public CamposVaciosException(String message) {
+        super(message);
+    }
+    
+    
 }

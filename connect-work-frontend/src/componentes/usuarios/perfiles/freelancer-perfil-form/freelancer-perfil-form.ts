@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ErrorBackend } from '../../../../modelos/ErrorBackend';
@@ -9,10 +9,14 @@ import { PerfilesService } from '../../../../servicios/perfiles-service';
 import { NivelExperiencia } from '../../../../modelos/nivelExperiencia';
 import { PefilFreelancer } from '../../../../modelos/perfiles/freelancerPerfil';
 import { AutenticacionServicio } from '../../../../servicios/autenficacion-service';
+import { HabilidadCategoriaComponent } from "../../../categorias/habilidad-categoria-component/habilidad-categoria-component";
+import { Header } from "../../../../shared/header/header";
+import { HabilidadesFreelancerComponent } from "../habilidades-freelancer-component/habilidades-freelancer-component";
+import { HabilidadFreelancer } from '../../../../modelos/perfiles/habilidadFreelancer';
 
 @Component({
   selector: 'app-freelancer-perfil-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, Header, HabilidadesFreelancerComponent],
   templateUrl: './freelancer-perfil-form.html',
   styleUrl: './freelancer-perfil-form.css',
 })
@@ -26,6 +30,9 @@ export class FreelancerPerfilForm implements OnInit {
 
   nivelesExperiencia = signal<NivelExperiencia[]>([]);
   mensajeError !: string;
+
+
+  @ViewChild('formularioHabilidades') formularioHabilidades!: HabilidadesFreelancerComponent;
 
   constructor(private formBuilder: FormBuilder,
     private enumsService: EnumsService,
@@ -55,16 +62,14 @@ export class FreelancerPerfilForm implements OnInit {
     );
   }
 
-
-  
-
-
   enviar() {
     this.hayError.set(false);
     this.intentoEnviarlo.set(true);
+    
     if (!this.formulario.valid) return;
 
-    let nuevo = this.formulario.value as PefilFreelancer;
+    let nuevo = this.armarPerfilFreelancer();
+
     if (this.enEdicion()) {
       //this.editar(nuevo);
     } else {
@@ -73,12 +78,30 @@ export class FreelancerPerfilForm implements OnInit {
   }
 
 
+  private armarPerfilFreelancer(): PefilFreelancer {
+    const formValue = this.formulario.value;
+    const habilidadesParaEnviar: HabilidadFreelancer[] = this.formularioHabilidades.habilidadesNuevas()
+      .map(h => ({
+        cuiFreelancer: formValue.cuiFreelancer,
+        idHabilidad: h.id
+      }));
+
+    return {
+      cuiFreelancer: formValue.cuiFreelancer,
+      biografia: formValue.biografia,
+      tarifaHora: formValue.tarifaHora,
+      idNivelExperiencia: formValue.idNivelExperiencia,
+      habilidades: habilidadesParaEnviar
+    };
+  }
+
+
   private guardarNuevo(nuevo: PefilFreelancer) {
     this.perfilesService.crearPerfilFreelancer(nuevo).subscribe({
       next: () => {
         this.autenticacionService.marcarPerfilCompletado();
         this.redirigirAHome();
-        
+
       },
       error: (error: any) => {
         this.registrarError(error);

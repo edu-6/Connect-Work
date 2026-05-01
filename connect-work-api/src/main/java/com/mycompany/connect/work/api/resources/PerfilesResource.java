@@ -66,13 +66,13 @@ public class PerfilesResource extends HttpServlet {
                 this.perfilesService.crearPerfilFreelancer(perfil);
             } catch (CamposVaciosException ex) {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                escritor.escribirError(ruta, resp);
+                escritor.escribirError(ex.getMessage(), resp);
             } catch (DBException ex) {
                 resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                escritor.escribirError(ruta, resp);
+                escritor.escribirError(ex.getMessage(), resp);
             } catch (DatosMuyLargosException ex) {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                escritor.escribirError(ruta, resp);
+                escritor.escribirError(ex.getMessage(), resp);
             }
         }
     }

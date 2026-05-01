@@ -5,6 +5,7 @@
 package com.mycompany.connect.work.api.modelos.perfles;
 
 import com.mycompany.connect.work.api.modelos.Entidad;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,6 +16,10 @@ public class PerfilFreelancer extends Entidad {
     private String biografia;
     private double tarifaHora;
     private int idNivelExperiencia;
+    
+    private ArrayList<HabilidadFreelancer> habilidades;
+    
+    
 
     @Override
     public boolean datosCompletos() {
@@ -55,6 +60,12 @@ public class PerfilFreelancer extends Entidad {
     public int getIdNivelExperiencia() {
         return idNivelExperiencia;
     }
+
+    public ArrayList<HabilidadFreelancer> getHabilidades() {
+        return habilidades;
+    }
+    
+    
     
     
     

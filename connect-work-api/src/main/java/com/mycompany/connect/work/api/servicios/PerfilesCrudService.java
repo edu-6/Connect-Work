@@ -33,8 +33,14 @@ public class PerfilesCrudService extends CrudService {
     
     public void crearPerfilFreelancer(PerfilFreelancer perfil) throws CamposVaciosException, DBException, DatosMuyLargosException{
         this.revisarDatosCorrectos(perfil);
+        
+        if(perfil.getHabilidades().size() <=0){
+            throw new CamposVaciosException("Debe agregar al menos una habilidad");
+        }
         perfilFreelancerDB.crear(perfil);
         usuariosPlataformaDB.marcarPerfilCompletado(perfil.getCuiFreelancer());
+        
+        perfilFreelancerDB.crearHabilidadesFreelancer(perfil.getHabilidades());
     }
     
     
