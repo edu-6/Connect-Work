@@ -24,7 +24,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author edu
  */
-@WebServlet(name = "CategoriasResource", urlPatterns = {"/categorias/*"})
+@WebServlet(name = "CategoriasResource", urlPatterns = {"/api/categorias/*"})
 public class CategoriasResrouce extends HttpServlet {
 
     private Gson gson = new Gson();

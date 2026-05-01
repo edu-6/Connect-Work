@@ -8,6 +8,7 @@ import { UsuarioLoginResponse } from "../modelos/login/usuarioLoginResponse";
 import { PefilFreelancer } from "../modelos/perfiles/freelancerPerfil";
 import { ClientePefil } from "../modelos/perfiles/usuarioPerfil";
 import { Habilidad } from "../modelos/habilidades/habilidad";
+import { HabilidadCategoria } from "../modelos/categorias/habilidad-categoria";
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +48,21 @@ export class HabilidadesService {
 
   public buscarActivas(): Observable<Habilidad[]> {
     return this.httpCliente.get<Habilidad[]>(this.constantesRest.getApiURL() + 'api/habilidades/activas');
+  }
+
+  public buscarHabilidadesEnCategoria(idCategoria: number): Observable<Habilidad[]> {
+    return this.httpCliente.get<Habilidad[]>(this.constantesRest.getApiURL() + 'api/habilidades-categoria/' + idCategoria);
+  }
+
+
+  public eliminarHabilidadEnCategoria(idCategoria: number, idHabilidad: number): Observable<void> {
+
+    const datosEliminacion: HabilidadCategoria = {
+      idCategoria: idCategoria,
+      idHabilidad: idHabilidad
+    };
+    
+    return this.httpCliente.post<void>(this.constantesRest.getApiURL() + 'api/habilidades-categoria', datosEliminacion);
   }
 }
 

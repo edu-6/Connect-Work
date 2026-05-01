@@ -1,0 +1,60 @@
+<div class="container-fluid py-4">
+    <div class="row g-4 align-items-start">
+
+
+        <div class="col-12 col-md-5 col-lg-4">
+            <form [formGroup]="formulario" (submit)="enviar()">
+                @if (hayError()) {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Error!</strong> {{ mensajeError }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                }
+
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        @if (enEdicion()) {
+                        <h4 class="card-title mb-4 text-center">{{ mensajeEdicion }}</h4>
+                        } @else {
+                        <h4 class="card-title mb-4 text-center">{{ mensajeCreacion }}</h4>
+                        }
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Nombre:</label>
+                            <input type="text" class="form-control" formControlName="nombre"
+                                [class.is-invalid]="formulario.controls['nombre'].invalid && intentoEnviarlo()">
+                            <div class="invalid-feedback">El nombre es requerido (máx. 30 caracteres).</div>
+                        </div>
+
+                        <div class="form-check form-switch mb-4">
+                            <input class="form-check-input" type="checkbox" role="switch" id="activaSwitch"
+                                formControlName="activa">
+                            <label class="form-check-label" for="activaSwitch">Activa</label>
+                        </div>
+
+                        <button class="btn btn-primary w-100 mb-2" type="submit">
+                            <i class="bi  me-1"></i> Guardar
+                        </button>
+                        <button type="button" routerLink="/categorias" class="btn btn-secondary w-100">
+                            <i class="bi bi-arrow-left me-1"></i> Regresar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+
+
+        @if(enEdicion()){
+            <div class="col-12 col-md-7 col-lg-8">
+                <app-habilidad-categoria-component #formularioHabilidades [idCategoria]="categoriaEnEdicion.id"></app-habilidad-categoria-component>
+            </div>
+        }@else {
+            <div class="col-12 col-md-7 col-lg-8">
+                <app-habilidad-categoria-component #formularioHabilidades></app-habilidad-categoria-component>
+            </div>
+        }
+
+    </div>
+</div>

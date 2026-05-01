@@ -1,0 +1,69 @@
+@if (hayError()) {
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Error!</strong> {{ mensajeError }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+}
+
+<div class="card shadow-sm h-100">
+    <div class="card-body">
+        <h5 class="card-title mb-3">Habilidades de la categoría</h5>
+
+
+        <div class="input-group mb-3">
+            <select class="form-select" [(ngModel)]="idSeleccionado">
+                <option [ngValue]="null" disabled selected>Seleccione una habilidad...</option>
+                @for (h of habilidadesDisponibles(); track h.id) {
+                <option [ngValue]="h.id">{{ h.nombre }}</option>
+                }
+            </select>
+            <button class="btn btn-success" type="button" (click)="agregar()" [disabled]="idSeleccionado === null">
+                <i class="bi bi-plus-circle me-1"></i> Agregar
+            </button>
+        </div>
+
+
+        
+        <table class="table table-striped table-bordered table-sm align-middle">
+            <thead class="table table-striped">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col" class="text-center">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (habilidadesNuevas().length === 0) {
+                <tr>
+                    <td colspan="3" class="text-center text-muted fst-italic">
+                        No se han agregado habilidades aún.
+                    </td>
+                </tr>
+                }
+                @for (h of habilidadesNuevas(); track h.id; let i = $index) {
+                <tr>
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ h.nombre }}</td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-danger btn-sm" (click)="eliminar(h)">
+                            <i class="bi bi-trash me-1"></i> Eliminar
+                        </button>
+                    </td>
+                </tr>
+                }
+
+                @for (h of habilidadesAntiguas(); track h.id; let i = $index) {
+                <tr>
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ h.nombre }}</td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-danger btn-sm" (click)="eliminar(h)">
+                            <i class="bi bi-trash me-1"></i> Eliminar
+                        </button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

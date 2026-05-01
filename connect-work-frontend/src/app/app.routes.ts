@@ -7,6 +7,9 @@ import { CompletacionPerfilClientePage } from '../pages/usuarios/perfiles/comple
 import { HabilidadesPage } from '../pages/habilidades/habilidades-page/habilidades-page';
 import { HabilidadesFormPage } from '../pages/habilidades/habilidades-form-page/habilidades-form-page';
 import { HabilidadesEditarPage } from '../pages/habilidades/habilidades-editar-page/habilidades-editar-page';
+import { CategoriasPage } from '../pages/categorias/categorias-page/categorias-page';
+import { CategoriasFormPage } from '../pages/categorias/categorias-form-page/categorias-form-page';
+import { CategoriasEditarPage } from '../pages/categorias/categorias-editar-page/categorias-editar-page';
 
 export const routes: Routes = [
     { path: "", component: HomePage },
@@ -19,6 +22,11 @@ export const routes: Routes = [
     { path: "habilidades", component: HabilidadesPage },
     { path: "habilidades-form-page", component: HabilidadesFormPage },
     { path: "habilidades-editar-page/:id", component: HabilidadesEditarPage },
+
+
+    { path: "categorias", component: CategoriasPage },
+    { path: "categorias-form-page", component: CategoriasFormPage },
+    { path: "categorias-editar-page/:nombre", component: CategoriasEditarPage },
 
 
 

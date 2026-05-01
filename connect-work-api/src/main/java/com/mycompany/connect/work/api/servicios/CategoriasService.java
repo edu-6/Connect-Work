@@ -44,7 +44,7 @@ public class CategoriasService extends CrudService {
         int idNuevaCategoria = categoriasDB.crear(categoriaFull.getCategoria());
         categoriaFull.agregarIdAHabilidades(idNuevaCategoria);
         
-        habilidadCategoriaDB.crear((HabilidadCategoria[]) categoriaFull.getHabilidades().toArray());
+        habilidadCategoriaDB.crear(categoriaFull.getHabilidades());
     }
     
     
@@ -65,7 +65,7 @@ public class CategoriasService extends CrudService {
         categoriasDB.editar(categoriaFull.getCategoria());
         categoriaFull.agregarIdAHabilidades(edicion.getId());
         
-        habilidadCategoriaDB.crear((HabilidadCategoria[]) categoriaFull.getHabilidades().toArray());   
+        habilidadCategoriaDB.crear(categoriaFull.getHabilidades());
     }
     
     
@@ -86,6 +86,12 @@ public class CategoriasService extends CrudService {
     
     public ArrayList<Categoria> buscarTodas() throws DBException{
          return categoriasDB.buscarVariosPorString(categoriasDB.getBuscarTodosQuery());
+    }
+    
+    
+    
+    public void eliminarHabilidadEnCategoria(HabilidadCategoria eliminacion) throws DBException{
+        habilidadCategoriaDB.eliminar(eliminacion);
     }
     
 }
