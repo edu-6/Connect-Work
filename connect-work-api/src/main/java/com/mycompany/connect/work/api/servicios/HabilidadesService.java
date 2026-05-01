@@ -51,4 +51,12 @@ public class HabilidadesService extends CrudService {
     public ArrayList<Habilidad> buscarActivos() throws DBException {
         return habilidadesDB.buscarVariosPorString(HabilidadesDB.getBuscarActivosQuery());
     }
+    
+    
+    public ArrayList<Habilidad> buscarHabilidadesEnCategoria(int id) throws DBException {
+        return habilidadesDB.buscarVariosInt(id);
+    }
+    
+    
+    
 }

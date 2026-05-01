@@ -113,7 +113,9 @@ CREATE TABLE habilidad_freelancer(
 CREATE TABLE habilidad_categoria(
 	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	id_habilidad INTEGER NOT NULL,
-	CONSTRAINT fk_habilidad_categoria FOREIGN KEY (id_habilidad) REFERENCES  habilidad(id) ON DELETE CASCADE
+	id_categoria INTEGER NOT NULL,
+	CONSTRAINT fk_habilidad_categoria FOREIGN KEY (id_habilidad) REFERENCES  habilidad(id) ON DELETE CASCADE,
+	CONSTRAINT fk_habilidad_categoria_categoria FOREIGN KEY (id_categoria) REFERENCES  categoria(id) ON DELETE CASCADE,
 );
 
 CREATE TABLE estado_solicitud(
