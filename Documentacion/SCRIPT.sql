@@ -144,8 +144,9 @@ CREATE TABLE solicitud_categoria(
 );
 
 CREATE TABLE estado_proyecto(
-	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	nombre VARCHAR(15)  NOT NULL
+	id INTEGER NOT NULL UNIQUE,
+	nombre VARCHAR(30) PRIMARY KEY NOT NULL
+	
 );
 
 CREATE TABLE proyecto(
@@ -246,3 +247,5 @@ CREATE TABLE archivo_entrega(
 insert into rol (nombre) values ('Admin'),('Freelancer'),('Cliente');
 
 insert into nivel_experiencia(nombre) values ('Junior'), ('Semi-junior'), ('Senior');
+
+insert into estado_proyecto (nombre,id) values ('ABIERTO',1),('EN REVISION',2),('EN PROGRESO',3),('ENTREGA PENDIENTE',4),('COMPLETADO',5),('CANCELADO',6);

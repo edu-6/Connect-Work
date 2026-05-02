@@ -11,5 +11,5 @@ import com.mycompany.connect.work.api.exceptions.DBException;
  * @param <T>
  */
 public interface BusquedaPorID <T>{
-    public  T buscarPorId(String nombre) throws DBException;
+    public  T buscarPorId(int id) throws DBException;
 }
