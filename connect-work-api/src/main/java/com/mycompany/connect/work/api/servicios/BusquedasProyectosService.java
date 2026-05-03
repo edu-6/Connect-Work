@@ -54,6 +54,9 @@ public class BusquedasProyectosService {
             case ProyectoTipoBusqueda.CONTRATOS_ACTIVOS:
                 validarBusquedaContratos(busqueda);
                 return busquedaDB.buscarContratosActivos(busqueda);
+            case ProyectoTipoBusqueda.TODOS_DEL_USUARIO:
+                validarCuiCliente(busqueda);
+                return busquedaDB.buscarEnClienteTodo(busqueda);
         }
         throw new ErrorDeLogicaException(" busqueda no definida");
     }
@@ -106,5 +109,6 @@ public class BusquedasProyectosService {
             throw new ErrorDeLogicaException("El CUI del cliente es obligatorio para esta operación.");
         }
     }
+    
     
 }

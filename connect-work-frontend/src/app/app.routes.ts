@@ -10,6 +10,11 @@ import { HabilidadesEditarPage } from '../pages/habilidades/habilidades-editar-p
 import { CategoriasPage } from '../pages/categorias/categorias-page/categorias-page';
 import { CategoriasFormPage } from '../pages/categorias/categorias-form-page/categorias-form-page';
 import { CategoriasEditarPage } from '../pages/categorias/categorias-editar-page/categorias-editar-page';
+import { ProyectosCrudPage } from '../pages/proyectos/proyectos-crud-page/proyectos-crud-page';
+import { ProyectoFormPage } from '../pages/proyectos/proyecto-form-page/proyecto-form-page';
+import { ProyectoEditarPage } from '../pages/proyectos/proyecto-editar-page/proyecto-editar-page';
+import { ProyectoDetallePage } from '../pages/proyectos/proyecto-detalle-page/proyecto-detalle-page';
+import { ProyectosBuscarPage } from '../pages/proyectos/proyectos-buscar-page/proyectos-buscar-page';
 
 export const routes: Routes = [
     { path: "", component: HomePage },
@@ -27,6 +32,14 @@ export const routes: Routes = [
     { path: "categorias", component: CategoriasPage },
     { path: "categorias-form-page", component: CategoriasFormPage },
     { path: "categorias-editar-page/:nombre", component: CategoriasEditarPage },
+
+
+    { path: "proyectos-crud-page", component: ProyectosCrudPage },
+    { path: "proyectos-form-page", component: ProyectoFormPage },
+    { path: "proyectos-editar-page/:id", component: ProyectoEditarPage },
+    { path: "proyectos-detalle-page/:id", component: ProyectoDetallePage },
+    { path: "proyectos-buscar-page", component: ProyectosBuscarPage },
+
 
 
 

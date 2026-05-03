@@ -49,6 +49,8 @@ public class ProyectosBusquedaDB implements ExtraerEntidad<ProyectoResponse> {
 
     // PARA CLIENTE
     private static final String BUSQUeDA_EN_CLIENTE_POR_PERIODO = BUSQUEDA_SIMPLE + FILTRO_PERIODO;
+    
+    private static final String BUSQUeDA_EN_CLIENTE_TODO = BUSQUEDA_SIMPLE + FILTRO_CREADOR;
 
     // PARA FREELANCER
     private static final String BUSQUEDA_POR_PRESUPUESTO = BUSQUEDA_SIMPLE + FILTRO_PRESUPUESTO;
@@ -77,6 +79,27 @@ public class ProyectosBusquedaDB implements ExtraerEntidad<ProyectoResponse> {
 
         } catch (SQLException e) {
             throw new DBException("error al buscar por periodo " + e.getMessage());
+        }
+
+        return lista;
+    }
+    
+    
+    public ArrayList<ProyectoResponse> buscarEnClienteTodo(BusquedaProyecto busqueda) throws DBException {
+
+        ArrayList<ProyectoResponse> lista = new ArrayList();
+
+        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(BUSQUeDA_EN_CLIENTE_TODO)) {
+            ps.setString(1, busqueda.getCuiCliente());
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(extraer(rs));
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new DBException("error al buscar todos los proyectos " + e.getMessage());
         }
 
         return lista;

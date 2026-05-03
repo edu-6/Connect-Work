@@ -16,6 +16,7 @@ public class ProyectoTipoBusqueda {
     public static final int POR_CATEGORIA = 3;
     public static final int POR_HABILIDAD = 4;
     public static final int CONTRATOS_ACTIVOS = 5;
+    public static final int TODOS_DEL_USUARIO = 6;
 
     
     

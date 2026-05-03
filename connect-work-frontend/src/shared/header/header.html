@@ -22,12 +22,16 @@
 
             <li class="nav-item"><a routerLink="/categorias" routerLinkActive="active" class="nav-link">Categorias</a></li>
             }
-            @if(false){
+            @if(autenticacionService.esCliente()){
             
-            <li class="nav-item"><a routerLink="/reportes" routerLinkActive="active" class="nav-link">Reportes</a></li>
-            <li class="nav-item"><a routerLink="/empleados" routerLinkActive="active" class="nav-link">Empleados</a>
-            </li>
+            <li class="nav-item"><a routerLink="/proyectos-crud-page" routerLinkActive="active" class="nav-link">Proyectos</a></li>
 
+            }
+
+            @if(autenticacionService.esFreelancer()){
+            <li class="nav-item"><a routerLink="/clientes" routerLinkActive="active" class="nav-link">Buscar ofertas</a></li>
+            <li class="nav-item"><a routerLink="/reservaciones" routerLinkActive="active"
+                    class="nav-link">Reservaciones</a></li>
             }
 
 
@@ -44,11 +48,7 @@
 
 
 
-            @if(false){
-            <li class="nav-item"><a routerLink="/clientes" routerLinkActive="active" class="nav-link">Clientes</a></li>
-            <li class="nav-item"><a routerLink="/reservaciones" routerLinkActive="active"
-                    class="nav-link">Reservaciones</a></li>
-            }
+            
 
 
         </ul>
