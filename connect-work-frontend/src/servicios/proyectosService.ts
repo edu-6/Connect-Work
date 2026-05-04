@@ -39,6 +39,17 @@ export class ProyectosService {
     return this.httpCliente.post<ProyectoResponse[]>(this.constantesRest.getApiURL()+'api/busquedasProyectos', busqueda);
   }
 
+
+  public buscarPorId(id: number): Observable<ProyectoRequest>{
+    return this.httpCliente.get<ProyectoRequest>(this.constantesRest.getApiURL()+'api/proyectos/'+id);
+  }
+
+  public buscarResponsePorId(id: number): Observable<ProyectoResponse>{
+    return this.httpCliente.get<ProyectoResponse>(this.constantesRest.getApiURL()+'api/proyectoResponse/'+id);
+  }
+
+  
+
   
 
 

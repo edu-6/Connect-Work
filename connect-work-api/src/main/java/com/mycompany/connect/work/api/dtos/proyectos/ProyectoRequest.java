@@ -21,6 +21,7 @@ public class ProyectoRequest extends Entidad {
     private String cuiCliente;
     private LocalDate fechaEntregaDeseada;
     
+    
 
     public ProyectoRequest(String nombre, String descripcion, int idCategoria, int id, double presupuestoMaximo, String cuiCliente, LocalDate fechaEntregaDeseada) {
         this.nombre = nombre;
@@ -30,6 +31,7 @@ public class ProyectoRequest extends Entidad {
         this.presupuestoMaximo = presupuestoMaximo;
         this.cuiCliente = cuiCliente;
         this.fechaEntregaDeseada = fechaEntregaDeseada;
+        
     }
 
     public String getNombre() {

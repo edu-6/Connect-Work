@@ -31,6 +31,11 @@ public class BusquedasProyectosService {
     }
     
     
+    public ProyectoResponse buscarResponsePorId(int id) throws DBException{
+        return busquedaDB.buscarResponsePorId(id);
+    }
+    
+    
     
     public ArrayList<ProyectoResponse> buscarProyectos(BusquedaProyecto busqueda) throws ErrorDeLogicaException, DBException {
         

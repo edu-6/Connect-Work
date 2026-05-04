@@ -21,6 +21,9 @@ public class ProyectoResponse {
     private LocalDate fechaEntregaDeseada;
     private int id;
     private int idEstado;
+    
+    private boolean editable;
+    
 
     public ProyectoResponse(String nombre, String descripcion, String categoria, String estado,
             double presupuestoMaximo, String nombreCliente, LocalDate fechaCreacion,
@@ -36,6 +39,8 @@ public class ProyectoResponse {
         this.fechaEntregaDeseada = fechaEntregaDeseada;
         this.id = id;
         this.idEstado = idEstado;
+        
+        this.editable = (idEstado ==1);
     }
     
     

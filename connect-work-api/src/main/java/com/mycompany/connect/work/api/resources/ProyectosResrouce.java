@@ -28,7 +28,7 @@ import java.time.LocalDate;
  *
  * @author edu
  */
-@WebServlet(name = "ProyectosResrouce", urlPatterns = {"/api/proyectos"})
+@WebServlet(name = "ProyectosResrouce", urlPatterns = {"/api/proyectos/*"})
 public class ProyectosResrouce extends HttpServlet {
     
     private EscritorJson escritor = new EscritorJson();

@@ -15,6 +15,6 @@ export class ProyectoCard {
   @Input({ required: true })
   proyecto !: ProyectoResponse;
 
-  /*@Input({ required: true })
-  mostrarBotones !: boolean;*/
+  @Input({ required: true })
+  mostrarBtnEditar !: boolean;
 }

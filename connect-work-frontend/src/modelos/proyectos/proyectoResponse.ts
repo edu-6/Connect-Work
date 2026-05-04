@@ -9,4 +9,5 @@ export interface ProyectoResponse {
     fechaEntregaDeseada: Date;
     id: number;
     idEstado: number;
+    editable: boolean;
 }

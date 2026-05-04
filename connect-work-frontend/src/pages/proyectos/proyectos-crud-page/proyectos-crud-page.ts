@@ -41,20 +41,41 @@ export class ProyectosCrudPage implements OnInit {
 
     this.barraBusqueda = this.formBuilder.group(
       {
-        busqueda: ["", [Validators.required]]
+        fechaInicio: [null, [Validators.required]],
+        fechaFin: [null, [Validators.required]],
       }
     );
   }
 
+
+
+  public buscarPorRango() {
+    this.hayError.set(false);
+
+    const busqueda: BusquedaProyecto = {
+      cuiCliente: localStorage.getItem('cui') || undefined,
+      fechaInicio: this.barraBusqueda.get('fechaInicio')?.value,
+      fechaFin: this.barraBusqueda.get('fechaFin')?.value,
+      idBusqueda: 1
+    }
+
+    this.buscarConBusqueda(busqueda);
+  }
+
   public buscarTodos() {
+    this.hayError.set(false);
     let cuiCliente = null;
-     cuiCliente = localStorage.getItem('cui');
+    cuiCliente = localStorage.getItem('cui');
     const miBusqueda: BusquedaProyecto = {
-      cuiCliente : cuiCliente || undefined,
+      cuiCliente: cuiCliente || undefined,
       idBusqueda: 6
     };
+    this.buscarConBusqueda(miBusqueda);
+  }
 
-    this.proyectosService.buscar(miBusqueda).subscribe({
+
+  private buscarConBusqueda(busqueda: BusquedaProyecto) {
+    this.proyectosService.buscar(busqueda).subscribe({
       next: (todos: ProyectoResponse[]) => {
         this.proyectos.set(todos);
         this.buscandoUno.set(false);
@@ -67,15 +88,10 @@ export class ProyectosCrudPage implements OnInit {
   }
 
 
-
   private registrarError(httpError: any) {
     this.hayError.set(true);
     const errorData: ErrorBackend = httpError.error;
     this.mensajeError = errorData.detalles;
   }
 
-
-  public buscarProyectos() {
-
-  }
 }

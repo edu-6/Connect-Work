@@ -1,2 +1,14 @@
 <app-header></app-header>
-<p>proyecto-editar-page works!</p>
+
+@if (hayError()) {
+<div class="container mt-4">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error! </strong> {{mensajeError}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+}
+
+@if(encontrado()){
+    <app-proyecto-form [proyectoEnEdicion]="proyecto"></app-proyecto-form>
+}
