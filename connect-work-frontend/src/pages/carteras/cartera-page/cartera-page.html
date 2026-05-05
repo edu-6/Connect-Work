@@ -1,0 +1,17 @@
+<app-header></app-header>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-5">
+
+            @if (!editando()) {
+            <app-cartera-card [saldo]="saldoActual()" (editar)="editando.set(true)">
+            </app-cartera-card>
+            } @else {
+            <app-cartera-form (cerrarFormulario)="onRecargaFinalizada()">
+            </app-cartera-form>
+            }
+
+        </div>
+    </div>
+</div>

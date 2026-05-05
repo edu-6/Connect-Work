@@ -16,6 +16,7 @@ import { ProyectoEditarPage } from '../pages/proyectos/proyecto-editar-page/proy
 import { ProyectoDetallePage } from '../pages/proyectos/proyecto-detalle-page/proyecto-detalle-page';
 import { ProyectosBuscarPage } from '../pages/proyectos/proyectos-buscar-page/proyectos-buscar-page';
 import { ComisionesPage } from '../comisiones/comisiones-page/comisiones-page';
+import { CarteraPage } from '../pages/carteras/cartera-page/cartera-page';
 
 export const routes: Routes = [
     { path: "", component: HomePage },
@@ -42,6 +43,9 @@ export const routes: Routes = [
     { path: "proyectos-buscar-page", component: ProyectosBuscarPage },
 
     { path: "comisiones-page", component: ComisionesPage },
+
+
+    { path: "cartera", component: CarteraPage },
 
 
 

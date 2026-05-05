@@ -1,0 +1,38 @@
+<form [formGroup]="formulario" (submit)="enviar()">
+    <div class="row d-flex justify-content-center">
+        <div class="col-12">
+            @if (hayError()) {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error! </strong> {{mensajeError}}
+                <button type="button" class="btn-close" (click)="hayError.set(false)"></button>
+            </div>
+            }
+
+            <div class="card shadow border-0" style="border-radius: 1rem;">
+                <div class="card-body p-5">
+                    <h3 class="mb-5 text-center">Recargar Saldo</h3>
+
+                    <label class="form-label">Monto a Recargar (Q):</label>
+                    <input type="number" class="form-control" formControlName="saldo"
+                        [class.is-invalid]="formulario.controls['saldo'].invalid && intentoEnviarlo()">
+                    
+                    <div class="invalid-feedback">
+                        Ingrese un monto válido (mínimo 1.00).
+                    </div>
+
+                    <div class="mt-4">
+                        <button class="btn btn-primary w-100 py-3" type="submit">
+                            Confirmar Recarga
+                        </button>
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="button" (click)="cerrarFormularioAction()" class="btn btn-secondary py-3 w-100">
+                            Regresar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

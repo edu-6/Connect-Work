@@ -9,12 +9,15 @@ import com.mycompany.connect.work.api.dtos.comisiones.Comision;
 import com.mycompany.connect.work.api.exceptions.CamposVaciosException;
 import com.mycompany.connect.work.api.exceptions.DBException;
 import com.mycompany.connect.work.api.exceptions.DatosMuyLargosException;
+import com.mycompany.connect.work.api.modelos.CambioComision;
+import java.time.LocalDate;
 
 /**
  *
  * @author edu
  */
 public class ComisionesService extends CrudService {
+
     private final ComisionesDB comisionesDB = new ComisionesDB();
 
     public Comision obtener() throws DBException {
@@ -23,7 +26,12 @@ public class ComisionesService extends CrudService {
 
     public void actualizar(Comision comision) throws CamposVaciosException, DatosMuyLargosException, DBException {
         revisarDatosCorrectos(comision);
+
         comisionesDB.actualizar(comision);
+
+        CambioComision historial = new CambioComision(LocalDate.now(), comision.getPorcentajeComision());
+        
+        comisionesDB.registrarCambio(historial);
     }
-    
+
 }

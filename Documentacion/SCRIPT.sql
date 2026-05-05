@@ -4,7 +4,13 @@ use connectWork;
 
 CREATE TABLE tabla_configuracion(
 	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	porcentaje_comision INTEGER NOT NULLporcentaje_comision
+	porcentaje_comision INTEGER NOT NULL
+);
+
+CREATE TABLE cambio_comision(
+	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	fecha DATE NOT NULL,
+	porcentaje INTEGER NOT NULL
 );
 
 create table rol(
@@ -174,7 +180,7 @@ CREATE TABLE cancelacion_proyecto(
 
 CREATE TABLE estado_propuesta(
 	id INTEGER NOT NULL UNIQUE,
-	nombre VARCHAR(15) NOT NULL PRIMARY KEY,
+	nombre VARCHAR(15) NOT NULL PRIMARY KEY
 );
 
 CREATE TABLE propuesta_proyecto(
@@ -253,4 +259,8 @@ insert into estado_proyecto (nombre,id) values ('ABIERTO',1),('EN REVISION',2),(
 insert into estado_propuesta (nombre, id) values ('ENVIADA',1), ('RECHAZADA',2);
 
 insert into tabla_configuracion (porcentaje_comision) values (50);
+
+insert into usuario_sistema (nombre,nickname,activo,contraseña,id_rol) values ('admin','admin',true,'admin',1);
+
+
 
