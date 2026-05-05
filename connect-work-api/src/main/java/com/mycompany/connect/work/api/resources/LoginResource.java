@@ -5,8 +5,8 @@
 package com.mycompany.connect.work.api.resources;
 
 import com.google.gson.Gson;
-import com.mycompany.connect.work.api.dtos.UsuarioLoginRequest;
-import com.mycompany.connect.work.api.dtos.UsuarioLoginResponse;
+import com.mycompany.connect.work.api.dtos.usuariosLogin.UsuarioLoginRequest;
+import com.mycompany.connect.work.api.dtos.usuariosLogin.UsuarioLoginResponse;
 import com.mycompany.connect.work.api.exceptions.DBException;
 import com.mycompany.connect.work.api.exceptions.NotFoundException;
 import com.mycompany.connect.work.api.servicios.LoginService;

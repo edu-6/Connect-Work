@@ -4,8 +4,8 @@
  */
 package com.mycompany.connect.work.api.db;
 
-import com.mycompany.connect.work.api.dtos.UsuarioLoginRequest;
-import com.mycompany.connect.work.api.dtos.UsuarioLoginResponse;
+import com.mycompany.connect.work.api.dtos.usuariosLogin.UsuarioLoginRequest;
+import com.mycompany.connect.work.api.dtos.usuariosLogin.UsuarioLoginResponse;
 import com.mycompany.connect.work.api.exceptions.DBException;
 import com.mycompany.connect.work.api.interfaces.ExtraerEntidad;
 import java.sql.Connection;

@@ -1,0 +1,41 @@
+<form [formGroup]="formulario" (submit)="enviar()">
+    <div class="row d-flex justify-content-center">
+        <div class="col-12">
+            @if (hayError()) {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error! </strong> {{mensajeError}}
+                <button type="button" class="btn-close" (click)="hayError.set(false)"></button>
+            </div>
+            }
+
+            <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                <div class="card-body p-5">
+                    <h3 class="mb-5 text-center">Editar Comisión</h3>
+
+                    <label class="form-label">Porcentaje de Comisión:</label>
+                    <input type="number" class="form-control" formControlName="porcentajeComision"
+                        [class.is-invalid]="formulario.controls['porcentajeComision'].invalid && intentoEnviarlo()">
+                    
+                    <div class="invalid-feedback">
+                        Ingrese un porcentaje válido (1-100).
+                    </div>
+
+                    <div class="mt-4">
+                        <button class="btn btn-primary w-100 py-3" type="submit" [disabled]="enviando()">
+                            @if(enviando()){
+                                <span class="spinner-border spinner-border-sm me-2"></span>
+                            }
+                            Guardar Cambios
+                        </button>
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="button" (click)="cancelar.emit()" class="btn btn-secondary py-3 w-100">
+                            Regresar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

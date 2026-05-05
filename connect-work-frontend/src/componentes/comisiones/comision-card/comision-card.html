@@ -1,0 +1,20 @@
+<div class="card shadow border-0">
+  <div class="card-header text-center">
+    <div class="fw-semibold fs-5">
+      COMISIÓN GLOBAL
+    </div>
+  </div>
+
+  <div class="card-body text-center">
+    <div class="mb-4">
+      <p class="text-muted">Porcentaje actual:</p>
+      <h2 class="display-4 fw-bold text-primary">{{porcentaje}}%</h2>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <button (click)="editar.emit()" class="btn btn-primary px-5">
+        Editar
+      </button>
+    </div>
+  </div>
+</div>

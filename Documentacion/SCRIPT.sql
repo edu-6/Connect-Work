@@ -4,7 +4,7 @@ use connectWork;
 
 CREATE TABLE tabla_configuracion(
 	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	porcentaje_comision INTEGER NOT NULL
+	porcentaje_comision INTEGER NOT NULLporcentaje_comision
 );
 
 create table rol(
@@ -251,3 +251,6 @@ insert into nivel_experiencia(nombre) values ('Junior'), ('Semi-junior'), ('Seni
 insert into estado_proyecto (nombre,id) values ('ABIERTO',1),('EN REVISION',2),('EN PROGRESO',3),('ENTREGA PENDIENTE',4),('COMPLETADO',5),('CANCELADO',6);
 
 insert into estado_propuesta (nombre, id) values ('ENVIADA',1), ('RECHAZADA',2);
+
+insert into tabla_configuracion (porcentaje_comision) values (50);
+
