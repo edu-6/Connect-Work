@@ -31,7 +31,7 @@ public class BusquedaPropuestasDB implements BusquedaPorID<PropuestaResponse>, E
             + " JOIN usuario_sistema us ON up.nickname = us.nickname";
 
     private static final String BUSQUEDA_POR_ID = BUSQUEDA_BASE + " WHERE p.id = ?";
-    private static final String BUSQUEDA_POR_PROYECTO = BUSQUEDA_BASE + " WHERE p.id_proyecto = ?";
+    private static final String BUSQUEDA_POR_PROYECTO = BUSQUEDA_BASE + " WHERE p.id_proyecto = ? and  p.id_estado = 1";
     private static final String BUSQUEDA_FREELANCER_PROYECTO = BUSQUEDA_BASE + " WHERE p.id_proyecto = ? AND p.cui_freelancer = ?";
     
     

@@ -12,7 +12,6 @@ import com.mycompany.connect.work.api.exceptions.CamposVaciosException;
 import com.mycompany.connect.work.api.exceptions.DBException;
 import com.mycompany.connect.work.api.exceptions.DatosMuyLargosException;
 import com.mycompany.connect.work.api.exceptions.EntidadDuplicadaException;
-import com.mycompany.connect.work.api.modelos.CarteraDigital;
 import com.mycompany.connect.work.api.modelos.usuarios.UsuarioPlataforma;
 
 /**

@@ -39,6 +39,12 @@ export class PropuestasService {
 
 
 
+  public rechazarPropuesta(id: number): Observable<void>{
+    return this.httpCliente.delete<void>(this.constantesRest.getApiURL()+'api/propuestasRechazo/'+ id);
+  }
+
+
+
   public eliminarPropuesta(id: number): Observable<void> {
     return this.httpCliente.delete<void>(this.constantesRest.getApiURL() + 'api/propuestas/' + id);
   }

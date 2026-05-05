@@ -29,7 +29,7 @@ import java.time.LocalDate;
  */
 @WebServlet(name = "PropuestasResource", urlPatterns = {"/api/propuestas/*"})
 public class PropuestasResource extends HttpServlet {
-    
+
     private PropuestasService service = new PropuestasService();
     private EscritorJson escritor = new EscritorJson();
     private Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new ConvertidorFechas()).create();
@@ -37,12 +37,12 @@ public class PropuestasResource extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String ruta = obtenerParametroRuta(req);
-        
-        if(ruta != null  && esNumero(ruta)){
+
+        if (ruta != null && esNumero(ruta)) {
             try {
                 service.eliminar(Integer.valueOf(ruta));
                 resp.setStatus(HttpServletResponse.SC_OK);
-                
+
             } catch (DBException ex) {
                 resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 escritor.escribirError(ex.getMessage(), resp);
@@ -51,13 +51,26 @@ public class PropuestasResource extends HttpServlet {
                 escritor.escribirError(ex.getMessage(), resp);
             }
         }
-        
-        
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String ruta = obtenerParametroRuta(req);
+
+        if (ruta != null && esNumero(ruta)) {
+            try {
+                service.rechazarPropuesta(Integer.valueOf(ruta));
+                resp.setStatus(HttpServletResponse.SC_OK);
+            } catch (DBException ex) {
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                escritor.escribirError(ex.getMessage(), resp);
+            }
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
+
         PropuestaRequest propuesta = gson.fromJson(req.getReader(), PropuestaRequest.class);
         try {
             service.crear(propuesta);
@@ -79,19 +92,18 @@ public class PropuestasResource extends HttpServlet {
             escritor.escribirError(ex.getMessage(), resp);
         }
     }
-    
-    
+
     private String obtenerParametroRuta(HttpServletRequest req) {
         String ruta = req.getPathInfo();
-        
+
         if (ruta == null || ruta.equals("/")) {
             return null;
         } else {
             return ruta.substring(1);
         }
     }
-    
-        private boolean esNumero(String cadena) {
+
+    private boolean esNumero(String cadena) {
         try {
             Integer.valueOf(cadena);
             return true;
@@ -99,7 +111,5 @@ public class PropuestasResource extends HttpServlet {
             return false;
         }
     }
-    
-
 
 }

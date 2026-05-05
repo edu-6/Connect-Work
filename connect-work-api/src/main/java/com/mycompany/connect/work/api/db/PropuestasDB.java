@@ -24,6 +24,8 @@ public class PropuestasDB implements CreacionEntidad< PropuestaRequest>,
     private static final String ELIMINAR = "DELETE FROM propuesta_proyecto WHERE id = ?";
     private static final String CAMBIAR_ESTADO = "UPDATE propuesta_proyecto SET id_estado = ? WHERE id = ?";
     private static final String EXISTE_PROPUESTA = "SELECT id FROM propuesta_proyecto WHERE id_proyecto = ? AND cui_freelancer = ?";
+    private static final String ACTUALIZAR_ESTADO_PROPUESTA
+            = "UPDATE propuesta_proyecto SET id_estado = 2 WHERE id = ?";
 
     @Override
     public void crear(PropuestaRequest p) throws DBException {
@@ -74,6 +76,18 @@ public class PropuestasDB implements CreacionEntidad< PropuestaRequest>,
             }
         } catch (SQLException e) {
             throw new DBException("Error al verificar existencia de propuesta: " + e.getMessage());
+        }
+    }
+    
+    
+    public void marcarPropuestaComoRechazada(int idPropuesta) throws DBException {
+        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(ACTUALIZAR_ESTADO_PROPUESTA)) {
+
+            ps.setInt(1, idPropuesta);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DBException("Error al actualizar estado de la propuesta: " + e.getMessage());
         }
     }
 

@@ -7,9 +7,13 @@
     <p class="text-muted mb-2">Saldo disponible</p>
     <h2 class="display-3 fw-bold text-success">Q{{saldo.toFixed(2)}}</h2>
     <div class="mt-4">
-      <button (click)="editar.emit()" class="btn btn-success px-5 py-2">
+
+      @if(esCliente()){
+              <button (click)="editar.emit()" class="btn btn-success px-5 py-2">
         Recargar Saldo
       </button>
+      }
+
     </div>
   </div>
 </div>

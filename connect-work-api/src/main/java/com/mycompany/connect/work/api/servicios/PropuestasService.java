@@ -79,4 +79,8 @@ public class PropuestasService extends CrudService {
         if(cuiFreelancer == null) throw new CamposVaciosException("erorr, no se recibió el cui freelancer");
     }
     
+    public void rechazarPropuesta(int id) throws DBException{
+        db.marcarPropuestaComoRechazada(id);
+    }
+    
 }
