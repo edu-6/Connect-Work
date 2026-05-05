@@ -4,11 +4,13 @@
  */
 package com.mycompany.connect.work.api.dtos.propuestas;
 
+import com.mycompany.connect.work.api.modelos.Entidad;
+
 /**
  *
  * @author edu
  */
-public class PropuestaRequest {
+public class PropuestaRequest extends Entidad {
     
     private String cuiFreelancer;
     private int idProyecto;
@@ -34,6 +36,21 @@ public class PropuestaRequest {
 
     public int getPlazoEntrega() {
         return plazoEntrega;
+    }
+
+    @Override
+    public boolean datosCompletos() {
+        return cuiFreelancer != null && !cuiFreelancer.isBlank() &&
+               idProyecto > 0 &&
+               cartaPresentacion != null && !cartaPresentacion.isBlank() &&
+               presupuestoOfertado > 0 &&
+               plazoEntrega > 0;
+    }
+
+    @Override
+    public boolean datosTamañoCorrecto() {
+        return  
+               cartaPresentacion.length() <= 500;
     }
     
     

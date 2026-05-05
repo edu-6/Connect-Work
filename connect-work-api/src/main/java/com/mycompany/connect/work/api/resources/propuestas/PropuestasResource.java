@@ -2,12 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.mycompany.connect.work.api.resources;
+package com.mycompany.connect.work.api.resources.propuestas;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mycompany.connect.work.api.dtos.propuestas.PropuestaRequest;
+import com.mycompany.connect.work.api.exceptions.CamposVaciosException;
 import com.mycompany.connect.work.api.exceptions.DBException;
+import com.mycompany.connect.work.api.exceptions.DatosMuyLargosException;
 import com.mycompany.connect.work.api.exceptions.EntidadDuplicadaException;
 import com.mycompany.connect.work.api.exceptions.ErrorDeLogicaException;
 import com.mycompany.connect.work.api.servicios.PropuestasService;
@@ -25,7 +27,7 @@ import java.time.LocalDate;
  *
  * @author edu
  */
-@WebServlet(name = "PropuestasResource", urlPatterns = {"/api/prouestas"})
+@WebServlet(name = "PropuestasResource", urlPatterns = {"/api/propuestas/*"})
 public class PropuestasResource extends HttpServlet {
     
     private PropuestasService service = new PropuestasService();
@@ -43,6 +45,9 @@ public class PropuestasResource extends HttpServlet {
                 
             } catch (DBException ex) {
                 resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                escritor.escribirError(ex.getMessage(), resp);
+            } catch (ErrorDeLogicaException ex) {
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 escritor.escribirError(ex.getMessage(), resp);
             }
         }
@@ -65,6 +70,12 @@ public class PropuestasResource extends HttpServlet {
             escritor.escribirError(ex.getMessage(), resp);
         } catch (EntidadDuplicadaException ex) {
             resp.setStatus(HttpServletResponse.SC_CONFLICT);
+            escritor.escribirError(ex.getMessage(), resp);
+        } catch (CamposVaciosException ex) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            escritor.escribirError(ex.getMessage(), resp);
+        } catch (DatosMuyLargosException ex) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             escritor.escribirError(ex.getMessage(), resp);
         }
     }

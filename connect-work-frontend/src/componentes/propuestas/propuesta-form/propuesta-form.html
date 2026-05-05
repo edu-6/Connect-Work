@@ -1,0 +1,50 @@
+<form [formGroup]="formulario" (submit)="enviar()">
+    <div class="card shadow w-20 ">
+        <div class="card-body p-4">
+            <h4 class="mb-4 text-center">Enviar Propuesta de Trabajo</h4>
+
+            @if (hayError()) {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> {{mensajeError}}
+                <button type="button" class="btn-close" (click)="hayError.set(false)"></button>
+            </div>
+            }
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Carta de Presentación:</label>
+                <textarea class="form-control" formControlName="cartaPresentacion" rows="4"
+                    placeholder="Agrega la descripcion de implementacion..."
+                    [class.is-invalid]="formulario.controls['cartaPresentacion'].invalid && intentoEnviarlo()"></textarea>
+                <div class="invalid-feedback">La carta de presentación es necesaria.</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Presupuesto Ofertado ($):</label>
+                    <input type="number" class="form-control" formControlName="presupuestoOfertado"
+                        [class.is-invalid]="formulario.controls['presupuestoOfertado'].invalid && intentoEnviarlo()">
+                    <div class="invalid-feedback">Ingrese un monto válido.</div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Plazo de Entrega (Días):</label>
+                    <input type="number" class="form-control" formControlName="plazoEntrega"
+                        [class.is-invalid]="formulario.controls['plazoEntrega'].invalid && intentoEnviarlo()">
+                    <div class="invalid-feedback">Indique el tiempo de entrega.</div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button class="btn btn-success w-100 py-2 fw-bold" type="submit">
+                    <i class="bi  me-2"></i> Enviar Propuesta
+                </button>
+            </div>
+
+            <div class="mt-4">
+                <button class="btn btn-primary w-100 py-2 fw-bold" type="button" (click)="cerrarFormularioAction()">
+                    <i class="bi  me-2"></i> Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

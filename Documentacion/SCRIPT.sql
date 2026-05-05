@@ -173,8 +173,8 @@ CREATE TABLE cancelacion_proyecto(
 
 
 CREATE TABLE estado_propuesta(
-	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	nombre VARCHAR(15) NOT NULL
+	id INTEGER NOT NULL UNIQUE,
+	nombre VARCHAR(15) NOT NULL PRIMARY KEY,
 );
 
 CREATE TABLE propuesta_proyecto(
@@ -249,3 +249,5 @@ insert into rol (nombre) values ('Admin'),('Freelancer'),('Cliente');
 insert into nivel_experiencia(nombre) values ('Junior'), ('Semi-junior'), ('Senior');
 
 insert into estado_proyecto (nombre,id) values ('ABIERTO',1),('EN REVISION',2),('EN PROGRESO',3),('ENTREGA PENDIENTE',4),('COMPLETADO',5),('CANCELADO',6);
+
+insert into estado_propuesta (nombre, id) values ('ENVIADA',1), ('RECHAZADA',2);

@@ -17,13 +17,22 @@ public class PropuestaResponse {
     private int plazoEntrega;
     private LocalDate  fechaCreacion;
     private String estado;
+    private String nombreFreelancer;
+    private String cuiFreelancer;
+    private int id;
 
-    public PropuestaResponse(String cartaPresentacion, double presupuestoOfertado, int plazoEntrega, LocalDate fechaCreacion, String estado) {
+    public PropuestaResponse(String cartaPresentacion, double presupuestoOfertado,
+            int plazoEntrega, LocalDate fechaCreacion,
+            String estado, String nombreFreelancer, String cuiFreelancer,
+            int id) {
         this.cartaPresentacion = cartaPresentacion;
         this.presupuestoOfertado = presupuestoOfertado;
         this.plazoEntrega = plazoEntrega;
         this.fechaCreacion = fechaCreacion;
         this.estado = estado;
+        this.cuiFreelancer = cuiFreelancer;
+        this.nombreFreelancer = nombreFreelancer;
+        this.id = id;
     }
 
     public String getCartaPresentacion() {

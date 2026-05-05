@@ -1,0 +1,61 @@
+<div class="card shadow-sm h-100 border-start border-4">
+
+    @if (hayError()) {
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error! </strong> {{mensajeError}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    }
+
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+                <h6 class="text-muted mb-1">Presupuesto Ofertado</h6>
+                <span class="fs-4 fw-bold text-dark">${{propuesta.presupuestoOfertado}}</span>
+            </div>
+            <span class="badge" [class.bg-info]="propuesta.estado === 'ENVIADA'"
+                [class.bg-success]="propuesta.estado === 'RECHAZADA'">
+                {{propuesta.estado}}
+
+                
+            </span>
+        </div>
+
+        <div class="mb-3">
+
+            <i class="bi bi-person"> {{propuesta.nombreFreelancer}}</i>
+            <p class="text-secondary small mb-2">
+                <i class="bi bi-clock-history"></i> Tiempo estimado: <strong>{{propuesta.plazoEntrega}} días</strong>
+            </p>
+            <p class="text-secondary small">
+                <i class="bi bi-calendar-event"></i> Enviada: {{propuesta.fechaCreacion}}
+            </p>
+        </div>
+
+        <div class="bg-light p-3 rounded mb-3">
+            <p class="card-text small text-dark mb-0" style="white-space: pre-wrap;">
+                "{{propuesta.cartaPresentacion}}"
+            </p>
+        </div>
+
+
+        @if(esCliente()){
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-primary btn-sm flex-grow-1">
+                <i class="bi bi-check2-circle"></i> Aceptar
+            </button>
+            <button class="btn btn-outline-danger btn-sm">
+                <i class="bi bi-x-lg"></i> Rechazar
+            </button>
+        </div>
+        }@else {
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-danger btn-sm flex-grow-1" (click)="eliminarPropuesta()">
+                <i class="bi bi-x-lg"></i> Eliminar
+            </button>
+        </div>
+        }
+
+
+    </div>
+</div>
