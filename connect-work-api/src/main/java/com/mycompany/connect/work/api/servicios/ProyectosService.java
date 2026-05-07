@@ -66,6 +66,11 @@ public class ProyectosService extends CrudService {
     }
     
     
+    public int buscarEstadoProyecto(int idProyecto) throws DBException{
+        return db.buscarEstadoProyecto(idProyecto);
+    }
+    
+    
     private void cancelarProyecto(int id){
         
     }

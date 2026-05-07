@@ -13,10 +13,13 @@ import { PropuestaResponse } from '../../../modelos/propuestas/propuestasRespons
 import { TipoBusquedaPropuesta } from '../../../modelos/enumTipoBusquedaPropuesta';
 import { CommonModule } from '@angular/common';
 import { BusquedaPropuesta } from '../../../modelos/propuestas/busquedaPropuesta';
+import { ContratosService } from '../../../servicios/contratosService';
+import { ContratoResponse } from '../../../modelos/contratos/contratoResponse';
+import { ContratoCard } from "../../../componentes/contratos/contrato-card/contrato-card";
 
 @Component({
   selector: 'app-proyecto-detalle-page',
-  imports: [Header, ProyectoCard, PropuestaForm, PropuestaCard, CommonModule],
+  imports: [Header, ProyectoCard, PropuestaForm, PropuestaCard, CommonModule, ContratoCard],
   templateUrl: './proyecto-detalle-page.html',
   styleUrl: './proyecto-detalle-page.css',
 })
@@ -29,17 +32,31 @@ export class ProyectoDetallePage implements OnInit {
   mensajeError !: string;
   encontrado = signal<boolean>(false);
 
+  tieneContrato = signal<boolean>(false);
+
   mostrarFormulario = signal<boolean>(false);
 
   // Propuestas
   propuestaFreelancer = signal<PropuestaResponse | null>(null);
-  propuestasProyecto = signal<PropuestaResponse[]| null>(null);
+  propuestasProyecto = signal<PropuestaResponse[] | null>(null);
+
+
+  // estados del poryecto
+  abierto = signal<boolean>(false);
+  enProgreso = signal<boolean>(false);
+  entregaPendiente = signal<boolean>(false);
+  compeltado = signal<boolean>(false);
+  cancelado = signal<boolean>(false);
+
+
+  contrato = signal<ContratoResponse | null>(null);
 
   constructor(
     private proyectosService: ProyectosService,
     private propuestasService: PropuestasService,
     private authServicio: AutenticacionServicio,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private contratosService: ContratosService
   ) { }
 
   ngOnInit(): void {
@@ -47,14 +64,11 @@ export class ProyectoDetallePage implements OnInit {
     this.buscarProyecto();
   }
 
-  private buscarProyecto() {
+  public buscarProyecto() {
     this.proyectosService.buscarResponsePorId(this.idProyecto).subscribe({
       next: (resp: ProyectoResponse) => {
         this.proyecto = resp;
-        if (resp != null) {
-          this.encontrado.set(true);
-          this.cargarPropuestas();
-        }
+        this.encontrado.set(true);
       },
       error: (error: any) => {
         this.registrarError(error);
@@ -62,59 +76,97 @@ export class ProyectoDetallePage implements OnInit {
     });
   }
 
+  public definirEstadoProyecto(estado: string) {
+    switch (estado) {
+      case "ABIERTO":
+        this.abierto.set(true);
+        break;
+      case "EN PROGRESO":
+        this.enProgreso.set(true);
+        break;
+      case "ENTREGA PENDIENTE":
+        this.entregaPendiente.set(true);
+        break;
+      case "COMPLETADO":
+        this.compeltado.set(true);
+        break;
+      case "CANCELADO":
+        this.cancelado.set(true);
+        break;
+    }
+  }
+
+
+
   public cargarPropuestas() {
 
-    if (this.authServicio.esFreelancer()) {
-      const busqueda: BusquedaPropuesta = {
-        idProyecto: this.idProyecto,
-        cuiFreelancer: localStorage.getItem('cui') || undefined,
-        idTipoBusqueda: TipoBusquedaPropuesta.DE_FREELANCER_EN_PROYECTO
-      }
-      this.buscarPropuestas(busqueda);
-    } else if (this.authServicio.esCliente()) {
-      const busqueda: BusquedaPropuesta = {
-        idProyecto: this.idProyecto,
-        idTipoBusqueda: TipoBusquedaPropuesta.EN_PROYECTO
-      }
-      this.buscarPropuestas(busqueda);
+  if (this.authServicio.esFreelancer()) {
+    const busqueda: BusquedaPropuesta = {
+      idProyecto: this.idProyecto,
+      cuiFreelancer: localStorage.getItem('cui') || undefined,
+      idTipoBusqueda: TipoBusquedaPropuesta.DE_FREELANCER_EN_PROYECTO
     }
+    this.buscarPropuestas(busqueda);
+  } else if (this.authServicio.esCliente()) {
+    const busqueda: BusquedaPropuesta = {
+      idProyecto: this.idProyecto,
+      idTipoBusqueda: TipoBusquedaPropuesta.EN_PROYECTO
+    }
+    this.buscarPropuestas(busqueda);
   }
+}
 
   private buscarPropuestas(busqueda: BusquedaPropuesta) {
-    this.propuestasService.buscarPropuestas(busqueda).subscribe({
-      next: (resp) => {
-        if (Array.isArray(resp)) {
-          this.propuestasProyecto.set(resp);
-        } else {
-          this.propuestaFreelancer.set(resp);
-        }
-      },
-      error: (httpErrro: any) => {
-        this.registrarError(httpErrro);
+  this.propuestasService.buscarPropuestas(busqueda).subscribe({
+    next: (resp) => {
+      if (Array.isArray(resp)) {
+        this.propuestasProyecto.set(resp);
+      } else {
+        this.propuestaFreelancer.set(resp);
       }
-    });
-  }
+    },
+    error: (httpErrro: any) => {
+      this.registrarError(httpErrro);
+    }
+  });
+}
+
+
+
+
+
+  public cargarContrato() {
+  this.contratosService.buscarContratoDeProyecto(this.proyecto.id).subscribe({
+    next: (resp: ContratoResponse) => {
+      this.tieneContrato.set(true);
+      this.contrato.set(resp);
+    },
+    error: (error: any) => {
+      this.registrarError(error);
+    }
+  });
+}
 
   private registrarError(httpError: any) {
-    this.hayError.set(true);
-    const errorData: ErrorBackend = httpError.error;
-    this.mensajeError = errorData.detalles;
-  }
+  this.hayError.set(true);
+  const errorData: ErrorBackend = httpError.error;
+  this.mensajeError = errorData.detalles;
+}
 
   public activarFormulario() {
-    this.mostrarFormulario.set(true);
-  }
+  this.mostrarFormulario.set(true);
+}
 
   public cerrarFormularioActcion() {
-    this.mostrarFormulario.set(false);
-    if (this.authServicio.esFreelancer()) {
-      this.cargarPropuestas();
-    }
+  this.mostrarFormulario.set(false);
+  if (this.authServicio.esFreelancer()) {
+    this.cargarPropuestas();
   }
+}
 
-  public esCliente(){
-    return this.authServicio.esCliente();
-  }
+  public esCliente() {
+  return this.authServicio.esCliente();
+}
 
 
 }

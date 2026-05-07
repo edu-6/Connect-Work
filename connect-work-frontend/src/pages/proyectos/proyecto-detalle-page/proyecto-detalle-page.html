@@ -66,6 +66,10 @@
             </div>
             }
 
+            @if(tieneContrato()){
+                <app-contrato-card [contrato]="contrato()!"></app-contrato-card>
+            }
+
 
             @if(propuestasProyecto()){
             <div class="mt-4">
@@ -78,7 +82,7 @@
                 <div class="row row-cols-1 row-cols-md-2 g-3">
                     @for(propuesta of propuestasProyecto(); track propuesta){
                     <div class="col">
-                        <app-propuesta-card [propuesta]="propuesta" (recargarPaginaAction)="cargarPropuestas()"></app-propuesta-card>
+                        <app-propuesta-card [propuesta]="propuesta" (contratoCreadoAction)="buscarProyecto()"></app-propuesta-card>
                     </div>
                     }
                 </div>
@@ -92,9 +96,6 @@
             }
 
 
-            
-
-            
 
         </div>
     </div>

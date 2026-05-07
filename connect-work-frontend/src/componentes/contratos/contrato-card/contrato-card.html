@@ -1,0 +1,44 @@
+
+@if(contrato){
+
+<div class="card shadow-sm  border-start border-4 border-primary">
+
+    @if (hayError()) {
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error! </strong> {{mensajeError}}
+        <button type="button" class="btn-close" (click)="hayError.set(false)"></button>
+    </div>
+    }
+
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+                <h6 class="text-muted mb-1">Monto del Contrato</h6>
+                <span class="fs-4 fw-bold text-dark">Q{{contrato.monto}}</span>
+            </div>
+            <span class="badge bg-primary">VIGENTE</span>
+        </div>
+
+        <div class="mb-4">
+            <div class="mb-3">
+                <i class="bi bi-person-check text-primary"></i> 
+                <span class="ms-2 fw-semibold">{{contrato.nombreFreelancer}}</span>
+                <small class="text-muted d-block ms-4">Freelancer asignado</small>
+            </div>
+
+            <p class="text-secondary small mb-0">
+                <i class="bi bi-calendar-check"></i> Fecha de Entrega: 
+                <strong class="text-dark">{{contrato.fechaEntrega}}</strong>
+            </p>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-danger btn-sm flex-grow-1" (click)="cancelarContrato()">
+                <i class="bi bi-trash3"></i> Cancelar Contrato
+            </button>
+        </div>
+
+    </div>
+</div>
+
+}

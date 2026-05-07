@@ -52,5 +52,11 @@ public class CarteraDigitalService extends CrudService {
             throw new CamposVaciosException("El saldo no puede ser negativo");
         }
     }
+    
+    
+    public void restarSaldo(String cuiCliente, double cantidad) throws DBException{
+        carteraDB.restarSaldo(cuiCliente, cantidad);
+    }
+    
 
 }

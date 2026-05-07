@@ -202,9 +202,9 @@ CREATE TABLE contrato(
 	fecha_entrega DATE NOT NULL,
 	porcentaje_comision INTEGER NOT NULL,
 	fecha_generacion DATE NOT NULL,
-	id_proyecto INTEGER NOT NULL,
+	id_propuesta INTEGER NOT NULL,
 	cui_freelancer VARCHAR(50) NOT NULL,
-	CONSTRAINT fk_id_proyecto_contrato FOREIGN KEY (id_proyecto) REFERENCES proyecto(id) ON DELETE CASCADE,
+	CONSTRAINT fk_id_proyecto_contrato FOREIGN KEY (id_propuesta) REFERENCES propuesta_proyecto(id) ON DELETE CASCADE,
 	CONSTRAINT fk_cui_contrato FOREIGN KEY (cui_freelancer) REFERENCES usuario_plataforma(cui) ON DELETE CASCADE
 );
 

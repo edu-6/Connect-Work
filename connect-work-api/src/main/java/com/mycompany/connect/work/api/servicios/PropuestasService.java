@@ -80,7 +80,15 @@ public class PropuestasService extends CrudService {
     }
     
     public void rechazarPropuesta(int id) throws DBException{
+        
         db.marcarPropuestaComoRechazada(id);
+    }
+    
+    
+    
+    public PropuestaRequest obtenerPropuestaRequestById(int id) throws DBException{
+        
+        return db.buscarPorId(id);
     }
     
 }

@@ -18,6 +18,17 @@ public class PropuestaRequest extends Entidad {
     private double presupuestoOfertado;
     private int plazoEntrega;
 
+    public PropuestaRequest(String cuiFreelancer, int idProyecto, String cartaPresentacion, double presupuestoOfertado, int plazoEntrega) {
+        this.cuiFreelancer = cuiFreelancer;
+        this.idProyecto = idProyecto;
+        this.cartaPresentacion = cartaPresentacion;
+        this.presupuestoOfertado = presupuestoOfertado;
+        this.plazoEntrega = plazoEntrega;
+    }
+    
+    
+    
+
     public String getCuiFreelancer() {
         return cuiFreelancer;
     }
@@ -52,6 +63,29 @@ public class PropuestaRequest extends Entidad {
         return  
                cartaPresentacion.length() <= 500;
     }
+
+    public void setCuiFreelancer(String cuiFreelancer) {
+        this.cuiFreelancer = cuiFreelancer;
+    }
+
+    public void setIdProyecto(int idProyecto) {
+        this.idProyecto = idProyecto;
+    }
+
+    public void setCartaPresentacion(String cartaPresentacion) {
+        this.cartaPresentacion = cartaPresentacion;
+    }
+
+    public void setPresupuestoOfertado(double presupuestoOfertado) {
+        this.presupuestoOfertado = presupuestoOfertado;
+    }
+
+    public void setPlazoEntrega(int plazoEntrega) {
+        this.plazoEntrega = plazoEntrega;
+    }
+    
+    
+    
     
     
      

@@ -39,6 +39,11 @@ public class ProyectosDB implements CreacionReturnId<ProyectoRequest>,
     private static final String BUSCAR_PROYECTO_REPETIDO = "select id from proyecto where titulo = ? and cui_cliente = ?";
 
     private static final String BUSCAR_POR_ID = "SELECT * FROM proyecto WHERE id = ?";
+    
+    
+    private static final String BUSCAR_ESTADO_PROYECTO = "select id_estado from proyecto where id = ?";
+    
+    private static final String CAMBIAR_ESTADO_PROYECTO = "update proyecto set id_estado = ? where id = ?";
 
     @Override
     public int crear(ProyectoRequest entidad) throws DBException {
@@ -120,6 +125,35 @@ public class ProyectosDB implements CreacionReturnId<ProyectoRequest>,
             throw new DBException("Error al buscar proyecto por ID: " + e.getMessage());
         }
         return null;
+    }
+    
+    
+    public int buscarEstadoProyecto(int idProyecto) throws DBException {
+        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(BUSCAR_ESTADO_PROYECTO)) {
+            ps.setInt(1, idProyecto);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("id_estado");
+                }
+            }
+        } catch (SQLException | NumberFormatException e) {
+            throw new DBException("Error al buscar proyecto por ID: " + e.getMessage());
+        }
+        return -1;
+    }
+    
+    public void cambiarEstadoProyecto(int idProyecto, int idEstado) throws DBException{
+        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(CAMBIAR_ESTADO_PROYECTO)) {
+            ps.setInt(1, idEstado);
+            ps.setInt(2, idProyecto);
+            ps.executeUpdate();
+            
+        } catch (SQLException | NumberFormatException e) {
+            throw new DBException("Error al cambiar estado de proyecto: " + e.getMessage());
+        }
+        
+        
     }
 
     @Override

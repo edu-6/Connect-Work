@@ -5,6 +5,8 @@ import { PropuestasService } from '../../../servicios/propuestasService';
 import { producerUpdateValueVersion } from '@angular/core/primitives/signals';
 import { ErrorBackend } from '../../../modelos/ErrorBackend';
 import { RechazoPropuestaForm } from "../../rechazoEntrega/rechazo-propuesta-form/rechazo-entrega-form";
+import { ContratosService } from '../../../servicios/contratosService';
+import { ContratoRequest } from '../../../modelos/contratos/contratoRequest';
 
 @Component({
   selector: 'app-propuesta-card',
@@ -14,60 +16,85 @@ import { RechazoPropuestaForm } from "../../rechazoEntrega/rechazo-propuesta-for
 })
 export class PropuestaCard {
   constructor(private autenticacionService: AutenticacionServicio,
-    private propuestasServiec: PropuestasService
-  ){
+    private propuestasServiec: PropuestasService,
+    private contratosService: ContratosService,
+  ) {
 
   }
 
-  
+
   hayError = signal(false);
   mostrarFormularioRechazo = signal(false);
-  mensajeError !:string;
-  @Input({ required: true }) propuesta!: PropuestaResponse;
+  mensajeError !: string;
+  @Input({ required: true })
+
+  propuesta!: PropuestaResponse;
 
 
   @Output()
   recargarPaginaAction = new EventEmitter<void>();
 
+  @Output()
+  contratoCreadoAction = new EventEmitter<void>();
 
-  public esFreelancer(){
+
+  public esFreelancer() {
     return this.autenticacionService.esFreelancer();
   }
 
-  public esCliente(){
+  public esCliente() {
     return this.autenticacionService.esCliente();
   }
 
 
-  public eliminarPropuesta(){
+  public eliminarPropuesta() {
     this.propuestasServiec.eliminarPropuesta(this.propuesta.id).subscribe({
-      next: () =>{
+      next: () => {
         this.recargarPaginaAction.emit();
       },
-      error: (http: any)=>{
+      error: (http: any) => {
         this.registrarError(http);
       }
     });
   }
 
   private registrarError(httpError: any) {
-      this.hayError.set(true);
-      const errorData: ErrorBackend = httpError.error;
-      this.mensajeError = errorData.detalles;
+    this.hayError.set(true);
+    const errorData: ErrorBackend = httpError.error;
+    this.mensajeError = errorData.detalles;
   }
-  public recargarPropuestas(){
+  public recargarPropuestas() {
     this.recargarPaginaAction.emit();
   }
 
 
-  public rechazarPropuesta(){
+  public rechazarPropuesta() {
     this.propuestasServiec.rechazarPropuesta(this.propuesta.id).subscribe({
-     next: () =>{
+      next: () => {
         this.recargarPaginaAction.emit();
       },
-      error: (http: any)=>{
+      error: (http: any) => {
         this.registrarError(http);
       }
+    });
+  }
+
+
+  public aceptarPropuesta() {
+    let idPropuesta = this.propuesta.id;
+
+    const req: ContratoRequest = {
+      idPropuesta
+    };
+
+    this.contratosService.crear(req).subscribe({
+      next:()=>{
+        this.contratoCreadoAction.emit();
+      },
+      error:(error: any)=>{
+        this.registrarError(error);
+      }
+
     });
   }
 }

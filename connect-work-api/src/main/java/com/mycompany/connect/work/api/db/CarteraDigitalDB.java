@@ -23,6 +23,8 @@ public class CarteraDigitalDB implements ExtraerEntidad<CarteraDigital> {
     private static final String OBTENER_CARTERA = "SELECT * FROM cartera_virtual WHERE cui_cliente = ?";
     private static final String ACTUALIZAR_SALDO = "UPDATE cartera_virtual SET saldo = saldo + ? WHERE cui_cliente = ?";
     private static final String REGISTRAR_RECARGO = "INSERT INTO recargo_tarjeta (cui_cliente, monto, fecha) VALUES (?, ?, ?)";
+    
+    private static final String RESTAR_SALDO = "UPDATE cartera_virtual SET saldo = saldo - ? WHERE cui_cliente = ?";
 
     
     public void crearCartera(String cuiCliente) throws DBException {
@@ -32,6 +34,17 @@ public class CarteraDigitalDB implements ExtraerEntidad<CarteraDigital> {
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new DBException("Error al crear cartera virtual: " + e.getMessage());
+        }
+    }
+    
+    
+    public void restarSaldo(String cuiCliente, double cantidad) throws DBException{
+        try(Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(RESTAR_SALDO)) {
+            ps.setDouble(1, cantidad);
+            ps.setString(2, cuiCliente);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+          throw new DBException("Error al descontar saldo : " + e.getMessage());
         }
     }
 

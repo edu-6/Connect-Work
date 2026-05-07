@@ -41,7 +41,7 @@
 
         @if(esCliente()){
         <div class="d-flex gap-2">
-            <button class="btn btn-outline-primary btn-sm flex-grow-1">
+            <button class="btn btn-outline-primary btn-sm flex-grow-1" (click)="aceptarPropuesta()">
                 <i class="bi bi-check2-circle"></i> Aceptar
             </button>
             <button class="btn btn-outline-danger btn-sm" (click)="rechazarPropuesta()">
