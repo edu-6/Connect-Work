@@ -106,7 +106,7 @@ public class ProyectosDB implements CreacionReturnId<ProyectoRequest>,
                 }
             }
         } catch (SQLException e) {
-            throw new DBException("Error al editar el proyecto: " + e.getMessage());
+            throw new DBException("Error buscar proyecto repetido: " + e.getMessage());
         }
         return -1;
     }

@@ -41,7 +41,8 @@ public class ProyectosService extends CrudService {
         this.revisarLogica(proyecto);
         
         int idDuplicado = db.existeProyectoRepetido(proyecto.getCuiCliente(), proyecto.getNombre());
-        if(idDuplicado != proyecto.getId()){
+        
+        if(idDuplicado>0 &&  proyecto.getId() != idDuplicado){
             throw new EntidadDuplicadaException("ya tienes un proyecto con nombre "+proyecto.getNombre());
         }
         

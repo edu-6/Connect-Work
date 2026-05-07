@@ -220,8 +220,8 @@ CREATE TABLE pago_proyecto(
 );
 
 CREATE TABLE estado_entrega(
-	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	nombre VARCHAR(15) NOT NULL
+	id INTEGER NOT NULL UNIQUE,
+	nombre VARCHAR(15) NOT NULL PRIMARY KEY
 );
 
 CREATE TABLE entrega(
@@ -245,7 +245,7 @@ CREATE TABLE rechazo_entrega(
 CREATE TABLE archivo_entrega(
 	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	id_entrega INTEGER NOT NULL,
-	archivo BLOB NOT NULL,
+	archivo VARCHAR(500) NOT NULL,
 	CONSTRAINT fk_id_entrega_archivo FOREIGN KEY (id_entrega) REFERENCES entrega(id) ON DELETE CASCADE
 );
 
@@ -261,6 +261,8 @@ insert into estado_propuesta (nombre, id) values ('ENVIADA',1), ('RECHAZADA',2);
 insert into tabla_configuracion (porcentaje_comision) values (50);
 
 insert into usuario_sistema (nombre,nickname,activo,contraseña,id_rol) values ('admin','admin',true,'admin',1);
+
+insert into estado_entrega (nombre,id) values ('ENVIADA',1), ('RECHAZADA',2);
 
 
 

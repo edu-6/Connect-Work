@@ -32,7 +32,9 @@ export class ProyectoDetallePage implements OnInit {
   mensajeError !: string;
   encontrado = signal<boolean>(false);
 
-  tieneContrato = signal<boolean>(false);
+
+
+  puedeEliminar = signal<boolean>(false);
 
   mostrarFormulario = signal<boolean>(false);
 
@@ -62,6 +64,8 @@ export class ProyectoDetallePage implements OnInit {
   ngOnInit(): void {
     this.idProyecto = this.router.snapshot.params['id'];
     this.buscarProyecto();
+
+    this.puedeEliminar.set(this.authServicio.esCliente());
   }
 
   public buscarProyecto() {
@@ -69,6 +73,7 @@ export class ProyectoDetallePage implements OnInit {
       next: (resp: ProyectoResponse) => {
         this.proyecto = resp;
         this.encontrado.set(true);
+        this.definirEstadoProyecto(resp.estado);
       },
       error: (error: any) => {
         this.registrarError(error);
@@ -77,11 +82,20 @@ export class ProyectoDetallePage implements OnInit {
   }
 
   public definirEstadoProyecto(estado: string) {
+
+    this.abierto.set(false);
+    this.enProgreso.set(false);
+    this.entregaPendiente.set(false);
+    this.compeltado.set(false);
+    this.cancelado.set(false);
+    
     switch (estado) {
       case "ABIERTO":
+        this.cargarPropuestas();
         this.abierto.set(true);
         break;
       case "EN PROGRESO":
+        this.cargarContrato();
         this.enProgreso.set(true);
         break;
       case "ENTREGA PENDIENTE":
@@ -138,8 +152,9 @@ export class ProyectoDetallePage implements OnInit {
   public cargarContrato() {
   this.contratosService.buscarContratoDeProyecto(this.proyecto.id).subscribe({
     next: (resp: ContratoResponse) => {
-      this.tieneContrato.set(true);
       this.contrato.set(resp);
+      this.abierto.set(false);
+
     },
     error: (error: any) => {
       this.registrarError(error);

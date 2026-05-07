@@ -45,7 +45,7 @@ public class ProyectosBusquedaDB implements ExtraerEntidad<ProyectoResponse> {
 
     private static final String FILTRO_CATEGORIA = " where p.id_categoria = ? " + PROYECTO_ABIERTO;
 
-    private static final String FILTRO_CONTRATO = " JOIN contrato c ON c.id_proyecto = p.id where p.id_estado = 3 AND p.cui_freelancer = ? ";
+    private static final String FILTRO_CONTRATO = " JOIN contrato con ON con.cui_freelancer = ? and p.id_estado = 3";
 
     private static final String BUSQUEDA_POR_ID = BUSQUEDA_SIMPLE + " WHERE p.id = ?";
 

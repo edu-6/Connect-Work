@@ -32,12 +32,15 @@
             </p>
         </div>
 
+
+        @if(puedeEliminar){
         <div class="d-flex gap-2">
             <button class="btn btn-outline-danger btn-sm flex-grow-1" (click)="cancelarContrato()">
                 <i class="bi bi-trash3"></i> Cancelar Contrato
             </button>
         </div>
-
+        }
+        
     </div>
 </div>
 

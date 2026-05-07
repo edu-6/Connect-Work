@@ -17,6 +17,7 @@ import { ProyectoDetallePage } from '../pages/proyectos/proyecto-detalle-page/pr
 import { ProyectosBuscarPage } from '../pages/proyectos/proyectos-buscar-page/proyectos-buscar-page';
 import { ComisionesPage } from '../comisiones/comisiones-page/comisiones-page';
 import { CarteraPage } from '../pages/carteras/cartera-page/cartera-page';
+import { ProyectosDelFreelancerPage } from '../pages/proyectos/proyectos-del-freelancer-page/proyectos-del-freelancer-page';
 
 export const routes: Routes = [
     { path: "", component: HomePage },
@@ -41,6 +42,7 @@ export const routes: Routes = [
     { path: "proyectos-editar-page/:id", component: ProyectoEditarPage },
     { path: "proyectos-detalle-page/:id", component: ProyectoDetallePage },
     { path: "proyectos-buscar-page", component: ProyectosBuscarPage },
+    { path: "proyectos-activos-freelancer", component: ProyectosDelFreelancerPage },
 
     { path: "comisiones-page", component: ComisionesPage },
 

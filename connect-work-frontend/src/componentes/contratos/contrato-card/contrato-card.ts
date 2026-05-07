@@ -12,6 +12,7 @@ import { ContratosService } from '../../../servicios/contratosService';
 export class ContratoCard {
 
   @Input({ required: true }) contrato!: ContratoResponse;
+  @Input({ required: true }) puedeEliminar!: boolean;
   @Output() contratoCanceladoAction = new EventEmitter<void>();
 
   hayError = signal(false);

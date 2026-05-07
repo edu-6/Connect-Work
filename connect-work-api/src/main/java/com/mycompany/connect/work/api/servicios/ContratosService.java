@@ -50,7 +50,7 @@ public class ContratosService {
         }
         
         
-        carterasService.restarSaldo(propuesta.getCuiFreelancer(), costoDelProyecto);
+        carterasService.restarSaldo(proyecto.getCuiCliente(), costoDelProyecto);
         
         proyectosDB.cambiarEstadoProyecto(propuesta.getIdProyecto(),EstadosProyecto.EN_PROGRESO.getId());
         
