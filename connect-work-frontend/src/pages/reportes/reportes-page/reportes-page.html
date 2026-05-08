@@ -78,6 +78,10 @@
     <app-top-categorias-actividad-component [datos]="reporteTopCategoriasAdmin()"></app-top-categorias-actividad-component>
 }
 
+@if(reporteActivo("ADMIN_TOTAL_INGRESOS_PLATAFORMA") && reporteIngresos()) {
+    <app-total-ingresos-component [datos]="reporteIngresos()"></app-total-ingresos-component>
+}
+
 
 
 

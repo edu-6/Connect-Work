@@ -20,6 +20,7 @@ import { ReportePropuestaEnviada } from "../modelos/reportes/reportePropuestaEnv
 import { ReporteHistorialComision } from "../modelos/reportes/reporteHostorialComision";
 import { ReporteTopFreelancer } from "../modelos/reportes/reporteTopFreelancer";
 import { ReporteTopCategoriaAdmin } from "../modelos/reportes/topCategoriasActividad";
+import { ReporteIngresosAdmin } from "../modelos/reportes/reporteTotalIngresos";
 
 @Injectable({
   providedIn: 'root'
@@ -79,6 +80,10 @@ export class ReportesServicio {
       request
     );
   }
+
+  public obtenerTotalIngresos(request: ReporteRequest): Observable<ReporteIngresosAdmin[]> {
+  return this.httpCliente.post<ReporteIngresosAdmin[]>(this.constantesRest.getApiURL() + 'api/reportes', request);
+}
 
 
 

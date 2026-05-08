@@ -9,6 +9,7 @@ import com.mycompany.connect.work.api.db.reportes.GastosCategoriaDB;
 import com.mycompany.connect.work.api.db.reportes.HistorialComisionDB;
 import com.mycompany.connect.work.api.db.reportes.HistorialProyectosDB;
 import com.mycompany.connect.work.api.db.reportes.HistorialRecargasDB;
+import com.mycompany.connect.work.api.db.reportes.IngresosAdminDB;
 import com.mycompany.connect.work.api.db.reportes.PropuestasEnviadasDB;
 import com.mycompany.connect.work.api.db.reportes.TopCategoriasAdminDB;
 import com.mycompany.connect.work.api.db.reportes.TopCategoriasDB;
@@ -17,6 +18,7 @@ import com.mycompany.connect.work.api.dtos.reportes.ReporteContratoCompletado;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteGastoCategoria;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteHistorialComision;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteHistorialProyecto;
+import com.mycompany.connect.work.api.dtos.reportes.ReporteIngresosAdmin;
 import com.mycompany.connect.work.api.dtos.reportes.ReportePropuestaEnviada;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteRecarga;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteTopCategoria;
@@ -43,6 +45,7 @@ public class ReportesService {
     private HistorialComisionDB historialComisionDB = new HistorialComisionDB();
     private TopFreelancersDB topFreelancersDB = new TopFreelancersDB();
     private TopCategoriasAdminDB topCategoriasAdminDB = new TopCategoriasAdminDB();
+    private IngresosAdminDB ingresosAdminDB = new IngresosAdminDB();
 
     public Object generarReporte(ReporteRequest request) throws ErrorDeLogicaException, DBException {
 
@@ -83,7 +86,18 @@ public class ReportesService {
             return this.generarTopCategoriasAdmin(request);
         }
 
+        if (tipoReporte.equals(TiposDeReporte.ADMIN_TOTAL_INGRESOS_PLATAFORMA.getValor())) {
+            return this.generarReporteIngresos(request);
+        }
+
         return null;
+    }
+
+    private ArrayList<ReporteIngresosAdmin> generarReporteIngresos(ReporteRequest request) throws DBException, ErrorDeLogicaException {
+        this.validarRequest(request);
+        ArrayList<ReporteIngresosAdmin> resultado = new ArrayList<>();
+        resultado.add(this.ingresosAdminDB.obtenerReporte(request));
+        return resultado;
     }
 
     private void validarRequest(ReporteRequest request) throws ErrorDeLogicaException {

@@ -26,10 +26,12 @@ import { ReporteTopFreelancer } from '../../../modelos/reportes/reporteTopFreela
 import { TopFrelancersComponent } from "../../../componentes/reportes/top-frelancers-component/top-frelancers-component";
 import { TopCategoriasActividadComponent } from "../../../componentes/reportes/top-categorias-actividad-component/top-categorias-actividad-component";
 import { ReporteTopCategoriaAdmin } from '../../../modelos/reportes/topCategoriasActividad';
+import { ReporteIngresosAdmin } from '../../../modelos/reportes/reporteTotalIngresos';
+import { TotalIngresosComponent } from "../../../componentes/reportes/total-ingresos-component/total-ingresos-component";
 
 @Component({
   selector: 'app-reportes-page',
-  imports: [ReactiveFormsModule, Header, HistorialProyectosComponent, HistorialRecargasComponent, ReporteGastoCategoriaComponent, CarteraCard, ContratosCompletadosComponent, TopCategoriasComponent, PropuestasEnviadasComponent, HistorialComisionesComponent, TopFrelancersComponent, TopCategoriasActividadComponent],
+  imports: [ReactiveFormsModule, Header, HistorialProyectosComponent, HistorialRecargasComponent, ReporteGastoCategoriaComponent, CarteraCard, ContratosCompletadosComponent, TopCategoriasComponent, PropuestasEnviadasComponent, HistorialComisionesComponent, TopFrelancersComponent, TopCategoriasActividadComponent, TotalIngresosComponent],
   templateUrl: './reportes-page.html',
   styleUrl: './reportes-page.css',
 })
@@ -76,7 +78,8 @@ export class ReportesPage implements OnInit {
     "FREELANCER_CONTRATOS_COMPLETADOS",
     "FREELANCER_PROPUESTAS_ENVIADAS",
     "ADMIN_TOP_FREELANCERS_INGRESOS",
-    "ADMIN_TOP_CATEGORIAS_ACTIVIDAD"
+    "ADMIN_TOP_CATEGORIAS_ACTIVIDAD",
+    "ADMIN_TOTAL_INGRESOS_PLATAFORMA"
 
   ];
 
@@ -93,6 +96,7 @@ export class ReportesPage implements OnInit {
   public reporteComisiones = signal<ReporteHistorialComision[]>([]);
   public reporteTopFreelancers = signal<ReporteTopFreelancer[]>([]);
   public reporteTopCategoriasAdmin = signal<ReporteTopCategoriaAdmin[]>([]);
+  public reporteIngresos = signal<ReporteIngresosAdmin | null>(null);
 
 
   constructor(private formBuiler: FormBuilder,
@@ -203,25 +207,39 @@ export class ReportesPage implements OnInit {
         this.generarTopFreelancers(reporteRequest);
         break;
 
-        case "ADMIN_TOP_CATEGORIAS_ACTIVIDAD":
-    this.reporteTopCategoriasAdmin.set([]); // Limpiamos para que no se vea data vieja
-    this.cargarTopCategoriasAdmin(reporteRequest);
-    break;
+      case "ADMIN_TOP_CATEGORIAS_ACTIVIDAD":
+        this.reporteTopCategoriasAdmin.set([]);
+        this.cargarTopCategoriasAdmin(reporteRequest);
+        break;
+
+      case "ADMIN_TOTAL_INGRESOS_PLATAFORMA":
+        this.reporteIngresos.set(null);
+        this.cargarReporteIngresos(reporteRequest);
+        break;
 
     }
 
   }
 
+  private cargarReporteIngresos(request: ReporteRequest) {
+    this.reportesService.obtenerTotalIngresos(request).subscribe({
+      next: (data) => {
+        if (data.length > 0) this.reporteIngresos.set(data[0]);
+      },
+      error: (err) => this.registrarError(err)
+    });
+  }
+
   private cargarTopCategoriasAdmin(request: ReporteRequest) {
     this.reportesService.obtenerTopCategoriasAdmin(request).subscribe({
-        next: (data) => {
-            this.reporteTopCategoriasAdmin.set(data);
-        },
-        error: (err) => {
-            this.registrarError(err);
-        }
+      next: (data) => {
+        this.reporteTopCategoriasAdmin.set(data);
+      },
+      error: (err) => {
+        this.registrarError(err);
+      }
     });
-}
+  }
 
 
   private generarTopFreelancers(request: ReporteRequest) {

@@ -1,0 +1,11 @@
+<div class="d-flex justify-content-around align-items-center py-3 border-bottom mb-4">
+    <div class="text-center">
+        <p class="mb-0 text-muted small">Contratos</p>
+        <strong class="h4">{{ datos?.contratosCompletados || 0 }}</strong>
+    </div>
+
+    <div class="text-center">
+        <p class="mb-0 text-muted small">Total Comisiones</p>
+        <strong class="h4 text-success">Q{{ datos?.totalComisiones?.toFixed(2) || '0.00' }}</strong>
+    </div>
+</div>
