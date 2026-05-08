@@ -36,6 +36,10 @@
 </div>
 
 
-@if(reporteHostorialProyectos()){
+@if( reporteActivo("CLIENTE_HISTORIAL_PROYECTOS") && reporteHostorialProyectos()){
     <app-historial-proyectos-component  [reportes]="reporteHostorialProyectos()!"></app-historial-proyectos-component>
+}
+
+@if( reporteActivo("CLIENTE_HISTORIAL_RECARGAS") && reporteHistorialRecargas()){
+    <app-historial-recargas-component [recargas]="reporteHistorialRecargas()!"></app-historial-recargas-component>
 }

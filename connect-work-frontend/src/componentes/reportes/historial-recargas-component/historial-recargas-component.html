@@ -1,0 +1,31 @@
+<h4 class="text-center mt-4">Reporte de recargas</h4>
+<br>
+
+<div class="table-responsive shadow-sm">
+  <table class="table table-striped">
+    <thead class="table-light">
+      <tr>
+        <th scope="col" style="width: 10%">#</th>
+        <th scope="col">Monto Recargado</th>
+        <th scope="col">Fecha de Transacción</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of recargas; track $index; let i = $index) {
+      <tr>
+        <th scope="row">{{ i + 1 }}</th>
+        <td class="fw-bold text-success">
+          {{ item.monto  }}
+        </td>
+        <td>{{ item.fecha }}</td>
+      </tr>
+      } @empty {
+      <tr>
+        <td colspan="3" class="text-center text-muted py-4">
+          Aún no has realizado ninguna recarga.
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

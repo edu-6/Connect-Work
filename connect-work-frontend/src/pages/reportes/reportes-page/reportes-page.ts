@@ -7,10 +7,12 @@ import { ReporteRequest } from '../../../modelos/reporteRequest';
 import { Header } from "../../../shared/header/header";
 import { ReporteHistorialProyecto } from '../../../modelos/reportes/reporteHistorialProyectos';
 import { HistorialProyectosComponent } from "../../../componentes/reportes/historial-proyectos-component/historial-proyectos-component";
+import { ReporteRecarga } from '../../../modelos/reportes/reporteRecargas';
+import { HistorialRecargasComponent } from "../../../componentes/reportes/historial-recargas-component/historial-recargas-component";
 
 @Component({
   selector: 'app-reportes-page',
-  imports: [ReactiveFormsModule, Header, HistorialProyectosComponent],
+  imports: [ReactiveFormsModule, Header, HistorialProyectosComponent, HistorialRecargasComponent],
   templateUrl: './reportes-page.html',
   styleUrl: './reportes-page.css',
 })
@@ -52,13 +54,13 @@ export class ReportesPage implements OnInit {
 
   private readonly REPORTES_CON_FECHA: string[] = [
     "CLIENTE_HISTORIAL_PROYECTOS",
-    "CLIENTE_HISTORIAL_RECARGAS",
     "CLIENTE_GASTO_POR_CATEGORIA",
     "ADMIN_HISTORIAL_COMISIONES"
   ];
 
 
   public reporteHostorialProyectos = signal<ReporteHistorialProyecto[] | null>(null);
+  public reporteHistorialRecargas = signal<ReporteRecarga[] | null>(null);
 
 
   constructor(private formBuiler: FormBuilder,
@@ -128,6 +130,11 @@ export class ReportesPage implements OnInit {
         this.reporteHostorialProyectos.set(null);
         this.generarHistorialProyectos(reporteRequest);
         break;
+      case "CLIENTE_HISTORIAL_RECARGAS":
+        this.reporteHistorialRecargas.set(null);
+        this.generarHistorialRecargas(reporteRequest);
+        break;
+      
     }
 
   }
@@ -144,5 +151,12 @@ export class ReportesPage implements OnInit {
       }
     });
   }
+
+  public generarHistorialRecargas(request: ReporteRequest) {
+    this.reportesService.obtenerReporteRecargas(request).subscribe({
+        next: (data) => this.reporteHistorialRecargas.set(data),
+        error: (err) => this.registrarError(err)
+    });
+}
 
 }
