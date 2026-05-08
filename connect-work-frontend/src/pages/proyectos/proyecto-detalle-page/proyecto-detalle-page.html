@@ -57,8 +57,7 @@
                     @if(formularioEntregaActivo()){
                     <div class="mt-4">
                         <app-entrega-form [idProyecto]="proyecto.id"
-                            (cerrarFormulario)="descactivarFormularioEntrega()"
-                            >
+                            (cerrarFormulario)="descactivarFormularioEntrega()">
                         </app-entrega-form>
                     </div>
                     }
@@ -114,8 +113,7 @@
                     @for(propuesta of propuestasProyecto(); track propuesta){
                     <div class="col">
                         <app-propuesta-card [propuesta]="propuesta" (contratoCreadoAction)="buscarProyecto()"
-                        (recargarPaginaAction)="buscarProyecto()"
-                        >
+                            (recargarPaginaAction)="buscarProyecto()">
                         </app-propuesta-card>
                     </div>
                     }
@@ -130,22 +128,21 @@
                 <h5 class="fw-bold mb-3 justify-content-between">Entrega pendiente</h5>
                 <div class="d-flex justify-content-center">
                     <div style="width: 100%; max-width: 400px;">
-                        <app-entrega-card [entrega]="entregaSinRevisar()!"
-                        
-                        (recargarPaginaAction)="buscarProyecto()"
-                        >
+                        <app-entrega-card [entrega]="entregaSinRevisar()!" (recargarPaginaAction)="buscarProyecto()">
 
                         </app-entrega-card>
                     </div>
                 </div>
-                } @else if(historialEntregas() && !esCliente()){
-                <h5 class="fw-bold mb-3">Historial de entregas</h5>
-                <div class="row row-cols-1 row-cols-md-3 g-4">
-                    @for (entrega of historialEntregas(); track entrega.id ) {
-                    <div class="col">
-                        <app-entrega-card [entrega]="entrega"></app-entrega-card>
-                    </div>
-                    }
+                }
+            </div>
+            }
+
+            @if(historialEntregas() && !esCliente() && (enProgreso() || entregaPendiente())){
+            <h5 class="fw-bold mb-3">Historial de entregas</h5>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                @for (entrega of historialEntregas(); track entrega.id ) {
+                <div class="col">
+                    <app-entrega-card [entrega]="entrega"></app-entrega-card>
                 </div>
                 }
             </div>

@@ -114,9 +114,10 @@ export class ProyectoDetallePage implements OnInit {
         this.abierto.set(true);
         break;
       case "EN PROGRESO":
+        this.enProgreso.set(true);
         this.cargarContrato();
         this.cargarEntregas();
-        this.enProgreso.set(true);
+        
         break;
       case "ENTREGA PENDIENTE":
         this.entregaPendiente.set(true);

@@ -3,6 +3,7 @@ import { ConstantesRest } from "./restConstantes";
 import { Observable } from "rxjs";
 import { Injectable } from "@angular/core";
 import { UsuarioPlataformaRequest } from "../modelos/usuarios/usuarioRequest";
+import { AdminRequest } from "../modelos/adminRequest";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,10 @@ export class usuariosService {
 
   public crear(nuevo: UsuarioPlataformaRequest): Observable<void> {
     return this.httpCliente.post<void>(this.constantesRest.getApiURL() + 'api/usuarios', nuevo);
+  }
+
+  public crearAdmin(nuevo: AdminRequest): Observable<void> {
+    return this.httpCliente.post<void>(this.constantesRest.getApiURL() + 'api/admins', nuevo);
   }
 
   /*

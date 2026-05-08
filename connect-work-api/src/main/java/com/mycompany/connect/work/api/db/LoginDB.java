@@ -8,6 +8,7 @@ import com.mycompany.connect.work.api.dtos.usuariosLogin.UsuarioLoginRequest;
 import com.mycompany.connect.work.api.dtos.usuariosLogin.UsuarioLoginResponse;
 import com.mycompany.connect.work.api.exceptions.DBException;
 import com.mycompany.connect.work.api.interfaces.ExtraerEntidad;
+import com.mycompany.connect.work.api.utils.HashUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,8 +31,12 @@ public class LoginDB implements ExtraerEntidad<UsuarioLoginResponse> {
 
     public UsuarioLoginResponse loguearUsuario(UsuarioLoginRequest request) throws DBException {
         try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(BUSCAR_USUARIO)) {
+            
+            String contraseñaCifrada = HashUtil.sha256(request.getContraseña());
+            
+            
             ps.setString(1, request.getNickname());
-            ps.setString(2, request.getContraseña());
+            ps.setString(2, contraseñaCifrada);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {

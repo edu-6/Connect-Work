@@ -67,6 +67,7 @@ public class EntregasService extends CrudService {
         ArrayList<EntregaResponse> lista =  this.entregasDB.buscarHistorialDeEntregas(idProyecto);
         for (EntregaResponse entregaResponse : lista) {
             entregaResponse.setArchivos(entregasDB.buscarArchivos(entregaResponse.getId()));
+            entregaResponse.setRechazo(rechazosDB.buscarPorId(entregaResponse.getId()));
         }
         return lista;
     }

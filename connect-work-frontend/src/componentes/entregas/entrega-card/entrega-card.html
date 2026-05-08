@@ -1,4 +1,3 @@
-
 @if(entrega){
 <div class="card shadow-sm h-100 border-start border-4">
 
@@ -19,10 +18,8 @@
                 </span>
             </div>
 
-            <span class="badge"
-                [class.bg-info]="entrega.estado === 'ENVIADA'"
-                [class.bg-success]="entrega.estado === 'APROBADA'"
-                [class.bg-danger]="entrega.estado === 'RECHAZADA'">
+            <span class="badge" [class.bg-info]="entrega.estado === 'ENVIADA'"
+                [class.bg-success]="entrega.estado === 'APROBADA'" [class.bg-danger]="entrega.estado === 'RECHAZADA'">
                 {{entrega.estado}}
             </span>
         </div>
@@ -33,6 +30,16 @@
                 Enviada: {{entrega.fechaEnvio}}
             </p>
         </div>
+
+        @if(entrega.rechazo){
+        <br>
+        <div class="bg-light p-3 rounded mb-3">
+            <h6 class="fw-bold">Motivo de rechazo:</h6>
+            <ul class="mb-0">
+                <li class="small text-dark">{{entrega.rechazo.motivo}}</li>
+            </ul>
+        </div>
+        }
 
         @if (entrega.archivos && entrega.archivos.length > 0) {
         <div class="bg-light p-3 rounded mb-3">
@@ -58,14 +65,12 @@
         }
 
         @if(!botonesActivos()){
-            <app-rechazo-propuesta-form
-             [idEntrega]="this.entrega.id" (cancelarRechazoAction)="activarBotones()"
-             (recargarPaginaAction)="mandarARecargarPagina()"
-             >
-             
-            </app-rechazo-propuesta-form>
+        <app-rechazo-propuesta-form [idEntrega]="this.entrega.id" (cancelarRechazoAction)="activarBotones()"
+            (recargarPaginaAction)="mandarARecargarPagina()">
+
+        </app-rechazo-propuesta-form>
         }
-        
+
     </div>
 </div>
 

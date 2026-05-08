@@ -7,6 +7,7 @@ package com.mycompany.connect.work.api.db;
 import com.mycompany.connect.work.api.exceptions.DBException;
 import com.mycompany.connect.work.api.interfaces.CreacionEntidad;
 import com.mycompany.connect.work.api.modelos.usuarios.UsuarioBase;
+import com.mycompany.connect.work.api.utils.HashUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -26,10 +27,14 @@ public class UsuariosBaseDB implements CreacionEntidad<UsuarioBase> {
     @Override
     public void crear(UsuarioBase entidad) throws DBException {
         try(Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(CREAR)) {
+            
+            
+          String contraseñaCifrada = HashUtil.sha256(entidad.getContraseña());
+            
            ps.setString(1, entidad.getNombre());
            ps.setString(2, entidad.getNickname());
            ps.setBoolean(3, true);
-           ps.setString(4, entidad.getContraseña());
+           ps.setString(4, contraseñaCifrada);
            ps.setInt(5, entidad.getIdRol());
            
            ps.executeUpdate();

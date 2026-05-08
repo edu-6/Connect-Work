@@ -1,0 +1,62 @@
+<form [formGroup]="formulario" (submit)="enviar()">
+    <section class="vh-100">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6">
+
+                    @if (hayError()) {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error!</strong> {{mensajeError}}
+                        <button type="button" class="btn-close" (click)="hayError.set(false)"></button>
+                    </div>
+                    }
+
+                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                        <div class="card-body p-5">
+
+                            <h3 class="mb-5 text-center">Registro de Administrador</h3>
+
+                            
+                            <div class="mb-4">
+                                <label class="form-label">Nickname: </label>
+                                <input type="text" class="form-control" formControlName="nickname"
+                                    [class.is-invalid]="formulario.controls['nickname'].invalid && intentoEnviarlo()">
+                                <div class="invalid-feedback">
+                                    Nickname es requerido (max 30)
+                                </div>
+                            </div>
+
+                            
+                            <div class="mb-4">
+                                <label class="form-label">Nombre Completo: </label>
+                                <input type="text" class="form-control" formControlName="nombre"
+                                    [class.is-invalid]="formulario.controls['nombre'].invalid && intentoEnviarlo()">
+                                <div class="invalid-feedback">
+                                    Nombre es requerido (max 80)
+                                </div>
+                            </div>
+
+                            
+                            <div class="mb-4">
+                                <label class="form-label">Contraseña: </label>
+                                <input type="password" class="form-control" formControlName="contraseña"
+                                    [class.is-invalid]="formulario.controls['contraseña'].invalid && intentoEnviarlo()">
+                                <div class="invalid-feedback">
+                                    Contraseña es requerida
+                                </div>
+                            </div>
+
+                            <div class="mt-5">
+                                <button class="btn btn-primary w-100 py-2" type="submit">Guardar Administrador</button>
+                            </div>
+
+                            <div class="mt-3">
+                                <button type="button" class="btn btn-outline-secondary py-2 w-100" (click)="redirigirAHome()">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
