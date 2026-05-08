@@ -15,6 +15,7 @@ import { ReporteHistorialProyecto } from "../modelos/reportes/reporteHistorialPr
 import { ReporteRecarga } from "../modelos/reportes/reporteRecargas";
 import { ReporteGastoCategoria } from "../modelos/reportes/reporteGastoCategoria";
 import { ReporteContratoCompletado } from "../modelos/reportes/reporteContratoCompletado";
+import { ReporteTopCategoria } from "../modelos/reportes/reporetTopCategoria";
 
 @Injectable({
   providedIn: 'root'
@@ -30,21 +31,27 @@ export class ReportesServicio {
   private constantesRest = new ConstantesRest();
 
   public obtenerReporteHistorialProyectos(request: ReporteRequest): Observable<ReporteHistorialProyecto[]> {
-    return this.httpCliente.post<ReporteHistorialProyecto []>(this.constantesRest.getApiURL() + 'api/reportes', request);
+    return this.httpCliente.post<ReporteHistorialProyecto[]>(this.constantesRest.getApiURL() + 'api/reportes', request);
   }
 
   public obtenerReporteRecargas(request: ReporteRequest): Observable<ReporteRecarga[]> {
-    return this.httpCliente.post<ReporteRecarga []>(this.constantesRest.getApiURL() + 'api/reportes', request);
+    return this.httpCliente.post<ReporteRecarga[]>(this.constantesRest.getApiURL() + 'api/reportes', request);
   }
 
 
   public obtenerGastosPorCategoria(request: ReporteRequest): Observable<ReporteGastoCategoria[]> {
-    return this.httpCliente.post<ReporteGastoCategoria []>(this.constantesRest.getApiURL() + 'api/reportes', request);
+    return this.httpCliente.post<ReporteGastoCategoria[]>(this.constantesRest.getApiURL() + 'api/reportes', request);
   }
 
   public obtenerContratosCompletados(request: ReporteRequest): Observable<ReporteContratoCompletado[]> {
-  return this.httpCliente.post<ReporteContratoCompletado[]>(this.constantesRest.getApiURL() + 'api/reportes', request);
-}
+    return this.httpCliente.post<ReporteContratoCompletado[]>(this.constantesRest.getApiURL() + 'api/reportes', request);
+  }
+
+
+  public obtenerTopCategorias(request: ReporteRequest): Observable<ReporteTopCategoria[]> {
+    return this.httpCliente.post<ReporteTopCategoria[]>(this.constantesRest.getApiURL() + 'api/reportes', request
+    );
+  }
 
 
 

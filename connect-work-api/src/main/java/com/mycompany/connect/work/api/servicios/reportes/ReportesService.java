@@ -8,10 +8,12 @@ import com.mycompany.connect.work.api.db.reportes.ContratosCompletadosDB;
 import com.mycompany.connect.work.api.db.reportes.GastosCategoriaDB;
 import com.mycompany.connect.work.api.db.reportes.HistorialProyectosDB;
 import com.mycompany.connect.work.api.db.reportes.HistorialRecargasDB;
+import com.mycompany.connect.work.api.db.reportes.TopCategoriasDB;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteContratoCompletado;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteGastoCategoria;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteHistorialProyecto;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteRecarga;
+import com.mycompany.connect.work.api.dtos.reportes.ReporteTopCategoria;
 import com.mycompany.connect.work.api.exceptions.DBException;
 import com.mycompany.connect.work.api.exceptions.ErrorDeLogicaException;
 import com.mycompany.connect.work.api.modelos.enums.TiposDeReporte;
@@ -28,6 +30,7 @@ public class ReportesService {
     private HistorialRecargasDB historiaRecargasDB = new HistorialRecargasDB();
     private GastosCategoriaDB gastosCategoriaDB = new GastosCategoriaDB();
     private ContratosCompletadosDB contratosCompletadosDB = new ContratosCompletadosDB();
+    private TopCategoriasDB topCategoriasDB = new TopCategoriasDB();
 
     public Object generarReporte(ReporteRequest request) throws ErrorDeLogicaException, DBException {
 
@@ -49,6 +52,10 @@ public class ReportesService {
             return this.generarReporteContratosCompletados(request);
         }
 
+        if (tipoReporte.equals(TiposDeReporte.FREELANCER_TOP_CATEGORIAS.getValor())) {
+            return this.generarReporteTopCategorias(request);
+        }
+
         return null;
     }
 
@@ -58,6 +65,16 @@ public class ReportesService {
         }
 
         request.validarPeriodos();
+    }
+
+    private ArrayList<ReporteTopCategoria> generarReporteTopCategorias(ReporteRequest request) throws DBException, ErrorDeLogicaException {
+        this.validarRequest(request);
+
+        if (request.reporteConRango()) {
+            return this.topCategoriasDB.obtenerPorPeriodo(request);
+        } else {
+            return this.topCategoriasDB.obtenerTodo(request);
+        }
     }
 
     private ArrayList<ReporteContratoCompletado> generarReporteContratosCompletados(ReporteRequest request) throws DBException, ErrorDeLogicaException {

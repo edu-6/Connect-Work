@@ -58,3 +58,10 @@
 }
 
 
+@if(reporteActivo("FREELANCER_TOP_CATEGORIAS") && reporteTopCategorias().length > 0){
+    <app-top-categorias-component [datos]="reporteTopCategorias()"></app-top-categorias-component>
+}
+
+
+
+

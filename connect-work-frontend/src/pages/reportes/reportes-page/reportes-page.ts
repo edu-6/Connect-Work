@@ -16,10 +16,12 @@ import { CarteraDigital } from '../../../modelos/recargos/carteraDigital';
 import { CarteraCard } from "../../../componentes/cartera/cartera-card/cartera-card";
 import { ReporteContratoCompletado } from '../../../modelos/reportes/reporteContratoCompletado';
 import { ContratosCompletadosComponent } from "../../../componentes/reportes/contratos-completados-component/contratos-completados-component";
+import { TopCategoriasComponent } from "../../../componentes/reportes/top-categorias-component/top-categorias-component";
+import { ReporteTopCategoria } from '../../../modelos/reportes/reporetTopCategoria';
 
 @Component({
   selector: 'app-reportes-page',
-  imports: [ReactiveFormsModule, Header, HistorialProyectosComponent, HistorialRecargasComponent, ReporteGastoCategoriaComponent, CarteraCard, ContratosCompletadosComponent],
+  imports: [ReactiveFormsModule, Header, HistorialProyectosComponent, HistorialRecargasComponent, ReporteGastoCategoriaComponent, CarteraCard, ContratosCompletadosComponent, TopCategoriasComponent],
   templateUrl: './reportes-page.html',
   styleUrl: './reportes-page.css',
 })
@@ -75,6 +77,7 @@ export class ReportesPage implements OnInit {
 
   public reporteSaldoActual = signal<CarteraDigital | null>(null);
   public reporteContratos = signal<ReporteContratoCompletado[]>([]);
+  public reporteTopCategorias = signal<ReporteTopCategoria[]>([]);
 
 
   constructor(private formBuiler: FormBuilder,
@@ -165,12 +168,24 @@ export class ReportesPage implements OnInit {
         this.generarHistorialContratos(reporteRequest);
         break;
 
+      case "FREELANCER_TOP_CATEGORIAS":
+    this.reporteTopCategorias.set([]); // Limpiar data vieja
+    this.generarTopCategorias(reporteRequest);
+    break;
+
 
 
 
     }
 
   }
+
+  public generarTopCategorias(request: ReporteRequest) {
+    this.reportesService.obtenerTopCategorias(request).subscribe({
+        next: (data) => this.reporteTopCategorias.set(data),
+        error: (err) => this.registrarError(err)
+    });
+}
 
   public generarHistorialProyectos(request: ReporteRequest) {
     console.log(request);
