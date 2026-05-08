@@ -62,6 +62,13 @@
     <app-top-categorias-component [datos]="reporteTopCategorias()"></app-top-categorias-component>
 }
 
+@if(reporteActivo("FREELANCER_PROPUESTAS_ENVIADAS") && reportePropuestas().length > 0) {
+    <app-propuestas-enviadas-component [propuestas]="reportePropuestas()"></app-propuestas-enviadas-component>
+}
+
+
+
+
 
 
 

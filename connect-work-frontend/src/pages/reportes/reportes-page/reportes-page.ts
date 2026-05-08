@@ -18,10 +18,12 @@ import { ReporteContratoCompletado } from '../../../modelos/reportes/reporteCont
 import { ContratosCompletadosComponent } from "../../../componentes/reportes/contratos-completados-component/contratos-completados-component";
 import { TopCategoriasComponent } from "../../../componentes/reportes/top-categorias-component/top-categorias-component";
 import { ReporteTopCategoria } from '../../../modelos/reportes/reporetTopCategoria';
+import { ReportePropuestaEnviada } from '../../../modelos/reportes/reportePropuestaEnviada';
+import { PropuestasEnviadasComponent } from "../../../componentes/reportes/propuestas-enviadas-component/propuestas-enviadas-component";
 
 @Component({
   selector: 'app-reportes-page',
-  imports: [ReactiveFormsModule, Header, HistorialProyectosComponent, HistorialRecargasComponent, ReporteGastoCategoriaComponent, CarteraCard, ContratosCompletadosComponent, TopCategoriasComponent],
+  imports: [ReactiveFormsModule, Header, HistorialProyectosComponent, HistorialRecargasComponent, ReporteGastoCategoriaComponent, CarteraCard, ContratosCompletadosComponent, TopCategoriasComponent, PropuestasEnviadasComponent],
   templateUrl: './reportes-page.html',
   styleUrl: './reportes-page.css',
 })
@@ -78,6 +80,7 @@ export class ReportesPage implements OnInit {
   public reporteSaldoActual = signal<CarteraDigital | null>(null);
   public reporteContratos = signal<ReporteContratoCompletado[]>([]);
   public reporteTopCategorias = signal<ReporteTopCategoria[]>([]);
+  public reportePropuestas = signal<ReportePropuestaEnviada[]>([]);
 
 
   constructor(private formBuiler: FormBuilder,
@@ -169,12 +172,14 @@ export class ReportesPage implements OnInit {
         break;
 
       case "FREELANCER_TOP_CATEGORIAS":
-    this.reporteTopCategorias.set([]); // Limpiar data vieja
-    this.generarTopCategorias(reporteRequest);
-    break;
+        this.reporteTopCategorias.set([]);
+        this.generarTopCategorias(reporteRequest);
+        break;
 
-
-
+      case "FREELANCER_PROPUESTAS_ENVIADAS":
+        this.reportePropuestas.set([]);
+        this.generarReportePropuestas(reporteRequest);
+        break;
 
     }
 
@@ -182,10 +187,17 @@ export class ReportesPage implements OnInit {
 
   public generarTopCategorias(request: ReporteRequest) {
     this.reportesService.obtenerTopCategorias(request).subscribe({
-        next: (data) => this.reporteTopCategorias.set(data),
-        error: (err) => this.registrarError(err)
+      next: (data) => this.reporteTopCategorias.set(data),
+      error: (err) => this.registrarError(err)
     });
-}
+  }
+
+  private generarReportePropuestas(request: ReporteRequest) {
+    this.reportesService.obtenerPropuestasEnviadas(request).subscribe({
+      next: (data) => this.reportePropuestas.set(data),
+      error: (err) => this.registrarError(err)
+    });
+  }
 
   public generarHistorialProyectos(request: ReporteRequest) {
     console.log(request);
