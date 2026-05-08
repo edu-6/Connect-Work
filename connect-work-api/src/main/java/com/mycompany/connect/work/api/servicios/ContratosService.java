@@ -61,12 +61,14 @@ public class ContratosService {
         int porcentajeComision =  comisiones.obtener().getPorcentajeComision();
         LocalDate fechaEntrega = LocalDate.now().plusDays(propuesta.getPlazoEntrega());
         
+        //-1 ni lo toma en cuenta
         Contrato contrato = new Contrato(
                 porcentajeComision,
                 fechaEntrega,
                 LocalDate.now(),
                 propuesta.getCuiFreelancer(),
-                req.getIdPropuesta()
+                req.getIdPropuesta(),
+                -1
         );
         
         contratosDB.crear(contrato);
@@ -110,6 +112,10 @@ public class ContratosService {
     
     public ContratoResponse buscarContratoDeProyecto(int idProyecto) throws DBException{
         return contratosDB.buscarContratoDeProyecto(idProyecto);
+    }
+    
+    public Contrato buscarContratoProyectRaw(int idEntrega) throws DBException{
+        return contratosDB.buscarContratoSimpleDeProyecto(idEntrega);
     }
     
 

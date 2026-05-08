@@ -6,7 +6,7 @@ package com.mycompany.connect.work.api.resources;
 
 import com.google.gson.Gson;
 import com.mycompany.connect.work.api.exceptions.DBException;
-import com.mycompany.connect.work.api.servicios.Entregasservice;
+import com.mycompany.connect.work.api.servicios.EntregasService;
 import com.mycompany.connect.work.api.utils.EscritorJson;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "EntregasHistorialResource", urlPatterns = {"/api/entregas-historial/*"})
 public class EntregasHistorialResource extends HttpServlet {
     
-    private Entregasservice service = new Entregasservice();
+    private EntregasService service = new EntregasService();
     private Gson gson = new Gson();
     private EscritorJson escritor = new EscritorJson();
 

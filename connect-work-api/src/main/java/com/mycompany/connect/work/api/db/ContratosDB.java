@@ -41,7 +41,15 @@ public class ContratosDB implements CreacionEntidad<Contrato>,
             + "JOIN usuario_plataforma up ON c.cui_freelancer = up.cui "
             + "JOIN usuario_sistema u ON up.nickname = u.nickname "
             + "WHERE p.id_proyecto = ?";
+    
+    
+    
 
+    
+    private static final String BUSCAR_ID_CONTRATO_CON_ID_ENTREGA = "select *from contrato c"
+            + " JOIN propuesta_proyecto p ON  c.id_propuesta = p.id"
+            + " JOIN entrega e ON e.id_proyecto = p.id_proyecto where e.id = ?";
+    
     @Override
     public void crear(Contrato contrato) throws DBException {
 
@@ -72,6 +80,25 @@ public class ContratosDB implements CreacionEntidad<Contrato>,
         } catch (SQLException e) {
             throw new DBException("Error al cancelar contrato: " + e.getMessage());
         }
+    }
+    
+    
+
+    public Contrato buscarContratoSimpleDeProyecto(int idEntrega) throws DBException {
+
+        try (Connection conn = ConexionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(BUSCAR_ID_CONTRATO_CON_ID_ENTREGA)) {
+            ps.setInt(1, idEntrega);
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    return extraer(rs);
+                }
+            }
+        } catch (SQLException e) {
+            throw new DBException("Error al buscar contrato: " + e.getMessage());
+        }
+        return null;
     }
 
     @Override
@@ -126,7 +153,8 @@ public class ContratosDB implements CreacionEntidad<Contrato>,
                 rs.getDate("fecha_entrega").toLocalDate(),
                 rs.getDate("fecha_generacion").toLocalDate(),
                 rs.getString("cui_freelancer"),
-                rs.getInt("id_propuesta")
+                rs.getInt("id_propuesta"),
+                rs.getInt("id")
         );
     }
 }

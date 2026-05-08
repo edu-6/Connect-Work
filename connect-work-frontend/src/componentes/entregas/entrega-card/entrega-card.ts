@@ -3,6 +3,8 @@ import { AutenticacionServicio } from '../../../servicios/autenficacion-service'
 import { EntregaResponse } from '../../../modelos/entregas/entregaResponse';
 import { ErrorBackend } from '../../../modelos/ErrorBackend';
 import { RechazoPropuestaForm } from "../../rechazoEntrega/rechazo-propuesta-form/rechazo-entrega-form";
+import { EntregasService } from '../../../servicios/entregasService.';
+import { EntregaAceptacion } from '../../../modelos/entregas/entregaAceptacion';
 
 @Component({
   selector: 'app-entrega-card',
@@ -14,10 +16,9 @@ export class EntregaCard {
 
 
   constructor(
-    private servicioAutenticacion: AutenticacionServicio
-  ) {}
-
-
+    private servicioAutenticacion: AutenticacionServicio,
+    private entregasServicio: EntregasService
+  ) { }
 
   botonesActivos = signal(true);
   hayError = signal(false);
@@ -42,7 +43,21 @@ export class EntregaCard {
   }
 
   aceptarEntrega() {
-    alert("Aprobar entrega id: " + this.entrega.id);
+    const idEntrega = this.entrega.id;
+    const aceptacion: EntregaAceptacion = {
+      idEntrega
+    };
+
+    this.entregasServicio.aceptarEntrega(aceptacion).subscribe({
+
+      next: () => {
+        this.recargarPaginaAction.emit();
+      },
+      error: (error: any) => {
+        this.registrarError(error);
+      }
+    });
+
   }
 
   rechazarEntrega() {
@@ -56,15 +71,15 @@ export class EntregaCard {
   }
 
 
-  public desactivarBotones(){
+  public desactivarBotones() {
     this.botonesActivos.set(false);
   }
-  public activarBotones(){
+  public activarBotones() {
     this.botonesActivos.set(true);
   }
 
 
-  public mandarARecargarPagina(){
+  public mandarARecargarPagina() {
     this.activarBotones();
     this.recargarPaginaAction.emit();
   }

@@ -214,9 +214,7 @@ CREATE TABLE pago_proyecto(
 	monto DECIMAL(10,2) NOT NULL,
 	comision DECIMAL(10,2) NOT NULL,
 	id_contrato INTEGER NOT NULL,
-	cui_freelancer VARCHAR(50) NOT NULL,
-	CONSTRAINT fk_id_contrato_pago FOREIGN KEY (id_contrato) REFERENCES contrato(id) ON DELETE CASCADE,
-	CONSTRAINT fk_cui_freelancer_pago FOREIGN KEY (cui_freelancer) REFERENCES usuario_plataforma(cui) ON DELETE CASCADE
+	CONSTRAINT fk_id_contrato_pago FOREIGN KEY (id_contrato) REFERENCES contrato(id) ON DELETE CASCADE
 );
 
 CREATE TABLE estado_entrega(

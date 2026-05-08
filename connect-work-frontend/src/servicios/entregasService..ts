@@ -9,6 +9,7 @@ import { observableToBeFn } from "rxjs/internal/testing/TestScheduler";
 import { EntregaRequest } from "../modelos/entregas/entregaRequest";
 import { EntregaResponse } from "../modelos/entregas/entregaResponse";
 import { RechazoEntrega } from "../modelos/rechazoPrpuestaProyecto";
+import { EntregaAceptacion } from "../modelos/entregas/entregaAceptacion";
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,10 @@ export class EntregasService {
 
    public buscarHistorialEntregaas(idProyecto: number): Observable<EntregaResponse []> {
     return this.httpCliente.get<EntregaResponse []>(this.constantesRest.getApiURL() + 'api/entregas-historial/' + idProyecto);
+  }
+
+  public aceptarEntrega(entregaAceptacion: EntregaAceptacion): Observable<void> {
+    return this.httpCliente.post<void>(this.constantesRest.getApiURL() + 'api/aceptarEntrega' , entregaAceptacion);
   }
   
 

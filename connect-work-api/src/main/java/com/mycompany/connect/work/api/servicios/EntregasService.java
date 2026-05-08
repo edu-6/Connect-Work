@@ -5,6 +5,7 @@
 package com.mycompany.connect.work.api.servicios;
 
 import com.mycompany.connect.work.api.db.EntregasDB;
+import com.mycompany.connect.work.api.db.PagosDB;
 import com.mycompany.connect.work.api.db.RechazosEntregasDB;
 import com.mycompany.connect.work.api.dtos.entregas.ArchivoEntrega;
 import com.mycompany.connect.work.api.dtos.entregas.EntregaRequest;
@@ -13,6 +14,8 @@ import com.mycompany.connect.work.api.exceptions.CamposVaciosException;
 import com.mycompany.connect.work.api.exceptions.DBException;
 import com.mycompany.connect.work.api.exceptions.DatosMuyLargosException;
 import com.mycompany.connect.work.api.exceptions.ErrorDeLogicaException;
+import com.mycompany.connect.work.api.modelos.Contrato;
+import com.mycompany.connect.work.api.modelos.Pago;
 import com.mycompany.connect.work.api.modelos.RechazoEntrega;
 import com.mycompany.connect.work.api.modelos.enums.EstadosEntrega;
 import com.mycompany.connect.work.api.modelos.enums.EstadosProyecto;
@@ -22,11 +25,14 @@ import java.util.ArrayList;
  *
  * @author edu
  */
-public class Entregasservice extends CrudService {
+public class EntregasService extends CrudService {
     
     private ProyectosService proyectosService = new ProyectosService();
     private EntregasDB entregasDB = new EntregasDB();
     private RechazosEntregasDB rechazosDB = new RechazosEntregasDB();
+    private ContratosService contratosService = new ContratosService();
+    private PagosDB pagosDB = new PagosDB();
+    private CarteraDigitalService carterasService = new CarteraDigitalService();
     
     
     public void crearEntrega(EntregaRequest entrega) throws DatosMuyLargosException, CamposVaciosException, ErrorDeLogicaException, DBException{
@@ -78,7 +84,25 @@ public class Entregasservice extends CrudService {
     }
     
     
-    public void aceptarEntrega(int idEntrega){
+    public void aceptarEntrega(int idEntrega) throws DBException, CamposVaciosException{
+        
+        //cambios en proyecto y entregas
+        entregasDB.cambiarEstadoEntrega(idEntrega, EstadosEntrega.ACEPTADA.getId());
+        int idProyecto = entregasDB.encontrarIdProyectoConIdEntrega(idEntrega);
+        proyectosService.cambiarEstadoProyecto(idProyecto, EstadosProyecto.COMPLETADO.getId());
+        
+        
+        Contrato contrato = contratosService.buscarContratoProyectRaw(idEntrega);
+        int porcentajeComision = contrato.getPorcentajeComision();
+        double montoProyecto = entregasDB.encontrarMontoDelContrato(idEntrega);
+        
+        
+        double pagoFreelancer = montoProyecto - (montoProyecto*porcentajeComision)/100;
+        double comisionPlataforma = montoProyecto*porcentajeComision/100;
+        this.carterasService.recargarSaldo(contrato.getCuiFreelancer(), pagoFreelancer);
+        
+        Pago pago = new Pago(comisionPlataforma, pagoFreelancer, contrato.getId());
+        this.pagosDB.crear(pago);
         
     }
     

@@ -18,13 +18,15 @@ public class Contrato {
     private LocalDate fechaGeneracion;
     private String cuiFreelancer;
     private int idPropuesta;
+    private int id;
 
-    public Contrato(int porcentajeComision, LocalDate fechaEntrega, LocalDate fechaGeneracion, String cuiFreelancer, int idPropuesta) {
+    public Contrato(int porcentajeComision, LocalDate fechaEntrega, LocalDate fechaGeneracion, String cuiFreelancer, int idPropuesta, int id) {
         this.porcentajeComision = porcentajeComision;
         this.fechaEntrega = fechaEntrega;
         this.fechaGeneracion = fechaGeneracion;
         this.cuiFreelancer = cuiFreelancer;
         this.idPropuesta = idPropuesta;
+        this.id = id;
     }
 
     public int getPorcentajeComision() {
@@ -66,6 +68,17 @@ public class Contrato {
     public void setIdPropuesta(int idPropuesta) {
         this.idPropuesta = idPropuesta;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
+    
 
     
     

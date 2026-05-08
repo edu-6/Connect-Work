@@ -11,7 +11,7 @@ import com.mycompany.connect.work.api.exceptions.CamposVaciosException;
 import com.mycompany.connect.work.api.exceptions.DBException;
 import com.mycompany.connect.work.api.exceptions.DatosMuyLargosException;
 import com.mycompany.connect.work.api.exceptions.ErrorDeLogicaException;
-import com.mycompany.connect.work.api.servicios.Entregasservice;
+import com.mycompany.connect.work.api.servicios.EntregasService;
 import com.mycompany.connect.work.api.utils.EscritorJson;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -27,7 +27,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "EntregasResource", urlPatterns = {"/api/entregas/*"})
 public class EntregasResource extends HttpServlet {
 
-    private Entregasservice service = new Entregasservice();
+    private EntregasService service = new EntregasService();
     private Gson gson = new Gson();
     private EscritorJson escritor = new EscritorJson();
 

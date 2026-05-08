@@ -51,6 +51,13 @@ public class EntregasDB implements CreacionReturnId<EntregaRequest>, ExtraerEnti
     private static final String CAMBIAR_ESTADO_ENTREGA = "update entrega set id_estado = ? where id = ?";
     
     private static final String ENCONTRAR_ID_PROYECTO_CON_ENTREGA = "select id_proyecto from entrega where id = ?";
+    
+    
+    private static final String BUSCAR_MONTO_OFRECIDO_PROPUESTA_CON_ID_ENTREGA = "select p.presupuesto_ofertado AS monto, c.id as idContrato from propuesta_proyecto p"
+            + " JOIN contrato c ON  c.id_propuesta = p.id"
+            + " JOIN entrega e ON e.id_proyecto = p.id_proyecto where e.id = ?";
+    
+    
 
     @Override
     public int crear(EntregaRequest e) throws DBException {
@@ -100,9 +107,20 @@ public class EntregasDB implements CreacionReturnId<EntregaRequest>, ExtraerEnti
     }
     
     
+    public double encontrarMontoDelContrato(int idEntrega) throws DBException {
+        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(BUSCAR_MONTO_OFRECIDO_PROPUESTA_CON_ID_ENTREGA)) {
+            ps.setInt(1, idEntrega);
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next()){
+                    return rs.getInt("monto");
+                }
+            }
+            return -1;
+        } catch (SQLException e) {
+            throw new DBException("Error al buscar el origianl del contrato: " + e.getMessage());
+        }
+    }
     
-    
-
     public void insertarArchivo(int idEntrega, String archivo) throws DBException {
         try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(INSERTAR_ARCHIVO)) {
 
