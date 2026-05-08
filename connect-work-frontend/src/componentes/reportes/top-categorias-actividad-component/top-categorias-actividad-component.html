@@ -1,0 +1,27 @@
+<h4 class="text-center mt-4">Top 5 Categorías con más Actividad</h4>
+<br>
+
+<div class="table-responsive">
+  <table class="table table-striped border">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Categoría</th>
+        <th scope="col">Contratos</th>
+        <th scope="col" class="text-end">Comisiones Generadas</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of datos; track $index; let i = $index) {
+      <tr>
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ item.nombreCategoria }}</td>
+        <td>{{ item.cantidadContratos }}</td>
+        <td class="text-end fw-bold text-primary">
+          Q.{{ item.totalComisiones.toFixed(2) }}
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

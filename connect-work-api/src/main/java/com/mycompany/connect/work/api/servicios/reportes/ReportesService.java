@@ -10,6 +10,7 @@ import com.mycompany.connect.work.api.db.reportes.HistorialComisionDB;
 import com.mycompany.connect.work.api.db.reportes.HistorialProyectosDB;
 import com.mycompany.connect.work.api.db.reportes.HistorialRecargasDB;
 import com.mycompany.connect.work.api.db.reportes.PropuestasEnviadasDB;
+import com.mycompany.connect.work.api.db.reportes.TopCategoriasAdminDB;
 import com.mycompany.connect.work.api.db.reportes.TopCategoriasDB;
 import com.mycompany.connect.work.api.db.reportes.TopFreelancersDB;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteContratoCompletado;
@@ -19,6 +20,7 @@ import com.mycompany.connect.work.api.dtos.reportes.ReporteHistorialProyecto;
 import com.mycompany.connect.work.api.dtos.reportes.ReportePropuestaEnviada;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteRecarga;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteTopCategoria;
+import com.mycompany.connect.work.api.dtos.reportes.ReporteTopCategoriaAdmin;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteTopFreelancer;
 import com.mycompany.connect.work.api.exceptions.DBException;
 import com.mycompany.connect.work.api.exceptions.ErrorDeLogicaException;
@@ -40,6 +42,7 @@ public class ReportesService {
     private PropuestasEnviadasDB propuestasEnviadasDB = new PropuestasEnviadasDB();
     private HistorialComisionDB historialComisionDB = new HistorialComisionDB();
     private TopFreelancersDB topFreelancersDB = new TopFreelancersDB();
+    private TopCategoriasAdminDB topCategoriasAdminDB = new TopCategoriasAdminDB();
 
     public Object generarReporte(ReporteRequest request) throws ErrorDeLogicaException, DBException {
 
@@ -67,16 +70,18 @@ public class ReportesService {
         if (tipoReporte.equals(TiposDeReporte.FREELANCER_PROPUESTAS_ENVIADAS.getValor())) {
             return this.generarReportePropuestas(request);
         }
-        
+
         if (tipoReporte.equals(TiposDeReporte.ADMIN_HISTORIAL_COMISIONES.getValor())) {
             return this.generarReporteHistorialComision(request);
         }
-        
+
         if (tipoReporte.equals(TiposDeReporte.ADMIN_TOP_FREELANCERS_INGRESOS.getValor())) {
             return this.generarTopFreelancers(request);
         }
-        
-        
+
+        if (tipoReporte.equals(TiposDeReporte.ADMIN_TOP_CATEGORIAS_ACTIVIDAD.getValor())) {
+            return this.generarTopCategoriasAdmin(request);
+        }
 
         return null;
     }
@@ -89,18 +94,25 @@ public class ReportesService {
         request.validarPeriodos();
     }
 
+    private ArrayList<ReporteTopCategoriaAdmin> generarTopCategoriasAdmin(ReporteRequest request) throws DBException, ErrorDeLogicaException {
+        this.validarRequest(request);
+        return request.reporteConRango()
+                ? this.topCategoriasAdminDB.obtenerPorPeriodo(request)
+                : this.topCategoriasAdminDB.obtenerTodo(request);
+    }
+
     private ArrayList<ReporteTopFreelancer> generarTopFreelancers(ReporteRequest request) throws DBException, ErrorDeLogicaException {
         this.validarRequest(request);
-        if(request.reporteConRango()){
+        if (request.reporteConRango()) {
             return this.topFreelancersDB.obtenerPorPeriodo(request);
-        }else{
+        } else {
             return this.topFreelancersDB.obtenerTodo(request);
         }
     }
-    
+
     private ArrayList<ReporteHistorialComision> generarReporteHistorialComision(ReporteRequest request) throws DBException {
-    return this.historialComisionDB.obtenerTodo();
-}
+        return this.historialComisionDB.obtenerTodo();
+    }
 
     private ArrayList<ReportePropuestaEnviada> generarReportePropuestas(ReporteRequest request) throws DBException, ErrorDeLogicaException {
         this.validarRequest(request);

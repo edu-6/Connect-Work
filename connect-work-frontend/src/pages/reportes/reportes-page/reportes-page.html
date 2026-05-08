@@ -74,6 +74,10 @@
     <app-top-frelancers-component [datos]="reporteTopFreelancers()"></app-top-frelancers-component>
 }
 
+@if(reporteActivo("ADMIN_TOP_CATEGORIAS_ACTIVIDAD") && reporteTopCategoriasAdmin().length > 0) {
+    <app-top-categorias-actividad-component [datos]="reporteTopCategoriasAdmin()"></app-top-categorias-actividad-component>
+}
+
 
 
 

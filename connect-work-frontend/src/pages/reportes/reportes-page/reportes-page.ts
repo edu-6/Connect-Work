@@ -24,10 +24,12 @@ import { ReporteHistorialComision } from '../../../modelos/reportes/reporteHosto
 import { HistorialComisionesComponent } from "../../../componentes/reportes/historial-comisiones-component/historial-comisiones-component";
 import { ReporteTopFreelancer } from '../../../modelos/reportes/reporteTopFreelancer';
 import { TopFrelancersComponent } from "../../../componentes/reportes/top-frelancers-component/top-frelancers-component";
+import { TopCategoriasActividadComponent } from "../../../componentes/reportes/top-categorias-actividad-component/top-categorias-actividad-component";
+import { ReporteTopCategoriaAdmin } from '../../../modelos/reportes/topCategoriasActividad';
 
 @Component({
   selector: 'app-reportes-page',
-  imports: [ReactiveFormsModule, Header, HistorialProyectosComponent, HistorialRecargasComponent, ReporteGastoCategoriaComponent, CarteraCard, ContratosCompletadosComponent, TopCategoriasComponent, PropuestasEnviadasComponent, HistorialComisionesComponent, TopFrelancersComponent],
+  imports: [ReactiveFormsModule, Header, HistorialProyectosComponent, HistorialRecargasComponent, ReporteGastoCategoriaComponent, CarteraCard, ContratosCompletadosComponent, TopCategoriasComponent, PropuestasEnviadasComponent, HistorialComisionesComponent, TopFrelancersComponent, TopCategoriasActividadComponent],
   templateUrl: './reportes-page.html',
   styleUrl: './reportes-page.css',
 })
@@ -73,7 +75,8 @@ export class ReportesPage implements OnInit {
     "ADMIN_HISTORIAL_COMISIONES",
     "FREELANCER_CONTRATOS_COMPLETADOS",
     "FREELANCER_PROPUESTAS_ENVIADAS",
-    "ADMIN_TOP_FREELANCERS_INGRESOS"
+    "ADMIN_TOP_FREELANCERS_INGRESOS",
+    "ADMIN_TOP_CATEGORIAS_ACTIVIDAD"
 
   ];
 
@@ -89,6 +92,7 @@ export class ReportesPage implements OnInit {
 
   public reporteComisiones = signal<ReporteHistorialComision[]>([]);
   public reporteTopFreelancers = signal<ReporteTopFreelancer[]>([]);
+  public reporteTopCategoriasAdmin = signal<ReporteTopCategoriaAdmin[]>([]);
 
 
   constructor(private formBuiler: FormBuilder,
@@ -199,9 +203,25 @@ export class ReportesPage implements OnInit {
         this.generarTopFreelancers(reporteRequest);
         break;
 
+        case "ADMIN_TOP_CATEGORIAS_ACTIVIDAD":
+    this.reporteTopCategoriasAdmin.set([]); // Limpiamos para que no se vea data vieja
+    this.cargarTopCategoriasAdmin(reporteRequest);
+    break;
+
     }
 
   }
+
+  private cargarTopCategoriasAdmin(request: ReporteRequest) {
+    this.reportesService.obtenerTopCategoriasAdmin(request).subscribe({
+        next: (data) => {
+            this.reporteTopCategoriasAdmin.set(data);
+        },
+        error: (err) => {
+            this.registrarError(err);
+        }
+    });
+}
 
 
   private generarTopFreelancers(request: ReporteRequest) {
