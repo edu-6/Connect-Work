@@ -45,7 +45,11 @@
             @if(!autenticacionService.estaLogueado()){
                 <li class="nav-item"><a routerLink="/registro" routerLinkActive="active" class="nav-link">Sign in</a></li>
                 <li class="nav-item"><a routerLink="/login" routerLinkActive="active" class="nav-link">Login</a></li>
+                
+                
             }@else {
+                
+                <li class="nav-item"><a routerLink="/reportes" routerLinkActive="active" class="nav-link">Reportes</a></li>
                 <button class="btn btn-link text-danger text-decoration-none d-flex align-items-center"
                     (click)="autenticacionService.logout()">
                     <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión

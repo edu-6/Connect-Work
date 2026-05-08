@@ -1,0 +1,41 @@
+<app-header></app-header>
+<div class="container d-flex flex-column align-items-center my-5">
+
+    <div [formGroup]="formulario" class="d-flex align-items-center gap-2 w-100" style="max-width: 900px;">
+        
+
+        <select id="eventType" #comboDestino class="form-select flex-grow-1" formControlName="tipoReporte">
+            @for (reporte of listaReportes; track reporte) {
+                <option [value]="reporte">
+                    {{ reporte }}
+                </option>
+            }
+        </select>
+
+        @if (mostrarFiltroFechas()) {
+            <input type="date" class="form-control w-auto" formControlName="fechaInicio">
+            <input type="date" class="form-control w-auto" formControlName="fechaFinal">
+        }
+
+        <button class="btn btn-outline-danger" style="min-width: 100px;"
+            (click)="resetearFormulario(comboDestino.value)">
+            <i class="bi bi-trash"></i> Borrar
+        </button>
+
+        <button class="btn btn-primary" style="min-width: 100px;"
+            (click)="generarReporte(comboDestino.value)">
+             Generar
+        </button>
+    </div>
+
+    @if (hayError()) {
+        <div class="alert alert-danger mt-3 w-100" style="max-width: 900px;">
+            {{ mensajeError }}
+        </div>
+    }
+</div>
+
+
+@if(reporteHostorialProyectos()){
+    <app-historial-proyectos-component  [reportes]="reporteHostorialProyectos()!"></app-historial-proyectos-component>
+}

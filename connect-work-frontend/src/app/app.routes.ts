@@ -20,6 +20,7 @@ import { CarteraPage } from '../pages/carteras/cartera-page/cartera-page';
 import { ProyectosDelFreelancerPage } from '../pages/proyectos/proyectos-del-freelancer-page/proyectos-del-freelancer-page';
 import { AdminsPage } from '../pages/admins/admins-page/admins-page';
 import { AdminsFormPage } from '../pages/admins/admins-form-page/admins-form-page';
+import { ReportesPage } from '../pages/reportes/reportes-page/reportes-page';
 
 export const routes: Routes = [
     { path: "", component: HomePage },
@@ -55,6 +56,8 @@ export const routes: Routes = [
 
     { path: "admins-page", component: AdminsPage },
     { path: "admins-form-page", component: AdminsFormPage },
+
+    { path: "reportes", component: ReportesPage },
 
 
 
