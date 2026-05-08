@@ -6,12 +6,14 @@ package com.mycompany.connect.work.api.servicios.reportes;
 
 import com.mycompany.connect.work.api.db.reportes.ContratosCompletadosDB;
 import com.mycompany.connect.work.api.db.reportes.GastosCategoriaDB;
+import com.mycompany.connect.work.api.db.reportes.HistorialComisionDB;
 import com.mycompany.connect.work.api.db.reportes.HistorialProyectosDB;
 import com.mycompany.connect.work.api.db.reportes.HistorialRecargasDB;
 import com.mycompany.connect.work.api.db.reportes.PropuestasEnviadasDB;
 import com.mycompany.connect.work.api.db.reportes.TopCategoriasDB;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteContratoCompletado;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteGastoCategoria;
+import com.mycompany.connect.work.api.dtos.reportes.ReporteHistorialComision;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteHistorialProyecto;
 import com.mycompany.connect.work.api.dtos.reportes.ReportePropuestaEnviada;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteRecarga;
@@ -34,6 +36,7 @@ public class ReportesService {
     private ContratosCompletadosDB contratosCompletadosDB = new ContratosCompletadosDB();
     private TopCategoriasDB topCategoriasDB = new TopCategoriasDB();
     private PropuestasEnviadasDB propuestasEnviadasDB = new PropuestasEnviadasDB();
+    private HistorialComisionDB historialComisionDB = new HistorialComisionDB();
 
     public Object generarReporte(ReporteRequest request) throws ErrorDeLogicaException, DBException {
 
@@ -61,6 +64,10 @@ public class ReportesService {
         if (tipoReporte.equals(TiposDeReporte.FREELANCER_PROPUESTAS_ENVIADAS.getValor())) {
             return this.generarReportePropuestas(request);
         }
+        
+        if (tipoReporte.equals(TiposDeReporte.ADMIN_HISTORIAL_COMISIONES.getValor())) {
+            return this.generarReporteHistorialComision(request);
+        }
 
         return null;
     }
@@ -72,6 +79,10 @@ public class ReportesService {
 
         request.validarPeriodos();
     }
+    
+    private ArrayList<ReporteHistorialComision> generarReporteHistorialComision(ReporteRequest request) throws DBException {
+    return this.historialComisionDB.obtenerTodo();
+}
 
     private ArrayList<ReportePropuestaEnviada> generarReportePropuestas(ReporteRequest request) throws DBException, ErrorDeLogicaException {
         this.validarRequest(request);

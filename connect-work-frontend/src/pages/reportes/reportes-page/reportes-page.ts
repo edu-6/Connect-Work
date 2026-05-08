@@ -20,10 +20,12 @@ import { TopCategoriasComponent } from "../../../componentes/reportes/top-catego
 import { ReporteTopCategoria } from '../../../modelos/reportes/reporetTopCategoria';
 import { ReportePropuestaEnviada } from '../../../modelos/reportes/reportePropuestaEnviada';
 import { PropuestasEnviadasComponent } from "../../../componentes/reportes/propuestas-enviadas-component/propuestas-enviadas-component";
+import { ReporteHistorialComision } from '../../../modelos/reportes/reporteHostorialComision';
+import { HistorialComisionesComponent } from "../../../componentes/reportes/historial-comisiones-component/historial-comisiones-component";
 
 @Component({
   selector: 'app-reportes-page',
-  imports: [ReactiveFormsModule, Header, HistorialProyectosComponent, HistorialRecargasComponent, ReporteGastoCategoriaComponent, CarteraCard, ContratosCompletadosComponent, TopCategoriasComponent, PropuestasEnviadasComponent],
+  imports: [ReactiveFormsModule, Header, HistorialProyectosComponent, HistorialRecargasComponent, ReporteGastoCategoriaComponent, CarteraCard, ContratosCompletadosComponent, TopCategoriasComponent, PropuestasEnviadasComponent, HistorialComisionesComponent],
   templateUrl: './reportes-page.html',
   styleUrl: './reportes-page.css',
 })
@@ -81,6 +83,8 @@ export class ReportesPage implements OnInit {
   public reporteContratos = signal<ReporteContratoCompletado[]>([]);
   public reporteTopCategorias = signal<ReporteTopCategoria[]>([]);
   public reportePropuestas = signal<ReportePropuestaEnviada[]>([]);
+
+  public reporteComisiones = signal<ReporteHistorialComision[]>([]);
 
 
   constructor(private formBuiler: FormBuilder,
@@ -181,9 +185,21 @@ export class ReportesPage implements OnInit {
         this.generarReportePropuestas(reporteRequest);
         break;
 
+      case "ADMIN_HISTORIAL_COMISIONES":
+        this.reporteComisiones.set([]);
+        this.generarHistorialComisiones(reporteRequest);
+        break;
+
     }
 
   }
+
+  private generarHistorialComisiones(request: ReporteRequest) {
+    this.reportesService.obtenerHistorialComisiones(request).subscribe({
+        next: (data) => this.reporteComisiones.set(data),
+        error: (err) => this.registrarError(err)
+    });
+}
 
   public generarTopCategorias(request: ReporteRequest) {
     this.reportesService.obtenerTopCategorias(request).subscribe({

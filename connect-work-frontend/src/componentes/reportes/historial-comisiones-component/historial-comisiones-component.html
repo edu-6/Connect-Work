@@ -1,0 +1,31 @@
+<h4 class="text-center mt-4">Historial de Porcentajes de Comisión</h4>
+<br>
+
+<div class="table-responsive">
+  <table class="table table-striped border">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Fecha Inicio</th>
+        <th scope="col">Fecha Fin</th>
+        <th scope="col" class="text-end">Porcentaje</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of listaProcesada; track $index; let i = $index) {
+      <tr>
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ item.fechaCambio }}</td>
+        <td>
+            @if (item.fechaFin === 'Actualidad') {
+                <span class="badge bg-success">Vigente</span>
+            } @else {
+                {{ item.fechaFin }}
+            }
+        </td>
+        <td class="text-end fw-bold">{{ item.porcentaje }}%</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

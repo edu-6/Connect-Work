@@ -17,6 +17,7 @@ import { ReporteGastoCategoria } from "../modelos/reportes/reporteGastoCategoria
 import { ReporteContratoCompletado } from "../modelos/reportes/reporteContratoCompletado";
 import { ReporteTopCategoria } from "../modelos/reportes/reporetTopCategoria";
 import { ReportePropuestaEnviada } from "../modelos/reportes/reportePropuestaEnviada";
+import { ReporteHistorialComision } from "../modelos/reportes/reporteHostorialComision";
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +58,10 @@ export class ReportesServicio {
 
   public obtenerPropuestasEnviadas(request: ReporteRequest): Observable<ReportePropuestaEnviada[]> {
     return this.httpCliente.post<ReportePropuestaEnviada[]>(this.constantesRest.getApiURL() + 'api/reportes', request);
+  }
+
+  public obtenerHistorialComisiones(request: ReporteRequest): Observable<ReporteHistorialComision[]> {
+    return this.httpCliente.post<ReporteHistorialComision[]>(this.constantesRest.getApiURL() + 'api/reportes',request);
   }
 
 

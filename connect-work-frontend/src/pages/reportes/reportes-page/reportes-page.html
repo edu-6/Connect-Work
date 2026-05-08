@@ -66,6 +66,10 @@
     <app-propuestas-enviadas-component [propuestas]="reportePropuestas()"></app-propuestas-enviadas-component>
 }
 
+@if(reporteActivo("ADMIN_HISTORIAL_COMISIONES") && reporteComisiones().length > 0) {
+    <app-historial-comisiones-component [datos]="reporteComisiones()"></app-historial-comisiones-component>
+}
+
 
 
 
