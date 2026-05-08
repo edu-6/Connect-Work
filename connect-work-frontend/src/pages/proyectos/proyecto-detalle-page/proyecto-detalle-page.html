@@ -1,104 +1,157 @@
 <app-header></app-header>
 
-<div class="container mt-5">
+<div class="container py-5">
 
     @if (hayError()) {
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>Error! </strong> {{mensajeError}}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
     }
 
     @if(encontrado()){
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        <div class="col-12">
 
-            <div class="mb-4">
-                <app-proyecto-card [proyecto]="proyecto" [mostrarBtnEditar]="false"></app-proyecto-card>
-            </div>
 
-            <div class="card shadow">
-                <div class="card-header bg-white fw-bold">
-                    <i class="bi bi-file-text me-2"></i> Descripción del Proyecto
+            <div class="row g-4">
+                <div class="col-lg-7">
+                    <app-proyecto-card [proyecto]="proyecto" [mostrarBtnEditar]="false">
+                    </app-proyecto-card>
+
+                    <div class="card shadow mt-4">
+                        <div class="card-header bg-white fw-bold">
+                            <i class="bi bi-file-text me-2"></i> Descripción del Proyecto
+                        </div>
+                        <div class="card-body">
+                            <p style="white-space: pre-wrap;">{{proyecto.descripcion}}</p>
+                        </div>
+                    </div>
+
+
                 </div>
-                <div class="card-body">
-                    <p style="white-space: pre-wrap;">{{proyecto.descripcion}}</p>
+
+
+                <div class="col-lg-5">
+                    <div class="card shadow">
+                        <div class="card-header bg-white fw-bold">Acciones</div>
+                        <div class="card-body d-grid gap-2">
+                            @if(!formulariPropuestaActivo() && !esCliente() && abierto()){
+                            <button class="btn btn-primary" (click)="activarFormulario()">
+                                <i class="bi bi-plus-circle me-1"></i> Enviar propuesta
+                            </button>
+                            }
+
+                            @if(!formularioEntregaActivo() && !esCliente() && (enProgreso() || entregaPendiente())){
+                            <button class="btn btn-primary" (click)="activarFormularioEntrega()">
+                                Enviar entrega
+                            </button>
+                            }
+
+                            <button class="btn btn-secondary" onclick="history.back()">
+                                <i class="bi bi-arrow-left me-1"></i> Volver
+                            </button>
+                        </div>
+                    </div>
+
+
+
+                    @if(formularioEntregaActivo()){
+                    <div class="mt-4">
+                        <app-entrega-form [idProyecto]="proyecto.id"
+                            (cerrarFormulario)="descactivarFormularioEntrega()"
+                            >
+                        </app-entrega-form>
+                    </div>
+                    }
+
+                    @if(formulariPropuestaActivo()){
+                    <div class="mt-4">
+                        <app-propuesta-form [idProyecto]="proyecto.id" (cerrarFormulario)="cerrarFormularioActcion()">
+                        </app-propuesta-form>
+                    </div>
+                    }
+
+                    @if(propuestaFreelancer()){
+                    <div class="mt-4">
+                        <h5 class="fw-bold mb-3"><i class="bi bi-send me-2"></i> Mi Propuesta</h5>
+                        <app-propuesta-card [propuesta]="propuestaFreelancer()!"
+                            (recargarPaginaAction)="cargarPropuestas()">
+                        </app-propuesta-card>
+                    </div>
+                    }
+
+                    @if(enProgreso() && contrato()){
+                    <div class="mt-4">
+                        <app-contrato-card [puedeEliminar]="puedeEliminar()" [contrato]="contrato()!"
+                            (contratoCanceladoAction)="buscarProyecto()">
+                        </app-contrato-card>
+                    </div>
+                    }
                 </div>
             </div>
 
-            <div class="mt-4 d-flex justify-content-end">
-                <button class="btn btn-secondary px-4" onclick="history.back()">
-                    <i class="bi bi-arrow-left me-1"></i> Volver
-                </button>
-            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
 
 
-            @if(!mostrarFormulario() && !esCliente() && abierto()){
-            <div class="mt-4 d-flex justify-content-center">
-                <button class="btn btn-primary px-4" (click)="activarFormulario()">
-                    <i class="bi bi-plus-circle"></i> Enviar propuesta
-                </button>
-            </div>
-            }
-
-            @if(mostrarFormulario()){
-            <div class="mt-4">
-                <app-propuesta-form [idProyecto]="proyecto.id" (cerrarFormulario)="cerrarFormularioActcion()"></app-propuesta-form>
-            </div>
-            }
 
 
-            
-            @if(propuestaFreelancer()){
-            <div class="mt-4">
-                <h5 class="fw-bold mb-3">
-                    <i class="bi bi-send me-2"></i> Mi Propuesta
-                </h5>
 
-                @if(propuestaFreelancer()){
-                <app-propuesta-card [propuesta]="propuestaFreelancer()!" (recargarPaginaAction)="cargarPropuestas()"></app-propuesta-card>
-                } @else {
-                <div class="alert alert-info">
-                    <i class="bi bi-info-circle me-2"></i>
-                    Aún no has enviado una propuesta para este proyecto.
-                </div>
-                }
-            </div>
-            }
-
-      
-
-
+            <!--propuestas-->
             @if(propuestasProyecto() && abierto()){
-            <div class="mt-4">
+            <div class="mt-2">
                 <h5 class="fw-bold mb-3">
                     <i class="bi bi-people me-2"></i> Propuestas Recibidas
                     <span class="badge bg-secondary ms-2">{{propuestasProyecto()?.length}}</span>
                 </h5>
 
-                @if(propuestasProyecto()){
-                <div class="row row-cols-1 row-cols-md-2 g-3">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                     @for(propuesta of propuestasProyecto(); track propuesta){
                     <div class="col">
-                        <app-propuesta-card [propuesta]="propuesta" (contratoCreadoAction)="buscarProyecto()"></app-propuesta-card>
+                        <app-propuesta-card [propuesta]="propuesta" (contratoCreadoAction)="buscarProyecto()"
+                        (recargarPaginaAction)="buscarProyecto()"
+                        >
+                        </app-propuesta-card>
                     </div>
                     }
                 </div>
-                } @else {
-                <div class="alert alert-info">
-                    <i class="bi bi-info-circle me-2"></i>
-                    Este proyecto aún no ha recibido propuestas.
+            </div>
+            }
+
+            <!-- entregas -->
+            @if(entregaPendiente()){
+            <div class="mt-5">
+                @if(entregaSinRevisar() && esCliente()){
+                <h5 class="fw-bold mb-3 justify-content-between">Entrega pendiente</h5>
+                <div class="d-flex justify-content-center">
+                    <div style="width: 100%; max-width: 400px;">
+                        <app-entrega-card [entrega]="entregaSinRevisar()!"
+                        
+                        (recargarPaginaAction)="buscarProyecto()"
+                        >
+
+                        </app-entrega-card>
+                    </div>
+                </div>
+                } @else if(historialEntregas() && !esCliente()){
+                <h5 class="fw-bold mb-3">Historial de entregas</h5>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    @for (entrega of historialEntregas(); track entrega.id ) {
+                    <div class="col">
+                        <app-entrega-card [entrega]="entrega"></app-entrega-card>
+                    </div>
+                    }
                 </div>
                 }
             </div>
             }
-
-
-            @if(enProgreso() && contrato()){
-                 <app-contrato-card [puedeEliminar]="puedeEliminar()" [contrato]="contrato()!" (contratoCanceladoAction)="buscarProyecto()"></app-contrato-card>
-            }
-
-
 
         </div>
     </div>

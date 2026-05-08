@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { Header } from "../../../shared/header/header";
 import { ProyectoResponse } from '../../../modelos/proyectos/proyectoResponse';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorBackend } from '../../../modelos/ErrorBackend';
 import { ProyectosService } from '../../../servicios/proyectosService';
 import { ProyectoCard } from "../../../componentes/proyectos/proyecto-card/proyecto-card";
@@ -16,10 +16,15 @@ import { BusquedaPropuesta } from '../../../modelos/propuestas/busquedaPropuesta
 import { ContratosService } from '../../../servicios/contratosService';
 import { ContratoResponse } from '../../../modelos/contratos/contratoResponse';
 import { ContratoCard } from "../../../componentes/contratos/contrato-card/contrato-card";
+import { EntregaForm } from "../../../componentes/entregas/entrega-form/entrega-form";
+import { flush } from '@angular/core/testing';
+import { EntregasService } from '../../../servicios/entregasService.';
+import { EntregaResponse } from '../../../modelos/entregas/entregaResponse';
+import { EntregaCard } from "../../../componentes/entregas/entrega-card/entrega-card";
 
 @Component({
   selector: 'app-proyecto-detalle-page',
-  imports: [Header, ProyectoCard, PropuestaForm, PropuestaCard, CommonModule, ContratoCard],
+  imports: [Header, ProyectoCard, PropuestaForm, PropuestaCard, CommonModule, ContratoCard, EntregaForm, EntregaCard],
   templateUrl: './proyecto-detalle-page.html',
   styleUrl: './proyecto-detalle-page.css',
 })
@@ -36,11 +41,18 @@ export class ProyectoDetallePage implements OnInit {
 
   puedeEliminar = signal<boolean>(false);
 
-  mostrarFormulario = signal<boolean>(false);
+  formulariPropuestaActivo = signal<boolean>(false);
+
+  formularioEntregaActivo = signal<boolean>(false);
 
   // Propuestas
   propuestaFreelancer = signal<PropuestaResponse | null>(null);
   propuestasProyecto = signal<PropuestaResponse[] | null>(null);
+
+  // entregas
+
+  entregaSinRevisar = signal<EntregaResponse | null>(null);
+  historialEntregas = signal<EntregaResponse [] | null>(null);
 
 
   // estados del poryecto
@@ -58,7 +70,9 @@ export class ProyectoDetallePage implements OnInit {
     private propuestasService: PropuestasService,
     private authServicio: AutenticacionServicio,
     private router: ActivatedRoute,
-    private contratosService: ContratosService
+    private contratosService: ContratosService,
+    private entregasService: EntregasService,
+    private routerNavegation : Router
   ) { }
 
   ngOnInit(): void {
@@ -66,6 +80,11 @@ export class ProyectoDetallePage implements OnInit {
     this.buscarProyecto();
 
     this.puedeEliminar.set(this.authServicio.esCliente());
+  }
+
+
+  public recargarPaginaCompleta(){
+    this.routerNavegation.navigate(['/proyectos-detalle-page', this.idProyecto]);
   }
 
   public buscarProyecto() {
@@ -88,7 +107,7 @@ export class ProyectoDetallePage implements OnInit {
     this.entregaPendiente.set(false);
     this.compeltado.set(false);
     this.cancelado.set(false);
-    
+
     switch (estado) {
       case "ABIERTO":
         this.cargarPropuestas();
@@ -96,10 +115,12 @@ export class ProyectoDetallePage implements OnInit {
         break;
       case "EN PROGRESO":
         this.cargarContrato();
+        this.cargarEntregas();
         this.enProgreso.set(true);
         break;
       case "ENTREGA PENDIENTE":
         this.entregaPendiente.set(true);
+        this.cargarEntregas();
         break;
       case "COMPLETADO":
         this.compeltado.set(true);
@@ -114,74 +135,118 @@ export class ProyectoDetallePage implements OnInit {
 
   public cargarPropuestas() {
 
-  if (this.authServicio.esFreelancer()) {
-    const busqueda: BusquedaPropuesta = {
-      idProyecto: this.idProyecto,
-      cuiFreelancer: localStorage.getItem('cui') || undefined,
-      idTipoBusqueda: TipoBusquedaPropuesta.DE_FREELANCER_EN_PROYECTO
+    if (this.authServicio.esFreelancer()) {
+      const busqueda: BusquedaPropuesta = {
+        idProyecto: this.idProyecto,
+        cuiFreelancer: localStorage.getItem('cui') || undefined,
+        idTipoBusqueda: TipoBusquedaPropuesta.DE_FREELANCER_EN_PROYECTO
+      }
+      this.buscarPropuestas(busqueda);
+    } else if (this.authServicio.esCliente()) {
+      const busqueda: BusquedaPropuesta = {
+        idProyecto: this.idProyecto,
+        idTipoBusqueda: TipoBusquedaPropuesta.EN_PROYECTO
+      }
+      this.buscarPropuestas(busqueda);
     }
-    this.buscarPropuestas(busqueda);
-  } else if (this.authServicio.esCliente()) {
-    const busqueda: BusquedaPropuesta = {
-      idProyecto: this.idProyecto,
-      idTipoBusqueda: TipoBusquedaPropuesta.EN_PROYECTO
-    }
-    this.buscarPropuestas(busqueda);
   }
-}
+
+
+
+  public cargarEntregas(){
+    if(this.authServicio.esCliente()){
+      this.buscarEntregaSinRevisar();
+    }else if (this.authServicio.esFreelancer()){
+      this.buscarHistorialEntregas();
+    }
+  }
+
+  private buscarHistorialEntregas(){
+    this.entregasService.buscarHistorialEntregaas(this.proyecto.id).subscribe({
+
+      next:(resp: EntregaResponse [])=>{
+        this.historialEntregas.set(resp);
+      },
+      error:(error: any)=>{
+        this.registrarError(error);
+      }
+    });
+  }
+
+  private buscarEntregaSinRevisar(){
+    this.entregasService.buscarEntregaSinRevisar(this.proyecto.id).subscribe({
+
+      next:(resp: EntregaResponse )=>{
+        this.entregaSinRevisar.set(resp);
+      },
+      error:(error: any)=>{
+        this.registrarError(error);
+      }
+    });
+  }
 
   private buscarPropuestas(busqueda: BusquedaPropuesta) {
-  this.propuestasService.buscarPropuestas(busqueda).subscribe({
-    next: (resp) => {
-      if (Array.isArray(resp)) {
-        this.propuestasProyecto.set(resp);
-      } else {
-        this.propuestaFreelancer.set(resp);
+    this.propuestasService.buscarPropuestas(busqueda).subscribe({
+      next: (resp) => {
+        if (Array.isArray(resp)) {
+          this.propuestasProyecto.set(resp);
+        } else {
+          this.propuestaFreelancer.set(resp);
+        }
+      },
+      error: (httpErrro: any) => {
+        this.registrarError(httpErrro);
       }
-    },
-    error: (httpErrro: any) => {
-      this.registrarError(httpErrro);
-    }
-  });
-}
+    });
+  }
 
 
 
 
 
   public cargarContrato() {
-  this.contratosService.buscarContratoDeProyecto(this.proyecto.id).subscribe({
-    next: (resp: ContratoResponse) => {
-      this.contrato.set(resp);
-      this.abierto.set(false);
+    this.contratosService.buscarContratoDeProyecto(this.proyecto.id).subscribe({
+      next: (resp: ContratoResponse) => {
+        this.contrato.set(resp);
+        this.abierto.set(false);
 
-    },
-    error: (error: any) => {
-      this.registrarError(error);
-    }
-  });
-}
+      },
+      error: (error: any) => {
+        this.registrarError(error);
+      }
+    });
+  }
 
   private registrarError(httpError: any) {
-  this.hayError.set(true);
-  const errorData: ErrorBackend = httpError.error;
-  this.mensajeError = errorData.detalles;
-}
+    this.hayError.set(true);
+    const errorData: ErrorBackend = httpError.error;
+    this.mensajeError = errorData.detalles;
+  }
 
   public activarFormulario() {
-  this.mostrarFormulario.set(true);
-}
+    this.formulariPropuestaActivo.set(true);
+  }
 
   public cerrarFormularioActcion() {
-  this.mostrarFormulario.set(false);
-  if (this.authServicio.esFreelancer()) {
-    this.cargarPropuestas();
+    this.formulariPropuestaActivo.set(false);
+    if (this.authServicio.esFreelancer()) {
+      this.cargarPropuestas();
+    }
   }
-}
 
   public esCliente() {
-  return this.authServicio.esCliente();
-}
+    return this.authServicio.esCliente();
+  }
+
+
+
+  public activarFormularioEntrega() {
+    this.formularioEntregaActivo.set(true);
+  }
+  public descactivarFormularioEntrega() {
+    this.buscarProyecto();
+    this.formularioEntregaActivo.set(false);
+  }
 
 
 }

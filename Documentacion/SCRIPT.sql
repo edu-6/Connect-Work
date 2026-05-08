@@ -262,7 +262,7 @@ insert into tabla_configuracion (porcentaje_comision) values (50);
 
 insert into usuario_sistema (nombre,nickname,activo,contraseña,id_rol) values ('admin','admin',true,'admin',1);
 
-insert into estado_entrega (nombre,id) values ('ENVIADA',1), ('RECHAZADA',2);
+insert into estado_entrega (nombre,id) values ('ENVIADA',1), ('RECHAZADA',2), ('ACEPTADA',3);
 
 
 

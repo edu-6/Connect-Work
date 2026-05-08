@@ -50,6 +50,7 @@ export class PropuestaCard {
   public eliminarPropuesta() {
     this.propuestasServiec.eliminarPropuesta(this.propuesta.id).subscribe({
       next: () => {
+        
         this.recargarPaginaAction.emit();
       },
       error: (http: any) => {
@@ -69,6 +70,7 @@ export class PropuestaCard {
 
 
   public rechazarPropuesta() {
+
     this.propuestasServiec.rechazarPropuesta(this.propuesta.id).subscribe({
       next: () => {
         this.recargarPaginaAction.emit();

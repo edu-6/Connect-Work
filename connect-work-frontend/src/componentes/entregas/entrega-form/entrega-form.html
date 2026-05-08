@@ -1,0 +1,64 @@
+<form [formGroup]="formulario" (submit)="enviar()">
+    <div class="card shadow w-20 ">
+        <div class="card-body p-4">
+            <h4 class="mb-4 text-center">Enviar Entrega</h4>
+
+            @if (hayError()) {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong> {{mensajeError}}
+                <button type="button" class="btn-close" (click)="hayError.set(false)"></button>
+            </div>
+            }
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Descripción:</label>
+                <textarea class="form-control" formControlName="descripcion" rows="4"
+                    placeholder="Agrega una descripción de la entrega..."
+                    [class.is-invalid]="formulario.controls['descripcion'].invalid && intentoEnviarlo()">
+                </textarea>
+                <div class="invalid-feedback">
+                    La descripción es obligatoria y máximo 300 caracteres.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Agregar Archivo:</label>
+                <div class="d-flex gap-2">
+                    <input type="text" class="form-control" formControlName="archivoTemporal">
+                    <button type="button" class="btn btn-outline-primary" (click)="agregarArchivo()">
+                        Agregar
+                    </button>
+                </div>
+            </div>
+
+            @if (archivos().length > 0) {
+            <div class="mb-3">
+                <label class="form-label fw-bold">Archivos agregados:</label>
+                <ul class="list-group">
+                    @for (archivo of archivos(); track $index) {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{archivo}}
+                        <button type="button" class="btn btn-sm btn-outline-danger" (click)="eliminarArchivo(archivo)">
+                            X
+                        </button>
+                    </li>
+                    }
+                </ul>
+            </div>
+            }
+
+            <div class="mt-4">
+                <button class="btn btn-success w-100 py-2 fw-bold" type="submit">
+                    Enviar Entrega
+                </button>
+            </div>
+
+            <div class="mt-4">
+                <button class="btn btn-primary w-100 py-2 fw-bold" type="button" (click)="cerrarFormularioAction()">
+                    Cancelar
+                </button>
+            </div>
+
+        </div>
+    </div>
+</form>

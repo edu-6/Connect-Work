@@ -32,11 +32,12 @@ public class ProyectosBusquedaDB implements ExtraerEntidad<ProyectoResponse> {
             + " JOIN estado_proyecto es ON es.id = p.id_estado"
             + " JOIN usuario_plataforma up ON up.cui = p.cui_cliente"
             + " JOIN usuario_sistema us ON us.nickname = up.nickname";
-
-    private static final String FILTRO_HABILIDADES = " JOIN habilidad_categoria h where h.id_categoria  = p.id_categoria AND h.id_habilidad = ? ";
-
+    
     private static final String PROYECTO_ABIERTO = "AND p.id_estado = 1 ";
 
+    private static final String FILTRO_HABILIDADES = 
+            " JOIN habilidad_categoria h where h.id_categoria  = p.id_categoria AND h.id_habilidad = ? "+ PROYECTO_ABIERTO;
+    
     private static final String FILTRO_CREADOR = " where p.cui_cliente = ? ";
 
     private static final String FILTRO_PRESUPUESTO = " where p.presupuesto_maximo >= ? and p.presupuesto_maximo <= ? " + PROYECTO_ABIERTO;
@@ -45,7 +46,10 @@ public class ProyectosBusquedaDB implements ExtraerEntidad<ProyectoResponse> {
 
     private static final String FILTRO_CATEGORIA = " where p.id_categoria = ? " + PROYECTO_ABIERTO;
 
-    private static final String FILTRO_CONTRATO = " JOIN contrato con ON con.cui_freelancer = ? and p.id_estado = 3";
+    private static final String FILTRO_CONTRATO = 
+    " JOIN propuesta_proyecto prop ON prop.id_proyecto = p.id"+
+    " JOIN contrato contr ON contr.id_propuesta = prop.id where prop.cui_freelancer = ? AND p.id_estado IN (3,4)";
+
 
     private static final String BUSQUEDA_POR_ID = BUSQUEDA_SIMPLE + " WHERE p.id = ?";
 

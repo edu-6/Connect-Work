@@ -20,12 +20,7 @@ export class rechazoEntregaService {
 
   constructor(private httpCliente: HttpClient) { }
 
-  public crear(nuevo: RechazoEntrega): Observable<void> {
-    return this.httpCliente.post<void>(
-      this.constantesRest.getApiURL() + 'api/rechazo-propuesta',nuevo);
-  }
+  
 
-  public buscarPorSolicitud(idSolicitud: number): Observable<RechazoEntrega> {
-    return this.httpCliente.get<RechazoEntrega>(this.constantesRest.getApiURL() + 'api/rechazo-propuesta/' + idSolicitud);
-  }
+
 }

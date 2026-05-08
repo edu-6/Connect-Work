@@ -1,0 +1,75 @@
+
+@if(entrega){
+<div class="card shadow-sm h-100 border-start border-4">
+
+    @if (hayError()) {
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error! </strong> {{mensajeError}}
+        <button type="button" class="btn-close" (click)="hayError.set(false)"></button>
+    </div>
+    }
+
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+                <h6 class="text-muted mb-1">Entrega</h6>
+                <span class="fs-5 fw-bold text-dark">
+                    {{entrega.descripcion}}
+                </span>
+            </div>
+
+            <span class="badge"
+                [class.bg-info]="entrega.estado === 'ENVIADA'"
+                [class.bg-success]="entrega.estado === 'APROBADA'"
+                [class.bg-danger]="entrega.estado === 'RECHAZADA'">
+                {{entrega.estado}}
+            </span>
+        </div>
+
+        <div class="mb-3">
+            <p class="text-secondary small mb-2">
+                <i class="bi bi-calendar-event"></i>
+                Enviada: {{entrega.fechaEnvio}}
+            </p>
+        </div>
+
+        @if (entrega.archivos && entrega.archivos.length > 0) {
+        <div class="bg-light p-3 rounded mb-3">
+            <h6 class="fw-bold">Archivos:</h6>
+            <ul class="mb-0">
+                @for (archivo of entrega.archivos; track archivo) {
+                <li class="small text-dark">{{archivo}}</li>
+                }
+            </ul>
+        </div>
+        }
+
+        @if ((esAdmin() || esCliente()) && botonesActivos()) {
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-success btn-sm flex-grow-1" (click)="aceptarEntrega()">
+                Aprobar
+            </button>
+
+            <button class="btn btn-outline-danger btn-sm flex-grow-1" (click)="desactivarBotones()">
+                Rechazar
+            </button>
+        </div>
+        }
+
+        @if(!botonesActivos()){
+            <app-rechazo-propuesta-form
+             [idEntrega]="this.entrega.id" (cancelarRechazoAction)="activarBotones()"
+             (recargarPaginaAction)="mandarARecargarPagina()"
+             >
+             
+            </app-rechazo-propuesta-form>
+        }
+
+
+        
+
+    </div>
+</div>
+
+}

@@ -75,4 +75,11 @@ public class ProyectosService extends CrudService {
     private void cancelarProyecto(int id){
         
     }
+    
+    
+    public void cambiarEstadoProyecto(int idProyecto, int idEstado) throws DBException{
+        db.cambiarEstadoProyecto(idProyecto, idEstado);
+    }
+    
+   
 }

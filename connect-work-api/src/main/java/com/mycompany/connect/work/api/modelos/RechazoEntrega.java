@@ -10,7 +10,7 @@ package com.mycompany.connect.work.api.modelos;
  */
 public class RechazoEntrega extends Entidad {
     
-    private int idSolicitud;
+    private int idEntrega;
     private String motivo;
     private int id;
 
@@ -24,7 +24,7 @@ public class RechazoEntrega extends Entidad {
 
     @Override
     public boolean datosCompletos() {
-        return idSolicitud > 0 && 
+        return idEntrega > 0 && 
                motivo != null && !motivo.trim().isEmpty();
     }
 
@@ -33,13 +33,15 @@ public class RechazoEntrega extends Entidad {
         return motivo.length() <= 300;
     }
 
-    public int getIdSolicitud() {
-        return idSolicitud;
+    public void setIdEntrega(int idEntrega) {
+        this.idEntrega = idEntrega;
     }
 
-    public void setIdSolicitud(int idSolicitud) {
-        this.idSolicitud = idSolicitud;
+    public int getIdEntrega() {
+        return idEntrega;
     }
+
+
 
     public String getMotivo() {
         return motivo;

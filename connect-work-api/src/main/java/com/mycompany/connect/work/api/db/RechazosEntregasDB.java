@@ -31,7 +31,7 @@ public class RechazosEntregasDB implements CreacionEntidad<RechazoEntrega>, Busq
         try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(CREAR)) {
             ps.setString(1, entidad.getMotivo());
             ps.setDate(2, Date.valueOf(LocalDate.now()));
-            ps.setInt(3, entidad.getIdSolicitud());
+            ps.setInt(3, entidad.getIdEntrega());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new DBException("Error al registrar el rechazo: " + e.getMessage());
