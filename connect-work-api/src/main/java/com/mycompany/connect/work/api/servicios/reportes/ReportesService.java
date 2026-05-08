@@ -11,6 +11,7 @@ import com.mycompany.connect.work.api.db.reportes.HistorialProyectosDB;
 import com.mycompany.connect.work.api.db.reportes.HistorialRecargasDB;
 import com.mycompany.connect.work.api.db.reportes.PropuestasEnviadasDB;
 import com.mycompany.connect.work.api.db.reportes.TopCategoriasDB;
+import com.mycompany.connect.work.api.db.reportes.TopFreelancersDB;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteContratoCompletado;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteGastoCategoria;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteHistorialComision;
@@ -18,6 +19,7 @@ import com.mycompany.connect.work.api.dtos.reportes.ReporteHistorialProyecto;
 import com.mycompany.connect.work.api.dtos.reportes.ReportePropuestaEnviada;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteRecarga;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteTopCategoria;
+import com.mycompany.connect.work.api.dtos.reportes.ReporteTopFreelancer;
 import com.mycompany.connect.work.api.exceptions.DBException;
 import com.mycompany.connect.work.api.exceptions.ErrorDeLogicaException;
 import com.mycompany.connect.work.api.modelos.enums.TiposDeReporte;
@@ -37,6 +39,7 @@ public class ReportesService {
     private TopCategoriasDB topCategoriasDB = new TopCategoriasDB();
     private PropuestasEnviadasDB propuestasEnviadasDB = new PropuestasEnviadasDB();
     private HistorialComisionDB historialComisionDB = new HistorialComisionDB();
+    private TopFreelancersDB topFreelancersDB = new TopFreelancersDB();
 
     public Object generarReporte(ReporteRequest request) throws ErrorDeLogicaException, DBException {
 
@@ -68,6 +71,12 @@ public class ReportesService {
         if (tipoReporte.equals(TiposDeReporte.ADMIN_HISTORIAL_COMISIONES.getValor())) {
             return this.generarReporteHistorialComision(request);
         }
+        
+        if (tipoReporte.equals(TiposDeReporte.ADMIN_TOP_FREELANCERS_INGRESOS.getValor())) {
+            return this.generarTopFreelancers(request);
+        }
+        
+        
 
         return null;
     }
@@ -78,6 +87,15 @@ public class ReportesService {
         }
 
         request.validarPeriodos();
+    }
+
+    private ArrayList<ReporteTopFreelancer> generarTopFreelancers(ReporteRequest request) throws DBException, ErrorDeLogicaException {
+        this.validarRequest(request);
+        if(request.reporteConRango()){
+            return this.topFreelancersDB.obtenerPorPeriodo(request);
+        }else{
+            return this.topFreelancersDB.obtenerTodo(request);
+        }
     }
     
     private ArrayList<ReporteHistorialComision> generarReporteHistorialComision(ReporteRequest request) throws DBException {

@@ -22,10 +22,12 @@ import { ReportePropuestaEnviada } from '../../../modelos/reportes/reportePropue
 import { PropuestasEnviadasComponent } from "../../../componentes/reportes/propuestas-enviadas-component/propuestas-enviadas-component";
 import { ReporteHistorialComision } from '../../../modelos/reportes/reporteHostorialComision';
 import { HistorialComisionesComponent } from "../../../componentes/reportes/historial-comisiones-component/historial-comisiones-component";
+import { ReporteTopFreelancer } from '../../../modelos/reportes/reporteTopFreelancer';
+import { TopFrelancersComponent } from "../../../componentes/reportes/top-frelancers-component/top-frelancers-component";
 
 @Component({
   selector: 'app-reportes-page',
-  imports: [ReactiveFormsModule, Header, HistorialProyectosComponent, HistorialRecargasComponent, ReporteGastoCategoriaComponent, CarteraCard, ContratosCompletadosComponent, TopCategoriasComponent, PropuestasEnviadasComponent, HistorialComisionesComponent],
+  imports: [ReactiveFormsModule, Header, HistorialProyectosComponent, HistorialRecargasComponent, ReporteGastoCategoriaComponent, CarteraCard, ContratosCompletadosComponent, TopCategoriasComponent, PropuestasEnviadasComponent, HistorialComisionesComponent, TopFrelancersComponent],
   templateUrl: './reportes-page.html',
   styleUrl: './reportes-page.css',
 })
@@ -71,6 +73,7 @@ export class ReportesPage implements OnInit {
     "ADMIN_HISTORIAL_COMISIONES",
     "FREELANCER_CONTRATOS_COMPLETADOS",
     "FREELANCER_PROPUESTAS_ENVIADAS",
+    "ADMIN_TOP_FREELANCERS_INGRESOS"
 
   ];
 
@@ -85,6 +88,7 @@ export class ReportesPage implements OnInit {
   public reportePropuestas = signal<ReportePropuestaEnviada[]>([]);
 
   public reporteComisiones = signal<ReporteHistorialComision[]>([]);
+  public reporteTopFreelancers = signal<ReporteTopFreelancer[]>([]);
 
 
   constructor(private formBuiler: FormBuilder,
@@ -190,16 +194,29 @@ export class ReportesPage implements OnInit {
         this.generarHistorialComisiones(reporteRequest);
         break;
 
+      case "ADMIN_TOP_FREELANCERS_INGRESOS":
+        this.reporteTopFreelancers.set([]);
+        this.generarTopFreelancers(reporteRequest);
+        break;
+
     }
 
   }
 
+
+  private generarTopFreelancers(request: ReporteRequest) {
+    this.reportesService.obtenerTopFreelancers(request).subscribe({
+      next: (data) => this.reporteTopFreelancers.set(data),
+      error: (err) => this.registrarError(err)
+    });
+  }
+
   private generarHistorialComisiones(request: ReporteRequest) {
     this.reportesService.obtenerHistorialComisiones(request).subscribe({
-        next: (data) => this.reporteComisiones.set(data),
-        error: (err) => this.registrarError(err)
+      next: (data) => this.reporteComisiones.set(data),
+      error: (err) => this.registrarError(err)
     });
-}
+  }
 
   public generarTopCategorias(request: ReporteRequest) {
     this.reportesService.obtenerTopCategorias(request).subscribe({

@@ -70,6 +70,10 @@
     <app-historial-comisiones-component [datos]="reporteComisiones()"></app-historial-comisiones-component>
 }
 
+@if(reporteActivo("ADMIN_TOP_FREELANCERS_INGRESOS") && reporteTopFreelancers().length > 0) {
+    <app-top-frelancers-component [datos]="reporteTopFreelancers()"></app-top-frelancers-component>
+}
+
 
 
 
