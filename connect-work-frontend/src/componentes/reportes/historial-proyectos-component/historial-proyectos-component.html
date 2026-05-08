@@ -19,14 +19,10 @@
                 <th scope="row">{{ i + 1 }}</th>
                 <td>{{ item.titulo }}</td>
                 <td>
-                    <span class="badge" 
-                          [class.bg-success]="item.estado === 'COMPLETADO'"
-                          [class.bg-warning]="item.estado === 'EN_PROGRESO'"
-                          [class.bg-secondary]="item.estado === 'PENDIENTE'">
-                        {{ item.estado }}
-                    </span>
+
+                        <strong>{{ item.estado }}</strong>
                 </td>
-                <td>{{ item.freelancer || 'Sin asignar' }}</td>
+                <td>{{ item.nombreFreelancer || 'Sin asignar' }}</td>
                 <td>Q.{{ item.presupuesto  }}</td>
                 <td>{{ item.fechaPublicacion }}</td>
             </tr>

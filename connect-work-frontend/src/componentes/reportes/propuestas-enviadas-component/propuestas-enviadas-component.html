@@ -19,7 +19,7 @@
         <td>{{ item.tituloProyecto }}</td>
         <td>{{ item.fechaEnviada }}</td>
         <td>
-            <!-- Un poquito de color solo para el estado -->
+            
             <span [class.text-success]="item.estado === 'ACEPTADA'" 
                   [class.text-danger]="item.estado === 'RECHAZADA'">
                 {{ item.estado }}

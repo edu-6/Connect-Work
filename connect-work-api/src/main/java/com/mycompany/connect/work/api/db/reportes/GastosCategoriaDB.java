@@ -23,7 +23,7 @@ public class GastosCategoriaDB {
     
     
     private static final String QUERY_BASE = 
-        "SELECT c.nombre AS categoria, SUM(pg.monto) AS total " +
+        "SELECT c.nombre AS categoria, SUM(pg.monto + pg.comision) AS total " +
         "FROM pago_proyecto pg " +
         "JOIN contrato con ON pg.id_contrato = con.id " +
         "JOIN propuesta_proyecto prop ON con.id_propuesta = prop.id " +

@@ -72,6 +72,10 @@ public class ContratosService {
         );
         
         contratosDB.crear(contrato);
+        
+        propuestasService.cambiarEstadoPropuesta(3, req.getIdPropuesta());
+        
+        
 
         // traer a la propuesta completa
         // revisar que el proyecto esté en estado abierto

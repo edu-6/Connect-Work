@@ -21,14 +21,14 @@ import java.util.ArrayList;
  */
 public class HistorialProyectosDB {
 
-    private static final String QUERY_BASE = 
+   private static final String QUERY_BASE = 
     "SELECT p.titulo, es.nombre AS nombre_estado, p.presupuesto_maximo, " +
-            "us.nombre AS nombre_freelancer, p.fecha_publicacion " +
-            "FROM proyecto p " +
-            "JOIN estado_proyecto es ON es.id = p.id_estado " +
-            "LEFT JOIN propuesta_proyecto prop ON prop.id_proyecto = p.id AND prop.id_estado = 3 " + // 3 = Aceptada
-            "LEFT JOIN usuario_plataforma up ON up.cui = prop.cui_freelancer " +
-            "LEFT JOIN usuario_sistema us ON us.nickname = up.nickname ";
+    "COALESCE(us.nombre, 'Sin asignar') AS nombre_freelancer, p.fecha_publicacion " +
+    "FROM proyecto p " +
+    "JOIN estado_proyecto es ON es.id = p.id_estado " +
+    "LEFT JOIN propuesta_proyecto prop ON prop.id_proyecto = p.id AND prop.id_estado = 3 " +
+    "LEFT JOIN usuario_plataforma up ON up.cui = prop.cui_freelancer " +
+    "LEFT JOIN usuario_sistema us ON us.nickname = up.nickname ";
 
     
     private static final String FILTRO_CLIENTE = " WHERE p.cui_cliente = ? ";

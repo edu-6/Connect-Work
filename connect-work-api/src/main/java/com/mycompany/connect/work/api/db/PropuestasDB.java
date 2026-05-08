@@ -26,8 +26,10 @@ public class PropuestasDB implements CreacionEntidad< PropuestaRequest>,
     private static final String ELIMINAR = "DELETE FROM propuesta_proyecto WHERE id = ?";
     private static final String CAMBIAR_ESTADO = "UPDATE propuesta_proyecto SET id_estado = ? WHERE id = ?";
     private static final String EXISTE_PROPUESTA = "SELECT id FROM propuesta_proyecto WHERE id_proyecto = ? AND cui_freelancer = ?";
+    
     private static final String ACTUALIZAR_ESTADO_PROPUESTA
             = "UPDATE propuesta_proyecto SET id_estado = 2 WHERE id = ?";
+    
 
     private static final String BUSCAR_POR_ID
             = "SELECT * FROM propuesta_proyecto WHERE id = ?";

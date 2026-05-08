@@ -22,15 +22,11 @@ import java.util.ArrayList;
 public class PropuestasEnviadasDB {
     
     private static final String QUERY_BASE = 
-        "SELECT p.titulo, prop.presupuesto_ofertado, prop.fecha_creacion, " +
-        "CASE " +
-        "  WHEN (SELECT COUNT(*) FROM contrato c WHERE c.id_propuesta = prop.id) > 0 THEN 'ACEPTADA' " +
-        "  ELSE ep.nombre " +
-        "END AS estado_final " +
-        "FROM propuesta_proyecto prop " +
-        "JOIN proyecto p ON prop.id_proyecto = p.id " +
-        "JOIN estado_propuesta ep ON prop.id_estado = ep.id " +
-        "WHERE prop.cui_freelancer = ? ";
+    "SELECT p.titulo, prop.presupuesto_ofertado, prop.fecha_creacion, ep.nombre AS estado_final " +
+    "FROM propuesta_proyecto prop " +
+    "JOIN proyecto p ON prop.id_proyecto = p.id " +
+    "JOIN estado_propuesta ep ON prop.id_estado = ep.id " +
+    "WHERE prop.cui_freelancer = ? ";
 
     private static final String FILTRO_PERIODO = " AND prop.fecha_creacion >= ? AND prop.fecha_creacion <= ? ";
     private static final String ORDER = " ORDER BY prop.fecha_creacion DESC";

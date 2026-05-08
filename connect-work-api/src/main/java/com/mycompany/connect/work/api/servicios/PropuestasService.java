@@ -6,6 +6,7 @@ package com.mycompany.connect.work.api.servicios;
 
 import com.mycompany.connect.work.api.db.BusquedaPropuestasDB;
 import com.mycompany.connect.work.api.db.PropuestasDB;
+import com.mycompany.connect.work.api.db.VerificadorDeHabilidadesFreelancer;
 import com.mycompany.connect.work.api.db.proyectos.ProyectosDB;
 import com.mycompany.connect.work.api.dtos.propuestas.BusquedaPropuesta;
 import com.mycompany.connect.work.api.dtos.propuestas.PropuestaRequest;
@@ -27,12 +28,18 @@ public class PropuestasService extends CrudService {
     private PropuestasDB db = new PropuestasDB();
     private ProyectosDB proyectosDB = new ProyectosDB();
     private BusquedaPropuestasDB busquedas = new BusquedaPropuestasDB();
+    private VerificadorDeHabilidadesFreelancer verificadorHabilidades = new VerificadorDeHabilidadesFreelancer();
     
     public void crear(PropuestaRequest request) throws ErrorDeLogicaException, DBException, EntidadDuplicadaException, CamposVaciosException, DatosMuyLargosException{
         
         if(request == null) throw new ErrorDeLogicaException("error al recibir la propuesta");
         
         this.revisarDatosCorrectos(request);
+        
+        if(!verificadorHabilidades.tieneAlMenosUnaHabilidadRequerida(request.getIdProyecto(), request.getCuiFreelancer())){
+            throw new ErrorDeLogicaException("no tiene al menos una habilidad necesaria para enviar la propuesta");
+        }
+        
         
         boolean existeOtraPropuesta = db.existePropuesta(request.getIdProyecto(), request.getCuiFreelancer());
         
@@ -84,6 +91,10 @@ public class PropuestasService extends CrudService {
         db.marcarPropuestaComoRechazada(id);
     }
     
+    
+    public void cambiarEstadoPropuesta(int idEstado, int idPropuesta) throws DBException{
+        db.cambiarEstado(idEstado, idPropuesta);
+    }
     
     
     public PropuestaRequest obtenerPropuestaRequestById(int id) throws DBException{
