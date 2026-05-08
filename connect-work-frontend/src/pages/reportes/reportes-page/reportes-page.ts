@@ -11,10 +11,15 @@ import { ReporteRecarga } from '../../../modelos/reportes/reporteRecargas';
 import { HistorialRecargasComponent } from "../../../componentes/reportes/historial-recargas-component/historial-recargas-component";
 import { ReporteGastoCategoria } from '../../../modelos/reportes/reporteGastoCategoria';
 import { ReporteGastoCategoriaComponent } from "../../../componentes/reportes/reporte-gasto-categoria-component/reporte-gasto-categoria-component";
+import { CarteraService } from '../../../servicios/recargosService';
+import { CarteraDigital } from '../../../modelos/recargos/carteraDigital';
+import { CarteraCard } from "../../../componentes/cartera/cartera-card/cartera-card";
+import { ReporteContratoCompletado } from '../../../modelos/reportes/reporteContratoCompletado';
+import { ContratosCompletadosComponent } from "../../../componentes/reportes/contratos-completados-component/contratos-completados-component";
 
 @Component({
   selector: 'app-reportes-page',
-  imports: [ReactiveFormsModule, Header, HistorialProyectosComponent, HistorialRecargasComponent, ReporteGastoCategoriaComponent],
+  imports: [ReactiveFormsModule, Header, HistorialProyectosComponent, HistorialRecargasComponent, ReporteGastoCategoriaComponent, CarteraCard, ContratosCompletadosComponent],
   templateUrl: './reportes-page.html',
   styleUrl: './reportes-page.css',
 })
@@ -57,7 +62,10 @@ export class ReportesPage implements OnInit {
   private readonly REPORTES_CON_FECHA: string[] = [
     "CLIENTE_HISTORIAL_PROYECTOS",
     "CLIENTE_GASTO_POR_CATEGORIA",
-    "ADMIN_HISTORIAL_COMISIONES"
+    "ADMIN_HISTORIAL_COMISIONES",
+    "FREELANCER_CONTRATOS_COMPLETADOS",
+    "FREELANCER_PROPUESTAS_ENVIADAS",
+
   ];
 
 
@@ -65,10 +73,15 @@ export class ReportesPage implements OnInit {
   public reporteHistorialRecargas = signal<ReporteRecarga[] | null>(null);
   public reporteGastosPorCategoria = signal<ReporteGastoCategoria[] | null>(null);
 
+  public reporteSaldoActual = signal<CarteraDigital | null>(null);
+  public reporteContratos = signal<ReporteContratoCompletado[]>([]);
+
 
   constructor(private formBuiler: FormBuilder,
     private reportesService: ReportesServicio,
-    private autenticacionService: AutenticacionServicio
+    private autenticacionService: AutenticacionServicio,
+    private carterasService: CarteraService
+
   ) { }
 
   ngOnInit(): void {
@@ -142,6 +155,18 @@ export class ReportesPage implements OnInit {
         this.generarReporteGastosPorCategoria(reporteRequest);
         break;
 
+      case "FREELANCER_SALDO_ACTUAL":
+        this.reporteSaldoActual.set(null);
+        this.generarReporteSaldoActual(reporteRequest);
+        break;
+
+      case "FREELANCER_CONTRATOS_COMPLETADOS":
+        this.reporteContratos.set([]);
+        this.generarHistorialContratos(reporteRequest);
+        break;
+
+
+
 
     }
 
@@ -170,6 +195,24 @@ export class ReportesPage implements OnInit {
   public generarReporteGastosPorCategoria(request: ReporteRequest) {
     this.reportesService.obtenerGastosPorCategoria(request).subscribe({
       next: (data) => this.reporteGastosPorCategoria.set(data),
+      error: (err) => this.registrarError(err)
+    });
+  }
+
+
+  public generarReporteSaldoActual(request: ReporteRequest) {
+    const cui = localStorage.getItem('cui');
+    if (cui === null) return;
+    this.carterasService.buscarCartera(cui).subscribe({
+      next: (data) => this.reporteSaldoActual.set(data),
+      error: (err) => this.registrarError(err)
+    });
+  }
+
+
+  private generarHistorialContratos(request: ReporteRequest) {
+    this.reportesService.obtenerContratosCompletados(request).subscribe({
+      next: (data) => this.reporteContratos.set(data),
       error: (err) => this.registrarError(err)
     });
   }

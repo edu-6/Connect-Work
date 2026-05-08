@@ -4,9 +4,11 @@
  */
 package com.mycompany.connect.work.api.servicios.reportes;
 
-import com.mycompany.connect.work.api.db.proyectos.GastosCategoriaDB;
+import com.mycompany.connect.work.api.db.reportes.ContratosCompletadosDB;
+import com.mycompany.connect.work.api.db.reportes.GastosCategoriaDB;
 import com.mycompany.connect.work.api.db.reportes.HistorialProyectosDB;
 import com.mycompany.connect.work.api.db.reportes.HistorialRecargasDB;
+import com.mycompany.connect.work.api.dtos.reportes.ReporteContratoCompletado;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteGastoCategoria;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteHistorialProyecto;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteRecarga;
@@ -25,6 +27,7 @@ public class ReportesService {
     private HistorialProyectosDB historialProyectosDB = new HistorialProyectosDB();
     private HistorialRecargasDB historiaRecargasDB = new HistorialRecargasDB();
     private GastosCategoriaDB gastosCategoriaDB = new GastosCategoriaDB();
+    private ContratosCompletadosDB contratosCompletadosDB = new ContratosCompletadosDB();
 
     public Object generarReporte(ReporteRequest request) throws ErrorDeLogicaException, DBException {
 
@@ -33,19 +36,19 @@ public class ReportesService {
         if (tipoReporte.equals(TiposDeReporte.CLIENTE_HISTORIAL_PROYECTOS.getValor())) {
             return this.generarReporteProyectos(request);
         }
-        
-        
+
         if (tipoReporte.equals(TiposDeReporte.CLIENTE_HISTORIAL_RECARGAS.getValor())) {
             return this.generarReporteRecargas(request);
         }
-        
+
         if (tipoReporte.equals(TiposDeReporte.CLIENTE_GASTO_POR_CATEGORIA.getValor())) {
             return this.reporteGastoCategoria(request);
         }
-        
-        
-        
-        
+
+        if (tipoReporte.equals(TiposDeReporte.FREELANCER_CONTRATOS_COMPLETADOS.getValor())) {
+            return this.generarReporteContratosCompletados(request);
+        }
+
         return null;
     }
 
@@ -55,6 +58,16 @@ public class ReportesService {
         }
 
         request.validarPeriodos();
+    }
+
+    private ArrayList<ReporteContratoCompletado> generarReporteContratosCompletados(ReporteRequest request) throws DBException, ErrorDeLogicaException {
+        this.validarRequest(request);
+
+        if (request.reporteConRango()) {
+            return this.contratosCompletadosDB.obtenerPorPeriodo(request);
+        } else {
+            return this.contratosCompletadosDB.obtenerTodo(request);
+        }
     }
 
     private ArrayList<ReporteHistorialProyecto> generarReporteProyectos(ReporteRequest request) throws DBException, ErrorDeLogicaException {
@@ -67,21 +80,18 @@ public class ReportesService {
             return this.historialProyectosDB.obtenerTodo(request);
         }
     }
-    
-    private ArrayList<ReporteGastoCategoria> reporteGastoCategoria(ReporteRequest request) throws DBException{
-        if(request.reporteConRango()){
+
+    private ArrayList<ReporteGastoCategoria> reporteGastoCategoria(ReporteRequest request) throws DBException {
+        if (request.reporteConRango()) {
             return this.gastosCategoriaDB.obtenerPorPeriodo(request);
-        }else{
+        } else {
             return this.gastosCategoriaDB.obtenerTodo(request);
         }
     }
-    
-    
-    private ArrayList<ReporteRecarga> generarReporteRecargas(ReporteRequest request) throws DBException{
+
+    private ArrayList<ReporteRecarga> generarReporteRecargas(ReporteRequest request) throws DBException {
         return this.historiaRecargasDB.obtenerReporteGlobal(request);
     }
-    
-    
 
     // metodos para la generación 
     private void asegurarReporteNoNUll(Object reporte) throws ErrorDeLogicaException {

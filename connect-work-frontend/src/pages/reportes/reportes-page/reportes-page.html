@@ -47,3 +47,14 @@
 @if( reporteActivo("CLIENTE_GASTO_POR_CATEGORIA") && reporteGastosPorCategoria()){
     <app-reporte-gasto-categoria-component [datos]="reporteGastosPorCategoria()!"></app-reporte-gasto-categoria-component>
 }
+
+
+@if( reporteActivo("FREELANCER_SALDO_ACTUAL") && reporteSaldoActual()){
+   <app-cartera-card [saldo]="reporteSaldoActual()?.saldo ?? 0"></app-cartera-card>
+}
+
+@if(reporteActivo("FREELANCER_CONTRATOS_COMPLETADOS") && reporteContratos().length > 0){
+    <app-contratos-completados-component [contratos]="reporteContratos()"></app-contratos-completados-component>
+}
+
+
