@@ -4,8 +4,10 @@
  */
 package com.mycompany.connect.work.api.servicios.reportes;
 
+import com.mycompany.connect.work.api.db.proyectos.GastosCategoriaDB;
 import com.mycompany.connect.work.api.db.reportes.HistorialProyectosDB;
 import com.mycompany.connect.work.api.db.reportes.HistorialRecargasDB;
+import com.mycompany.connect.work.api.dtos.reportes.ReporteGastoCategoria;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteHistorialProyecto;
 import com.mycompany.connect.work.api.dtos.reportes.ReporteRecarga;
 import com.mycompany.connect.work.api.exceptions.DBException;
@@ -22,6 +24,7 @@ public class ReportesService {
 
     private HistorialProyectosDB historialProyectosDB = new HistorialProyectosDB();
     private HistorialRecargasDB historiaRecargasDB = new HistorialRecargasDB();
+    private GastosCategoriaDB gastosCategoriaDB = new GastosCategoriaDB();
 
     public Object generarReporte(ReporteRequest request) throws ErrorDeLogicaException, DBException {
 
@@ -35,6 +38,13 @@ public class ReportesService {
         if (tipoReporte.equals(TiposDeReporte.CLIENTE_HISTORIAL_RECARGAS.getValor())) {
             return this.generarReporteRecargas(request);
         }
+        
+        if (tipoReporte.equals(TiposDeReporte.CLIENTE_GASTO_POR_CATEGORIA.getValor())) {
+            return this.reporteGastoCategoria(request);
+        }
+        
+        
+        
         
         return null;
     }
@@ -55,6 +65,14 @@ public class ReportesService {
 
         } else {
             return this.historialProyectosDB.obtenerTodo(request);
+        }
+    }
+    
+    private ArrayList<ReporteGastoCategoria> reporteGastoCategoria(ReporteRequest request) throws DBException{
+        if(request.reporteConRango()){
+            return this.gastosCategoriaDB.obtenerPorPeriodo(request);
+        }else{
+            return this.gastosCategoriaDB.obtenerTodo(request);
         }
     }
     

@@ -13,6 +13,7 @@ import { EntregaAceptacion } from "../modelos/entregas/entregaAceptacion";
 import { ReporteRequest } from "../modelos/reporteRequest";
 import { ReporteHistorialProyecto } from "../modelos/reportes/reporteHistorialProyectos";
 import { ReporteRecarga } from "../modelos/reportes/reporteRecargas";
+import { ReporteGastoCategoria } from "../modelos/reportes/reporteGastoCategoria";
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,13 @@ export class ReportesServicio {
   public obtenerReporteRecargas(request: ReporteRequest): Observable<ReporteRecarga[]> {
     return this.httpCliente.post<ReporteRecarga []>(this.constantesRest.getApiURL() + 'api/reportes', request);
   }
+
+
+  public obtenerGastosPorCategoria(request: ReporteRequest): Observable<ReporteGastoCategoria[]> {
+    return this.httpCliente.post<ReporteGastoCategoria []>(this.constantesRest.getApiURL() + 'api/reportes', request);
+  }
+
+
 
 }
 

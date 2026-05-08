@@ -9,10 +9,12 @@ import { ReporteHistorialProyecto } from '../../../modelos/reportes/reporteHisto
 import { HistorialProyectosComponent } from "../../../componentes/reportes/historial-proyectos-component/historial-proyectos-component";
 import { ReporteRecarga } from '../../../modelos/reportes/reporteRecargas';
 import { HistorialRecargasComponent } from "../../../componentes/reportes/historial-recargas-component/historial-recargas-component";
+import { ReporteGastoCategoria } from '../../../modelos/reportes/reporteGastoCategoria';
+import { ReporteGastoCategoriaComponent } from "../../../componentes/reportes/reporte-gasto-categoria-component/reporte-gasto-categoria-component";
 
 @Component({
   selector: 'app-reportes-page',
-  imports: [ReactiveFormsModule, Header, HistorialProyectosComponent, HistorialRecargasComponent],
+  imports: [ReactiveFormsModule, Header, HistorialProyectosComponent, HistorialRecargasComponent, ReporteGastoCategoriaComponent],
   templateUrl: './reportes-page.html',
   styleUrl: './reportes-page.css',
 })
@@ -61,6 +63,7 @@ export class ReportesPage implements OnInit {
 
   public reporteHostorialProyectos = signal<ReporteHistorialProyecto[] | null>(null);
   public reporteHistorialRecargas = signal<ReporteRecarga[] | null>(null);
+  public reporteGastosPorCategoria = signal<ReporteGastoCategoria[] | null>(null);
 
 
   constructor(private formBuiler: FormBuilder,
@@ -134,7 +137,12 @@ export class ReportesPage implements OnInit {
         this.reporteHistorialRecargas.set(null);
         this.generarHistorialRecargas(reporteRequest);
         break;
-      
+      case "CLIENTE_GASTO_POR_CATEGORIA":
+        this.reporteGastosPorCategoria.set(null);
+        this.generarReporteGastosPorCategoria(reporteRequest);
+        break;
+
+
     }
 
   }
@@ -154,9 +162,16 @@ export class ReportesPage implements OnInit {
 
   public generarHistorialRecargas(request: ReporteRequest) {
     this.reportesService.obtenerReporteRecargas(request).subscribe({
-        next: (data) => this.reporteHistorialRecargas.set(data),
-        error: (err) => this.registrarError(err)
+      next: (data) => this.reporteHistorialRecargas.set(data),
+      error: (err) => this.registrarError(err)
     });
-}
+  }
+
+  public generarReporteGastosPorCategoria(request: ReporteRequest) {
+    this.reportesService.obtenerGastosPorCategoria(request).subscribe({
+      next: (data) => this.reporteGastosPorCategoria.set(data),
+      error: (err) => this.registrarError(err)
+    });
+  }
 
 }

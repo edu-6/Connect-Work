@@ -43,3 +43,7 @@
 @if( reporteActivo("CLIENTE_HISTORIAL_RECARGAS") && reporteHistorialRecargas()){
     <app-historial-recargas-component [recargas]="reporteHistorialRecargas()!"></app-historial-recargas-component>
 }
+
+@if( reporteActivo("CLIENTE_GASTO_POR_CATEGORIA") && reporteGastosPorCategoria()){
+    <app-reporte-gasto-categoria-component [datos]="reporteGastosPorCategoria()!"></app-reporte-gasto-categoria-component>
+}
