@@ -5,6 +5,7 @@
 package com.mycompany.connect.work.api.db.perfiles;
 
 import com.mycompany.connect.work.api.db.ConexionDB;
+import com.mycompany.connect.work.api.dtos.perfiles.PerfilFreelancerDTO;
 import com.mycompany.connect.work.api.exceptions.DBException;
 import com.mycompany.connect.work.api.interfaces.BusquedaUnitariaString;
 import com.mycompany.connect.work.api.interfaces.CreacionEntidad;
@@ -21,12 +22,14 @@ import java.util.ArrayList;
  *
  * @author edu
  */
-public class PerfilFreelancerDB implements CreacionEntidad<PerfilFreelancer>, BusquedaUnitariaString<PerfilFreelancer>,
-        ExtraerEntidad<PerfilFreelancer> {
+public class PerfilFreelancerDB implements CreacionEntidad<PerfilFreelancer>, BusquedaUnitariaString<PerfilFreelancerDTO>,
+        ExtraerEntidad<PerfilFreelancerDTO> {
 
     private static final String CREAR = "INSERT INTO perfil_freelancer (cui_freelancer, biografia, tarifa_hora, id_nivel_experiencia) VALUES (?, ?, ?, ?)";
 
-    private static final String BUSCAR_POR_CUI = "SELECT * FROM perfil_freelancer WHERE cui_freelancer = ?";
+    private static final String BUSCAR_POR_CUI = "SELECT p.*, e.nombre as experiencia from "
+            + " perfil_freelancer p"
+            + " JOIN nivel_experiencia e ON e.id = p.id_nivel_experiencia  WHERE cui_freelancer = ?";
     
     private static final String INSERTAR_HABILIDAD_FREELANCER = "INSERT INTO habilidad_freelancer (cui_freelancer, id_habilidad) VALUES (?, ?)";
 
@@ -45,7 +48,7 @@ public class PerfilFreelancerDB implements CreacionEntidad<PerfilFreelancer>, Bu
     }
 
     @Override
-    public PerfilFreelancer buscar(String cui) throws DBException {
+    public PerfilFreelancerDTO buscar(String cui) throws DBException {
         try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(BUSCAR_POR_CUI)) {
             ps.setString(1, cui);
             try (ResultSet rs = ps.executeQuery()) {
@@ -61,12 +64,11 @@ public class PerfilFreelancerDB implements CreacionEntidad<PerfilFreelancer>, Bu
 
     
     @Override
-    public PerfilFreelancer extraer(ResultSet rs) throws SQLException {
-        return new PerfilFreelancer(
-                rs.getString("cui_freelancer"),
-                rs.getString("biografia"),
+    public PerfilFreelancerDTO extraer(ResultSet rs) throws SQLException {
+        return new PerfilFreelancerDTO(
+                rs.getString("experiencia"),
                 rs.getDouble("tarifa_hora"),
-                rs.getInt("id_nivel_experiencia")
+                rs.getString("biografia")
         );
     }
     

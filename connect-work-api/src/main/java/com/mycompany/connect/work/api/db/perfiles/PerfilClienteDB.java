@@ -5,6 +5,7 @@
 package com.mycompany.connect.work.api.db.perfiles;
 
 import com.mycompany.connect.work.api.db.ConexionDB;
+import com.mycompany.connect.work.api.dtos.perfiles.PerfilClienteDTO;
 import com.mycompany.connect.work.api.exceptions.DBException;
 import com.mycompany.connect.work.api.interfaces.BusquedaUnitariaString;
 import com.mycompany.connect.work.api.interfaces.CreacionEntidad;
@@ -19,8 +20,8 @@ import java.sql.SQLException;
  *
  * @author edu
  */
-public class PerfilClienteDB implements CreacionEntidad<PerfilCliente>, BusquedaUnitariaString<PerfilCliente>,
-         ExtraerEntidad<PerfilCliente> {
+public class PerfilClienteDB implements CreacionEntidad<PerfilCliente>, BusquedaUnitariaString<PerfilClienteDTO>,
+         ExtraerEntidad<PerfilClienteDTO> {
 
     private static final String CREAR = "INSERT INTO perfil_cliente (cui_usuario, descripcion, sitio_web, industria) VALUES (?, ?, ?, ?)";
 
@@ -41,7 +42,7 @@ public class PerfilClienteDB implements CreacionEntidad<PerfilCliente>, Busqueda
     }
 
     @Override
-    public PerfilCliente buscar(String cui) throws DBException {
+    public PerfilClienteDTO buscar(String cui) throws DBException {
         try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(BUSCAR_POR_CUI)) {
             ps.setString(1, cui);
             try (ResultSet rs = ps.executeQuery()) {
@@ -56,9 +57,8 @@ public class PerfilClienteDB implements CreacionEntidad<PerfilCliente>, Busqueda
     }
 
     @Override
-    public PerfilCliente extraer(ResultSet rs) throws SQLException {
-        return new PerfilCliente(
-                rs.getString("cui_usuario"),
+    public PerfilClienteDTO extraer(ResultSet rs) throws SQLException {
+        return new PerfilClienteDTO(
                 rs.getString("descripcion"),
                 rs.getString("sitio_web"),
                 rs.getString("industria")
