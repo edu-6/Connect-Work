@@ -21,6 +21,8 @@ import { ProyectosDelFreelancerPage } from '../pages/proyectos/proyectos-del-fre
 import { AdminsPage } from '../pages/admins/admins-page/admins-page';
 import { AdminsFormPage } from '../pages/admins/admins-form-page/admins-form-page';
 import { ReportesPage } from '../pages/reportes/reportes-page/reportes-page';
+import { UsuariosPage } from '../pages/usuarios/usuarios-page/usuarios-page';
+import { PerfilDetallePage } from '../pages/perfiles/perfil-detalle-page/perfil-detalle-page';
 
 export const routes: Routes = [
     { path: "", component: HomePage },
@@ -58,6 +60,12 @@ export const routes: Routes = [
     { path: "admins-form-page", component: AdminsFormPage },
 
     { path: "reportes", component: ReportesPage },
+
+
+    { path: "usuarios", component: UsuariosPage },
+
+    { path: "perfil/:nickname", component: PerfilDetallePage },
+
 
 
 

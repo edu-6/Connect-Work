@@ -6,10 +6,12 @@ package com.mycompany.connect.work.api.servicios;
 import com.mycompany.connect.work.api.db.CalificacionesFreelancerDB;
 import com.mycompany.connect.work.api.db.EntregasDB;
 import com.mycompany.connect.work.api.dtos.calificaciones.CalificacionRequest;
+import com.mycompany.connect.work.api.dtos.calificaciones.CalificacionResponse;
 import com.mycompany.connect.work.api.exceptions.DBException;
 import com.mycompany.connect.work.api.modelos.CalificacionProyecto;
 import com.mycompany.connect.work.api.modelos.Contrato;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  *
@@ -40,6 +42,16 @@ public class CalificacionesService {
    
         db.insertar(nueva);
        
+    }
+    
+    
+    public ArrayList<CalificacionResponse> buscarCalificacionesFreelancer(String cuiFreelancer) throws DBException{
+        return db.buscarPorCui(cuiFreelancer);
+    }
+    
+    
+    public double buscarPromedioCalificaciones(String cuiFreelancer) throws DBException{
+        return db.buscarPromedioCalificacion(cuiFreelancer);
     }
     
 }

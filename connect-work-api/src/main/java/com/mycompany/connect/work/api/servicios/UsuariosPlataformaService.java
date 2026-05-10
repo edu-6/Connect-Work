@@ -56,5 +56,10 @@ public class UsuariosPlataformaService extends CrudService {
         
 
     }
+    
+    
+    public void cambiarEstadoPerfil(String nickname) throws DBException{
+        baseDB.cambiarEstadoActivo(nickname);
+    }
 
 }

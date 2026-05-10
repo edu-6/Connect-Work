@@ -1,0 +1,46 @@
+@if (hayError()) {
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{mensajeError}}
+    <button type="button" class="btn-close" (click)="hayError.set(false)"></button>
+</div>
+}
+
+
+@if(perfil){
+<div class="card h-100 shadow-sm">
+    <div class="card-header bg-white py-3">
+        <h5 class="card-title mb-0">{{ perfil.nombre }}</h5>
+        <small class="text-muted">&#64;{{ perfil.nickname }}</small>
+    </div>
+
+    <div class="card-body">
+        <p class="card-text">
+            <strong>Rol:</strong> {{ perfil.rol }}
+        </p>
+
+        <div class="mb-3">
+            @if(perfil.activo) {
+            <span class="badge bg-success">Cuenta Activa</span>
+            } @else {
+            <span class="badge bg-secondary">Cuenta Inactiva</span>
+            }
+        </div>
+
+        <div class="d-grid gap-2">
+            <button class="btn btn-primary btn-sm" (click)="verPerfil(perfil.nickname)">
+                Ver Detalles
+            </button>
+
+            @if(perfil.activo) {
+            <button class="btn btn-success btn-sm" (click)="cambiarEstadoPerfil(perfil.nickname)">
+                Desactivar Perfil
+            </button>
+            }@else {
+            <button class="btn btn-danger btn-sm" (click)="cambiarEstadoPerfil(perfil.nickname)">
+                Activar perfil
+            </button>
+            }
+        </div>
+    </div>
+</div>
+}

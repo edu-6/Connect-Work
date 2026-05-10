@@ -1,0 +1,32 @@
+<app-header></app-header>
+
+
+@if(roles()){
+<div class="container d-flex flex-column align-items-center my-5">
+
+    <div class="d-flex align-items-center gap-2 w-100" style="max-width: 900px;">
+        <select id="eventType" #comboRoles class="form-select flex-grow-1" (change)="cargarUsuarios(comboRoles.value)">
+            @for (rol of roles(); track rol.id) {
+            <option [value]="rol.id">{{ rol.nombre }}</option>
+            }
+        </select>
+
+    </div>
+
+    @if (hayError()) {
+    <div class="alert alert-danger mt-3 w-100" style="max-width: 900px;">
+        {{ mensajeError }}
+    </div>
+    }
+</div>
+
+}
+
+
+<div class="row w-100 mt-4">
+    @for (perfil of perfiles(); track $index) {
+    <div class="col-md-4 mb-4">
+        <app-usuario-simple-card [perfil]="perfil" (cambioEstado)="cargarUsuariosRolActual()"></app-usuario-simple-card>
+    </div>
+    }
+</div>

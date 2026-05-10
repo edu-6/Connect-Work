@@ -25,10 +25,15 @@ export class usuariosService {
     return this.httpCliente.post<void>(this.constantesRest.getApiURL() + 'api/admins', nuevo);
   }
 
-  /*
-  public obtenerTodos(): Observable<DestinoResponse[]> {
-    return this.httpCliente.get<DestinoResponse[]>(this.constantesRest.getApiURL() + 'api/destinos');
+
+
+
+  
+  public cambiarEstadoActivo(nickname: string): Observable<void> {
+    return this.httpCliente.get<void>(this.constantesRest.getApiURL() + 'api/usuarios/'+nickname);
   }
+
+  /*
 
 
   public buscarParaEditar(id: string): Observable<ClienteRequest> {

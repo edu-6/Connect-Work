@@ -28,22 +28,22 @@ import java.time.LocalDate;
  */
 @WebServlet(name = "PerfilesResource", urlPatterns = {"/api/perfiles/*"})
 public class PerfilesResource extends HttpServlet {
-    
+
     private PerfilesCrudService perfilesService = new PerfilesCrudService();
     private EscritorJson escritor = new EscritorJson();
     private Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new ConvertidorFechas()).create();
-    
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
+
         String ruta = obtenerParametroRuta(req);
         if (ruta == null) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             escritor.escribirError("error al recibir el parametro", resp);
         }
-        
+
         if (ruta.equals("cliente")) {
-            
+
             PerfilCliente perfil = gson.fromJson(req.getReader(), PerfilCliente.class);
             try {
                 this.perfilesService.crearPerfilCliente(perfil);
@@ -57,7 +57,7 @@ public class PerfilesResource extends HttpServlet {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 escritor.escribirError(ruta, resp);
             }
-            
+
         } else if (ruta.equals("freelancer")) {
             PerfilFreelancer perfil = gson.fromJson(req.getReader(), PerfilFreelancer.class);
             try {
@@ -74,15 +74,52 @@ public class PerfilesResource extends HttpServlet {
             }
         }
     }
-    
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String parametro = obtenerParametroRuta(req);
+        if (parametro == null) {
+            return;
+        }
+
+        Object objeto;
+
+        try {
+            if (esNumero(parametro)) {
+
+                objeto = perfilesService.buscarPerfilesPorRol(Integer.valueOf(parametro));
+
+            } else {
+                objeto = perfilesService.buscarPerfilCompletoPlataforma(parametro);
+            }
+            
+            resp.setStatus(HttpServletResponse.SC_OK);
+            escritor.escribirJsonConFecha(resp, objeto);
+
+        } catch (DBException ex) {
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            escritor.escribirError(ex.getMessage(), resp);
+        }
+
+    }
+
     private String obtenerParametroRuta(HttpServletRequest req) {
         String ruta = req.getPathInfo();
-        
+
         if (ruta == null || ruta.equals("/")) {
             return null;
         } else {
             return ruta.substring(1);
         }
     }
-    
+
+    private boolean esNumero(String cadena) {
+        try {
+            Integer.valueOf(cadena);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
 }

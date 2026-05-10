@@ -23,6 +23,9 @@ public class UsuariosBaseDB implements CreacionEntidad<UsuarioBase> {
     
     
     private static final String EXISTE_NICKNAME = "select nickname from usuario_sistema where nickname = ?";
+    
+    private static final String CAMBIAR_ESTADO_ACTIVO = "UPDATE usuario_sistema SET activo = CASE WHEN activo = 1 THEN 0"
+            + " ELSE 1 END WHERE nickname = ? ";
 
     @Override
     public void crear(UsuarioBase entidad) throws DBException {
@@ -46,6 +49,19 @@ public class UsuariosBaseDB implements CreacionEntidad<UsuarioBase> {
 
     public static String getEXISTE_NICKNAME() {
         return EXISTE_NICKNAME;
+    }
+    
+    
+    public void cambiarEstadoActivo(String nickname) throws DBException{
+        
+        try(Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(CAMBIAR_ESTADO_ACTIVO)) {        
+           ps.setString(1, nickname); 
+           ps.executeUpdate();
+           
+        } catch (SQLException e) {
+            throw new DBException("Error al cambiar el estado activo de la cuenta "+e.getMessage());
+        }
+        
     }
     
     

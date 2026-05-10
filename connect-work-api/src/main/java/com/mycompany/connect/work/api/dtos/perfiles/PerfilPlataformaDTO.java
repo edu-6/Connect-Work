@@ -17,15 +17,17 @@ public class PerfilPlataformaDTO {
     private String correo;
     private String telefono;
     private LocalDate fechaNacimiento;
+    private String cui;
     
     
     private PerfilClienteDTO perfilCliente;
     private PerfilFreelancerDTO perfilFreelancer;
 
-    public PerfilPlataformaDTO(String correo, String telefono, LocalDate fechaNacimiento) {
+    public PerfilPlataformaDTO(String correo, String telefono, LocalDate fechaNacimiento, String cui) {
         this.correo = correo;
         this.telefono = telefono;
         this.fechaNacimiento = fechaNacimiento;
+        this.cui = cui;
     }
 
     public void setPerfilSimple(PerfilSimpleDTO perfilSimple) {
@@ -39,6 +41,18 @@ public class PerfilPlataformaDTO {
     public void setPerfilFreelancer(PerfilFreelancerDTO perfilFreelancer) {
         this.perfilFreelancer = perfilFreelancer;
     }
+
+    public String getCui() {
+        return cui;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     

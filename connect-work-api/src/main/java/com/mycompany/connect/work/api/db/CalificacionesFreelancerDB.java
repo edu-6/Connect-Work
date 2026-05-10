@@ -26,7 +26,27 @@ public class CalificacionesFreelancerDB implements ExtraerEntidad<CalificacionRe
             = "INSERT INTO calificacion_freelancer (cui_freelancer, cantidad_estrellas, fecha_calificacion, comentario, id_proyecto) VALUES (?, ?, ?, ?, ?)";
 
     private static final String BUSCAR_POR_CUI
-            = "SELECT id, cui_freelancer, cantidad_estrellas, fecha_calificacion, comentario FROM calificacion_freelancer WHERE cui_freelancer = ?";
+            = "SELECT  *FROM calificacion_freelancer WHERE cui_freelancer = ?";
+    
+    
+    
+    
+    private static final String BUSCAR_PROMEDIO_ESTRELLAS =" select AVG(cantidad_estrellas) as promedio from calificacion_freelancer where cui_freelancer =  ?";
+    
+    public double buscarPromedioCalificacion(String cuiFreelancer) throws DBException{
+        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(BUSCAR_PROMEDIO_ESTRELLAS)) {
+            ps.setString(1, cuiFreelancer);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getByte("promedio");
+                }
+            }
+        } catch (SQLException e) {
+            throw new DBException(" error al buscar la cantidad de estrellas " + e.getMessage());
+        }
+        return 0;
+    }
 
     public void insertar(CalificacionProyecto calificacion) throws DBException {
         try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(INSERTAR_CALIFICACION)) {
@@ -42,8 +62,8 @@ public class CalificacionesFreelancerDB implements ExtraerEntidad<CalificacionRe
         }
     }
 
-    public List<CalificacionResponse> buscarPorCui(String cui) throws DBException {
-        List<CalificacionResponse> lista = new ArrayList<>();
+    public ArrayList<CalificacionResponse> buscarPorCui(String cui) throws DBException {
+        ArrayList<CalificacionResponse> lista = new ArrayList<>();
         try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(BUSCAR_POR_CUI)) {
 
             ps.setString(1, cui);

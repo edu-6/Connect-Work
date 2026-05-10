@@ -58,7 +58,29 @@ public class UsuariosResource extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String parametro = obtenerParametroRuta(req);
+        if(parametro != null){
+            try {
+                usuariosService.cambiarEstadoPerfil(parametro);
+                resp.setStatus(HttpServletResponse.SC_OK);
+            } catch (DBException ex) {
+                resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                escritor.escribirError(ex.getMessage(), resp);
+            }
+        }
+        
 
+    }
+    
+    
+    private String obtenerParametroRuta(HttpServletRequest req) {
+        String ruta = req.getPathInfo();
+
+        if (ruta == null || ruta.equals("/")) {
+            return null;
+        } else {
+            return ruta.substring(1);
+        }
     }
 
 }
