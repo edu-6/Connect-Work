@@ -5,10 +5,11 @@ import { ErrorBackend } from '../../../modelos/ErrorBackend';
 import { RechazoPropuestaForm } from "../../rechazoEntrega/rechazo-propuesta-form/rechazo-entrega-form";
 import { EntregasService } from '../../../servicios/entregasService.';
 import { EntregaAceptacion } from '../../../modelos/entregas/entregaAceptacion';
+import { CalificacionForm } from "../../calificaciones/calificacion-form/calificacion-form";
 
 @Component({
   selector: 'app-entrega-card',
-  imports: [RechazoPropuestaForm],
+  imports: [RechazoPropuestaForm, CalificacionForm],
   templateUrl: './entrega-card.html',
   styleUrl: './entrega-card.css',
 })
@@ -23,6 +24,8 @@ export class EntregaCard {
   botonesActivos = signal(true);
   hayError = signal(false);
   mensajeError!: string;
+
+  entregaAceptada = signal<boolean>(false);
 
   @Input({ required: true })
   entrega!: EntregaResponse;
@@ -51,7 +54,9 @@ export class EntregaCard {
     this.entregasServicio.aceptarEntrega(aceptacion).subscribe({
 
       next: () => {
-        this.recargarPaginaAction.emit();
+        this.desactivarBotones();
+        this.entregaAceptada.set(true);
+        //this.recargarPaginaAction.emit();
       },
       error: (error: any) => {
         this.registrarError(error);

@@ -10,19 +10,24 @@ import java.time.LocalDate;
  *
  * @author edu
  */
-public class CalificacionFreelancer {
+public class CalificacionProyecto {
     
     private int cantidadEstrellas;
     private LocalDate fechaCalificacion;
     private String comentario;
     private String cuiFreelancer;
+    private int idProyecto;
 
-    public CalificacionFreelancer(int cantidadEstrellas, LocalDate fechaCalificacion, String comentario, String cuiFreelancer) {
+    public CalificacionProyecto(int cantidadEstrellas, LocalDate fechaCalificacion, String comentario, String cuiFreelancer, int idProyecto) {
         this.cantidadEstrellas = cantidadEstrellas;
         this.fechaCalificacion = fechaCalificacion;
         this.comentario = comentario;
         this.cuiFreelancer = cuiFreelancer;
+        this.idProyecto = idProyecto;
     }
+    
+    
+    
 
     public int getCantidadEstrellas() {
         return cantidadEstrellas;
@@ -55,6 +60,17 @@ public class CalificacionFreelancer {
     public void setCuiFreelancer(String cuiFreelancer) {
         this.cuiFreelancer = cuiFreelancer;
     }
+
+    public int getIdProyecto() {
+        return idProyecto;
+    }
+
+    public void setIdProyecto(int idProyecto) {
+        this.idProyecto = idProyecto;
+    }
+    
+
+     
 
     
 

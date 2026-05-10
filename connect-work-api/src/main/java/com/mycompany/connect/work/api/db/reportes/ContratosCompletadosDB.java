@@ -30,8 +30,7 @@ public class ContratosCompletadosDB {
         "JOIN proyecto p ON prop.id_proyecto = p.id " +
         "JOIN usuario_plataforma up ON p.cui_cliente = up.cui " +
         "JOIN usuario_sistema us ON up.nickname = us.nickname " +
-        "LEFT JOIN calificacion_freelancer cal ON cal.cui_freelancer = prop.cui_freelancer " +
-        "AND cal.fecha_calificacion >= pg.fecha_pago " + 
+        "LEFT JOIN calificacion_freelancer cal ON cal.id_proyecto = p.id "+
         "WHERE prop.cui_freelancer = ? AND p.id_estado = 5 "; 
 
     private static final String FILTRO_PERIODO = " AND pg.fecha_pago >= ? AND pg.fecha_pago <= ? ";

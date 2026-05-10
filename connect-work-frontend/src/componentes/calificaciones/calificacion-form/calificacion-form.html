@@ -1,0 +1,40 @@
+<form [formGroup]="formulario" (submit)="enviar()">
+    <div class="card shadow">
+        <div class="card-body p-3">
+
+            @if (hayError()) {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{mensajeError}}
+                <button type="button" class="btn-close" (click)="hayError.set(false)"></button>
+            </div>
+            }
+
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Estrellas (0-5)</label>
+                <input type="number" class="form-control" [class.is-invalid]="formulario.controls['cantidadEstrellas'].invalid && intentoEnviarlo()"
+                formControlName="cantidadEstrellas">
+                 
+                <div class="invalid-feedback">
+                    Estrellas  (0-5).
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Comentario</label>
+                <textarea class="form-control" rows="3" formControlName="comentario" placeholder="Comentario ..."
+                    [class.is-invalid]="formulario.controls['comentario'].invalid && intentoEnviarlo()">
+                </textarea>
+                <div class="invalid-feedback">
+                    Comentario.. (max 50).
+                </div>
+            </div>
+
+            <button class="btn btn-primary w-100" type="submit">
+                Enviar calificacion
+            </button>
+            <br>
+            <br>
+        </div>
+    </div>
+</form>

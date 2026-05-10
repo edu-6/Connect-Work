@@ -65,10 +65,12 @@ create table perfil_freelancer(
 CREATE TABLE calificacion_freelancer(
 	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	cui_freelancer VARCHAR(50) NOT NULL,
+	id_proyecto INTEGER NOT NULL,
 	cantidad_estrellas INTEGER NOT NULL,
 	fecha_calificacion DATE NOT NULL,
 	comentario VARCHAR(50) NOT NULL,
-	CONSTRAINT fk_cui_calificaicon FOREIGN KEY (cui_freelancer) REFERENCES usuario_plataforma(cui) ON DELETE CASCADE
+	CONSTRAINT fk_cui_calificaicon FOREIGN KEY (cui_freelancer) REFERENCES usuario_plataforma(cui) ON DELETE CASCADE,
+	CONSTRAINT fk_id_proyecto FOREIGN KEY (id_proyecto) REFERENCES proyecto (id) ON DELETE CASCADE
 );
 
 

@@ -4,6 +4,8 @@
  */
 package com.mycompany.connect.work.api.dtos.calificaciones;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author edu
@@ -12,25 +14,13 @@ public class CalificacionResponse {
     
     private int cantidadEstrellas;
     private String comentario;
-    
+    private LocalDate fechaCalificacion;
 
-    public int getCantidadEstrellas() {
-        return cantidadEstrellas;
-    }
-
-    public void setCantidadEstrellas(int cantidadEstrellas) {
+    public CalificacionResponse(int cantidadEstrellas, String comentario, LocalDate fechaCalificacion) {
         this.cantidadEstrellas = cantidadEstrellas;
-    }
-
-    public String getComentario() {
-        return comentario;
-    }
-
-    public void setComentario(String comentario) {
         this.comentario = comentario;
+        this.fechaCalificacion = fechaCalificacion;
     }
-
-    
     
     
     

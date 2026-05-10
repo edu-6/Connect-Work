@@ -64,11 +64,14 @@
         </div>
         }
 
-        @if(!botonesActivos()){
+        @if(!botonesActivos() && !entregaAceptada()){
         <app-rechazo-propuesta-form [idEntrega]="this.entrega.id" (cancelarRechazoAction)="activarBotones()"
-            (recargarPaginaAction)="mandarARecargarPagina()">
+            (recargarPaginaAction)="mandarARecargarPagina()"> </app-rechazo-propuesta-form>
+        }
 
-        </app-rechazo-propuesta-form>
+
+        @if(entregaAceptada()){
+            <app-calificacion-form [idEntrega]="this.entrega.id" (recargarPaginaAction)="mandarARecargarPagina()"></app-calificacion-form>
         }
 
     </div>

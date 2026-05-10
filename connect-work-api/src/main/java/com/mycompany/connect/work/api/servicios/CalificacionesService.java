@@ -3,13 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.connect.work.api.servicios;
-
+import com.mycompany.connect.work.api.db.CalificacionesFreelancerDB;
 import com.mycompany.connect.work.api.db.EntregasDB;
-import com.mycompany.connect.work.api.db.PagosDB;
-import com.mycompany.connect.work.api.db.RechazosEntregasDB;
 import com.mycompany.connect.work.api.dtos.calificaciones.CalificacionRequest;
 import com.mycompany.connect.work.api.exceptions.DBException;
-import com.mycompany.connect.work.api.modelos.CalificacionFreelancer;
+import com.mycompany.connect.work.api.modelos.CalificacionProyecto;
 import com.mycompany.connect.work.api.modelos.Contrato;
 import java.time.LocalDate;
 
@@ -18,12 +16,9 @@ import java.time.LocalDate;
  * @author edu
  */
 public class CalificacionesService {
-    private ProyectosService proyectosService = new ProyectosService();
-    private EntregasDB entregasDB = new EntregasDB();
-    private RechazosEntregasDB rechazosDB = new RechazosEntregasDB();
     private ContratosService contratosService = new ContratosService();
-    private PagosDB pagosDB = new PagosDB();
-    private CarteraDigitalService carterasService = new CarteraDigitalService();
+    private CalificacionesFreelancerDB db = new CalificacionesFreelancerDB();
+    private EntregasDB entregas = new EntregasDB();
     
     
     public void crearCalificacion(CalificacionRequest calificacion) throws DBException{
@@ -32,19 +27,19 @@ public class CalificacionesService {
         Contrato contrato = contratosService.buscarContratoProyectRaw(idEntrega);
         
         String idFreelancer = contrato.getCuiFreelancer();
+       
+        int idProyecto = entregas.encontrarIdProyectoConIdEntrega(idEntrega);
         
-        /*
-        CalificacionFreelancer nueva = new CalificacionFreelancer(
+        CalificacionProyecto nueva = new CalificacionProyecto(
+            calificacion.getCantidadEstrellas(),
             LocalDate.now(),
             calificacion.getComentario(),
-            idFreelancer
-        );*/
-        
-        
-        
-         
-         
-        
+            idFreelancer,
+            idProyecto
+        );
+   
+        db.insertar(nueva);
+       
     }
     
 }
