@@ -6,4 +6,5 @@ export interface PerfilFreelancerResponse {
   biografia: string;
   calificaciones : CalificacionResponse[];
   promedioCalificaciones: number;
+  habilidades: string[];
 }

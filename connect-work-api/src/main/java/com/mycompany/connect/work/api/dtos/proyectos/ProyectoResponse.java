@@ -24,10 +24,12 @@ public class ProyectoResponse {
     
     private boolean editable;
     
+    private String nicknameCliente;
+    
 
     public ProyectoResponse(String nombre, String descripcion, String categoria, String estado,
             double presupuestoMaximo, String nombreCliente, LocalDate fechaCreacion,
-            LocalDate fechaEntregaDeseada, int id, int idEstado) {
+            LocalDate fechaEntregaDeseada, int id, int idEstado, String nicknameCliente) {
         
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -41,6 +43,7 @@ public class ProyectoResponse {
         this.idEstado = idEstado;
         
         this.editable = (idEstado ==1);
+        this.nicknameCliente = nicknameCliente;
     }
     
     

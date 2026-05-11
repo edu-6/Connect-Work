@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 public class BusquedaPropuestasDB implements BusquedaPorID<PropuestaResponse>, ExtraerEntidad<PropuestaResponse> {
 
-    private static final String BUSQUEDA_BASE = "SELECT p.id, p.carta_presentacion,"
+    private static final String BUSQUEDA_BASE = "SELECT p.id, p.carta_presentacion, us.nickname as nickname, "
             + " p.presupuesto_ofertado, p.plazo_entrega,"
             + " p.fecha_creacion, e.nombre AS nombre_estado, "
             + " us.nombre AS nombreFreelancer,"
@@ -114,7 +114,8 @@ public class BusquedaPropuestasDB implements BusquedaPorID<PropuestaResponse>, E
                 rs.getString("nombre_estado"),
                 rs.getString("nombreFreelancer"),
                 rs.getString("cuiFreelancer"),
-                rs.getInt("id")
+                rs.getInt("id"),
+                rs.getString("nickname")
         );
     }
 

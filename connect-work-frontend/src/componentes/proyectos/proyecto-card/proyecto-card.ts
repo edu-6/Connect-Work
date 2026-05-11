@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ProyectoResponse } from '../../../modelos/proyectos/proyectoResponse';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-proyecto-card',
@@ -10,11 +10,17 @@ import { RouterLink } from '@angular/router';
 })
 export class ProyectoCard {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   @Input({ required: true })
   proyecto !: ProyectoResponse;
 
   @Input({ required: true })
   mostrarBtnEditar !: boolean;
+
+
+
+  redirigirAlPerfilCliente(){
+    this.router.navigate(['/perfil', this.proyecto.nicknameCliente]);
+    }
 }

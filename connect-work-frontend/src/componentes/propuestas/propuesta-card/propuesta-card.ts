@@ -7,6 +7,7 @@ import { ErrorBackend } from '../../../modelos/ErrorBackend';
 import { RechazoPropuestaForm } from "../../rechazoEntrega/rechazo-propuesta-form/rechazo-entrega-form";
 import { ContratosService } from '../../../servicios/contratosService';
 import { ContratoRequest } from '../../../modelos/contratos/contratoRequest';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-propuesta-card',
@@ -18,6 +19,7 @@ export class PropuestaCard {
   constructor(private autenticacionService: AutenticacionServicio,
     private propuestasServiec: PropuestasService,
     private contratosService: ContratosService,
+    private router: Router
   ) {
 
   }
@@ -44,6 +46,11 @@ export class PropuestaCard {
 
   public esCliente() {
     return this.autenticacionService.esCliente();
+  }
+
+
+  redirigirAPerfil(){
+    this.router.navigate(['/perfil',this.propuesta.nickname]);
   }
 
 

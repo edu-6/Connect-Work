@@ -7,4 +7,5 @@ export interface PropuestaResponse {
     id: number;
     cuiFreelancer: string;
     nombreFreelancer: string;
+    nickname: string;
 }

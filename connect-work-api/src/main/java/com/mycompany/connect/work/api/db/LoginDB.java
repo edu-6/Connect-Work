@@ -22,7 +22,7 @@ public class LoginDB implements ExtraerEntidad<UsuarioLoginResponse> {
 
     private static final String BUSCAR_USUARIO = "select us.nombre AS nombre_usuario,"
             + "us.nickname, r.nombre AS nombre_rol from usuario_sistema us"
-            + " JOIN rol as r ON r.id = us.id_rol where us.nickname = ? AND us.contraseña = ?";
+            + " JOIN rol as r ON r.id = us.id_rol where us.nickname = ? AND us.contraseña = ? and us.activo = true";
 
     private static final String BUSCAR_CUI = "select cui from usuario_plataforma where nickname = ?";
     

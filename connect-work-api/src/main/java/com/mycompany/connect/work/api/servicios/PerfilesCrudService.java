@@ -75,6 +75,8 @@ public class PerfilesCrudService extends CrudService {
             
             perfilFreelancer.setCalificaciones(calificacionesService.buscarCalificacionesFreelancer(perfilPlataforma.getCui()));
             perfilFreelancer.setPromedioCalificaciones(calificacionesService.buscarPromedioCalificaciones(perfilPlataforma.getCui()));
+            
+            perfilFreelancer.setHabilidades(perfilFreelancerDB.buscarHabilidadesFreelancer(perfilPlataforma.getCui()));
         }
         
         return perfilPlataforma;

@@ -22,7 +22,7 @@ import java.util.ArrayList;
  */
 public class ProyectosBusquedaDB implements ExtraerEntidad<ProyectoResponse> {
 
-    private static final String BUSQUEDA_SIMPLE = "select p.id_estado, p.id, p.titulo,"
+    private static final String BUSQUEDA_SIMPLE = "select p.id_estado, p.id, p.titulo, us.nickname AS nickname, "
             + " p.descripcion, p.presupuesto_maximo, p.fecha_publicacion, p.fecha_entrega_deseada,"
             + " c.nombre AS nombre_categoria,"
             + " es.nombre AS nombre_estado,"
@@ -207,7 +207,8 @@ public class ProyectosBusquedaDB implements ExtraerEntidad<ProyectoResponse> {
                 rs.getDate("fecha_publicacion").toLocalDate(),
                 rs.getDate("fecha_entrega_deseada").toLocalDate(),
                 rs.getInt("id"),
-                rs.getInt("id_estado")
+                rs.getInt("id_estado"),
+                rs.getString("nickname")
         );
         return proyecto;
     }

@@ -16,6 +16,7 @@ public class PerfilFreelancerDTO {
     private String experiencia;
     private double tarifaPorHora;
     private String biografia;
+    private ArrayList<String>habilidades;
     
     private ArrayList<CalificacionResponse> calificaciones;
     private double promedioCalificaciones;
@@ -35,6 +36,12 @@ public class PerfilFreelancerDTO {
     public void setPromedioCalificaciones(double promedioCalificaciones) {
         this.promedioCalificaciones = promedioCalificaciones;
     }
+
+    public void setHabilidades(ArrayList<String> habilidades) {
+        this.habilidades = habilidades;
+    }
+    
+    
     
     
     

@@ -10,4 +10,5 @@ export interface ProyectoResponse {
     id: number;
     idEstado: number;
     editable: boolean;
+    nicknameCliente: string;
 }

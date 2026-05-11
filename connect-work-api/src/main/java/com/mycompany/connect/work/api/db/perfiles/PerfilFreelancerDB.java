@@ -32,6 +32,10 @@ public class PerfilFreelancerDB implements CreacionEntidad<PerfilFreelancer>, Bu
             + " JOIN nivel_experiencia e ON e.id = p.id_nivel_experiencia  WHERE cui_freelancer = ?";
     
     private static final String INSERTAR_HABILIDAD_FREELANCER = "INSERT INTO habilidad_freelancer (cui_freelancer, id_habilidad) VALUES (?, ?)";
+    
+    
+    private static final String BUSCAR_HABILIDADES_FREELANCER = "select h.nombre AS nombre from habilidad h "
+            + "JOIN habilidad_freelancer hf ON  hf.id_habilidad = h.id  where hf.cui_freelancer = ?";
 
     @Override
     public void crear(PerfilFreelancer entidad) throws DBException {
@@ -90,6 +94,26 @@ public class PerfilFreelancerDB implements CreacionEntidad<PerfilFreelancer>, Bu
             throw new DBException("Error de conexión al insertar habilidades: " + e.getMessage());
         }
     }
+    
+    
+    
+    public ArrayList<String> buscarHabilidadesFreelancer(String cuiFreelancer) throws DBException{
+        ArrayList<String> lista = new ArrayList();
+        try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(BUSCAR_HABILIDADES_FREELANCER)) {
+            ps.setString(1, cuiFreelancer);
+            
+            try(ResultSet rs = ps.executeQuery()){
+                while(rs.next()){
+                    lista.add(rs.getString("nombre"));
+                }
+            }
+            
+            return lista;
+        } catch (SQLException e) {
+            throw new DBException("Error al buscar las habilidades del freelancer: " + e.getMessage());
+        }
+    }
+   
 
 
     private void agregarHabilidadFreelancer(HabilidadFreelancer habilidad, Connection conn) throws SQLException {

@@ -20,11 +20,12 @@ public class PropuestaResponse {
     private String nombreFreelancer;
     private String cuiFreelancer;
     private int id;
+    private String nickname;
 
     public PropuestaResponse(String cartaPresentacion, double presupuestoOfertado,
             int plazoEntrega, LocalDate fechaCreacion,
             String estado, String nombreFreelancer, String cuiFreelancer,
-            int id) {
+            int id, String nickname) {
         this.cartaPresentacion = cartaPresentacion;
         this.presupuestoOfertado = presupuestoOfertado;
         this.plazoEntrega = plazoEntrega;
@@ -33,6 +34,8 @@ public class PropuestaResponse {
         this.cuiFreelancer = cuiFreelancer;
         this.nombreFreelancer = nombreFreelancer;
         this.id = id;
+        this.nickname = nickname;
+        
     }
 
     public String getCartaPresentacion() {
