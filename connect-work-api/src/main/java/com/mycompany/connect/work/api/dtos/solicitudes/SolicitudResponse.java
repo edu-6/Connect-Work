@@ -12,13 +12,15 @@ public class SolicitudResponse {
     private String tipoSolicitud;
     private String estado;
     private String nombre;
+    private String descripcion;
     private int id;
 
-    public SolicitudResponse(String tipoSolicitud, String estado, String nombre, int id) {
+    public SolicitudResponse(String tipoSolicitud, String estado, String nombre, int id, String descripcion) {
         this.tipoSolicitud = tipoSolicitud;
         this.estado = estado;
         this.nombre = nombre;
         this.id = id;
+        this.descripcion = descripcion;
     }
     
     

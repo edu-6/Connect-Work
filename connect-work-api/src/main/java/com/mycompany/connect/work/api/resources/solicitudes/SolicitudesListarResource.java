@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author edu
  */
-@WebServlet(name = "SolicitudesListarResource", urlPatterns = {"/api/solicitudes/listar/*"})
+@WebServlet(name = "SolicitudesListarResource", urlPatterns = {"/api/listar/*"})
 public class SolicitudesListarResource extends HttpServlet {
     
     private EscritorJson escritor = new EscritorJson();
@@ -33,6 +33,7 @@ public class SolicitudesListarResource extends HttpServlet {
             return;
         }
         
+        System.out.println(ruta);
         Object objeto = null;
         
         try {

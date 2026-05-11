@@ -1,0 +1,31 @@
+<app-header></app-header>
+<div class="container text-center my-5">
+
+    <div class="d-flex flex-column align-items-center gap-3 w-100">
+
+        <div class="d-flex justify-content-center gap-2">
+            <a routerLink="/solicitudes/form" class="btn btn-primary">
+                <i class="bi bi-file-earmark-plus"></i> Nueva solictud
+            </a>
+        </div>
+
+
+         @if (hayError()) {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error! </strong> {{mensajeError}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        }
+    </div>
+</div>
+
+@if(solicitudes()){
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @for (solictud of solicitudes(); track $index ) {
+        <app-solicitudes-card [solicitud]="solictud"></app-solicitudes-card>
+    }
+</div>
+}
+
+
+

@@ -20,7 +20,7 @@ import java.util.List;
 public class SolicitudesDB {
 
     private static final String SQL_LISTAR_POR_USUARIO
-            = "SELECT s.id, s.nombre, e.nombre as estado "
+            = "SELECT s.id, s.descripcion, s.nombre, e.nombre as estado "
             + "FROM %s s "
             + "JOIN estado_solicitud e ON s.id_estado = e.id "
             + "WHERE s.cui_freelancer = ?";
@@ -54,7 +54,7 @@ public class SolicitudesDB {
 
     public List<SolicitudResponse> listarEnviadas(String tabla, String tipo) throws SQLException {
         List<SolicitudResponse> lista = new ArrayList<>();
-        String sql = "SELECT s.id, s.nombre, e.nombre as estado_nombre FROM " + tabla
+        String sql = "SELECT s.id, s.nombre, s.descripcion, e.nombre as estado_nombre FROM " + tabla
                 + " s JOIN estado_solicitud e ON s.id_estado = e.id WHERE s.id_estado = 1";
 
         try (Connection conn = ConexionDB.getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
@@ -63,7 +63,8 @@ public class SolicitudesDB {
                         tipo,
                         rs.getString("estado_nombre"),
                         rs.getString("nombre"),
-                        rs.getInt("id")
+                        rs.getInt("id"),
+                        rs.getString("descripcion")
                 ));
             }
         }
@@ -99,7 +100,8 @@ public class SolicitudesDB {
                             tipoEtiqueta,
                             rs.getString("estado"),
                             rs.getString("nombre"),
-                            rs.getInt("id")
+                            rs.getInt("id"),
+                            rs.getString("descripcion")
                     ));
                 }
             }

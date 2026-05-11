@@ -23,6 +23,9 @@ import { AdminsFormPage } from '../pages/admins/admins-form-page/admins-form-pag
 import { ReportesPage } from '../pages/reportes/reportes-page/reportes-page';
 import { UsuariosPage } from '../pages/usuarios/usuarios-page/usuarios-page';
 import { PerfilDetallePage } from '../pages/perfiles/perfil-detalle-page/perfil-detalle-page';
+import { SolicitudesPage } from '../pages/solicitudes/solicitudes-page/solicitudes-page';
+import { SolicitudesPropiasPage } from '../pages/solicitudes/solicitudes-propias-page/solicitudes-propias-page';
+import { SolicitudesForm } from '../componentes/solicitudes/solicitudes-form/solicitudes-form';
 
 export const routes: Routes = [
     { path: "", component: HomePage },
@@ -65,6 +68,17 @@ export const routes: Routes = [
     { path: "usuarios", component: UsuariosPage },
 
     { path: "perfil/:nickname", component: PerfilDetallePage },
+
+
+    { path: "solicitudes", component: SolicitudesPage },
+
+
+    { path: "solicitudes/form", component: SolicitudesForm },
+
+    { path: "solicitudes/propias", component: SolicitudesPropiasPage },
+
+
+
 
 
 

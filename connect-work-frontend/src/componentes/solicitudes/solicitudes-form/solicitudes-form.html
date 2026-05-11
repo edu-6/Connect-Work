@@ -1,0 +1,51 @@
+
+<form [formGroup]="formulario" (submit)="enviar()">
+    <section class="mt-4 mb-4">
+        <div class="container py-4">
+            <div class="row d-flex justify-content-center">
+                <div class="col-12 col-md-8 col-lg-6">
+
+
+                    @if (hayError()) {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>¡Error!</strong> {{mensajeError}}
+                        <button type="button" class="btn-close" (click)="hayError.set(false)" aria-label="Close"></button>
+                    </div>
+                    }
+
+                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                        <div class="card-body p-5">
+                            <h3 class="mb-5 text-center">Nueva Solicitud</h3>
+
+                            <div class="mb-3">
+                                <label class="form-label">Nombre:</label>
+                                <input type="text" class="form-control" formControlName="nombre"
+                                    [class.is-invalid]="formulario.controls['nombre'].invalid && intentoEnviarlo()">
+                                <div class="invalid-feedback">
+                                    El nombre es obligatorio (Máx 30 caracteres).
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Descripción:</label>
+                                <textarea class="form-control" formControlName="descripcion" rows="3"
+                                    [class.is-invalid]="formulario.controls['descripcion'].invalid && intentoEnviarlo()"></textarea>
+                                <div class="invalid-feedback">
+                                    La descripción es obligatoria.
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <button class="btn btn-primary w-100 py-3" type="submit">Enviar Solicitud</button>
+                            </div>
+                            <div class="mt-2">
+                                <button type="button" routerLink="/solicitudes"
+                                    class="btn btn-secondary py-3 w-100">Regresar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
