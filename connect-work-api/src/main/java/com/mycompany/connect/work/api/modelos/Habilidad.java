@@ -13,6 +13,14 @@ public class Habilidad extends Entidad{
     private int id;
     private boolean activa;
 
+    public Habilidad(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    
+    
+    
+
     public Habilidad() {
     }
 

@@ -133,6 +133,7 @@ CREATE TABLE estado_solicitud(
 
 CREATE TABLE solicitud_habilidad(
 	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	nombre VARCHAR(50) NOT NULL,
 	descripcion VARCHAR(50) NOT NULL,
 	id_estado INTEGER NOT NULL,
 	fecha DATE NOT NULL,
@@ -143,6 +144,7 @@ CREATE TABLE solicitud_habilidad(
 
 CREATE TABLE solicitud_categoria(
 	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	nombre VARCHAR(50) NOT NULL,
 	descripcion VARCHAR(50) NOT NULL,
 	id_estado INTEGER NOT NULL,
 	fecha DATE NOT NULL,
@@ -261,6 +263,10 @@ insert into estado_propuesta (nombre, id) values ('ENVIADA',1), ('RECHAZADA',2);
 insert into tabla_configuracion (porcentaje_comision) values (50);
 
 insert into estado_entrega (nombre,id) values ('ENVIADA',1), ('RECHAZADA',2), ('ACEPTADA',3);
+
+insert into estado_solicitud (nombre) values ('ENVIADA'), ('RECHAZADA'), ('ACEPTADA');
+
+
 
 
 
